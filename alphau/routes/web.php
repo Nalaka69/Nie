@@ -52,6 +52,7 @@ Route::get('/admin/programs/add', [LeftController::class, 'cLProgramsArchive'])-
 Route::post('/admin/programs/store', [ProgramController::class, 'storeProgram'])->name('program.store');
 Route::get('/admin/automation', [LeftController::class, 'cLHome'])->name('c_ad_l_home');
 Route::post('/admin/automation/store', [AutomationController::class, 'storeAutomation'])->name('automation.store');
+Route::get('/admin/automation/bat', [AutomationController::class, 'executeBatchFile'])->name('start.bat');
 Route::get('/admin/automation/list', [AutomationController::class, 'listAutomations'])->name('automation.list');
 // Route::get('/admin/play_status/show', [PlayController::class, 'showStatus'])->name('current_status.show');
 Route::put('/admin/play_status/change', [PlayController::class, 'changeStatus'])->name('current_status.change');

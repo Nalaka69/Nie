@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\admin\automation;
+
 use getID3;
 use App\Http\Controllers\Controller;
 use App\Models\Automation;
@@ -27,6 +28,7 @@ class AutomationController extends Controller
         ]);
 
         // store program files
+        $file_name = '';
         if ($request->hasFile('automation_file')) {
             $getID3 = new \getID3();
             foreach ($request->file('automation_file') as $index => $file) {
@@ -44,12 +46,27 @@ class AutomationController extends Controller
                 $automation_file->save();
             }
         }
+
+        // batch file--------------------------
+        $audioFilePath = "C:\\xampp\\htdocs\\alphau\\public\\resources\\belt\\" . "$file_name";
+        $batchContent = "@echo off\n";
+        $batchContent .= "\"C:\\Program Files (x86)\\VideoLAN\\VLC\\vlc.exe\" \"$audioFilePath\"";
+        $batchFilePath = "C:\\xampp\\htdocs\\alphau\\public\\resources\\belt\\PlayAudio.bat";
+        file_put_contents($batchFilePath, $batchContent);
+        // $start = exec("start /B $batchFilePath");
+        // sleep(5);
     }
+
+    public function executeBatchFile()
+    {
+        $result = exec("C:\\xampp\\htdocs\\alphau\\public\\resources\\belt\\PlayAudio.bat");
+        return response()->json(['result' => $result]);
+    }
+
     public function listAutomations()
     {
-        $automation_list = AutomationAudioFile::select('id', 'automation_file')
+        $automation_list = AutomationAudioFile::select('id', 'automation_file', 'duration')
             ->get();
-
         return response()->json(['automation_list' => $automation_list]);
     }
 }

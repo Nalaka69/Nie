@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 09, 2023 at 06:25 AM
+-- Generation Time: Nov 13, 2023 at 01:21 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -44,7 +44,8 @@ CREATE TABLE `automations` (
 --
 
 INSERT INTO `automations` (`id`, `program_name`, `automation_episode`, `automation_url`, `is_visible`, `program_directory`, `archive_id`, `created_at`, `updated_at`) VALUES
-(1, 'Quinlan Franks', 'Voluptates ipsa inc', 'Dolor molestiae et d', 'show', 'Doloribus voluptatem', 1, '2023-11-08 05:42:01', '2023-11-08 05:42:01');
+(1, 'morning', '1', 'abcd', 'show', 'morning', 1, '2023-11-13 06:48:27', '2023-11-13 06:48:27'),
+(2, 'morning', '2', 'abcd', 'show', 'morning', 1, '2023-11-13 06:49:18', '2023-11-13 06:49:18');
 
 -- --------------------------------------------------------
 
@@ -55,6 +56,7 @@ INSERT INTO `automations` (`id`, `program_name`, `automation_episode`, `automati
 CREATE TABLE `automation_audio_files` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `automation_file` varchar(255) DEFAULT NULL,
+  `duration` varchar(255) DEFAULT NULL,
   `automation_id` bigint(20) UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -64,9 +66,9 @@ CREATE TABLE `automation_audio_files` (
 -- Dumping data for table `automation_audio_files`
 --
 
-INSERT INTO `automation_audio_files` (`id`, `automation_file`, `automation_id`, `created_at`, `updated_at`) VALUES
-(1, '16994419214.mp3', 1, '2023-11-08 05:42:01', '2023-11-08 05:42:01'),
-(2, '16994419211.mp3', 1, '2023-11-08 05:42:01', '2023-11-08 05:42:01');
+INSERT INTO `automation_audio_files` (`id`, `automation_file`, `duration`, `automation_id`, `created_at`, `updated_at`) VALUES
+(1, '16998779072.mp3', '1560.9208125', 1, '2023-11-13 06:48:27', '2023-11-13 06:48:27'),
+(2, '16998779584.mp3', '10.08325', 2, '2023-11-13 06:49:18', '2023-11-13 06:49:18');
 
 -- --------------------------------------------------------
 
@@ -91,7 +93,7 @@ CREATE TABLE `day_archives` (
 --
 
 INSERT INTO `day_archives` (`id`, `archive_date`, `program_name`, `episode`, `is_visible`, `program_directory`, `archive_id`, `created_at`, `updated_at`) VALUES
-(1, '1983-04-14', 'Quinlan Franks', '60', 'show', 'Doloribus voluptatem', 1, '2023-11-08 05:41:22', '2023-11-08 05:41:22');
+(1, '2023-11-13', 'morning', '1', 'show', 'morning', 1, '2023-11-13 06:47:49', '2023-11-13 06:47:49');
 
 -- --------------------------------------------------------
 
@@ -112,8 +114,8 @@ CREATE TABLE `day_archive_audio_files` (
 --
 
 INSERT INTO `day_archive_audio_files` (`id`, `day_program_file`, `day_program_id`, `created_at`, `updated_at`) VALUES
-(1, '16994418823.mp3', 1, '2023-11-08 05:41:22', '2023-11-08 05:41:22'),
-(2, '16994418824.mp3', 1, '2023-11-08 05:41:22', '2023-11-08 05:41:22');
+(1, '16998778694.mp3', 1, '2023-11-13 06:47:49', '2023-11-13 06:47:49'),
+(2, '16998778699.mp3', 1, '2023-11-13 06:47:49', '2023-11-13 06:47:49');
 
 -- --------------------------------------------------------
 
@@ -159,7 +161,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (9, '2023_11_07_061037_create_day_archive_audio_files_table', 1),
 (10, '2023_11_07_062000_create_automations_table', 1),
 (11, '2023_11_07_062001_create_automation_audio_files_table', 1),
-(12, '2023_11_08_040147_create_schools_table', 1);
+(12, '2023_11_08_040147_create_schools_table', 1),
+(13, '2023_11_13_034059_create_play_toggles_table', 1);
 
 -- --------------------------------------------------------
 
@@ -195,6 +198,19 @@ CREATE TABLE `personal_access_tokens` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `play_toggles`
+--
+
+CREATE TABLE `play_toggles` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `current_status` varchar(255) NOT NULL DEFAULT 'Online',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `programs`
 --
 
@@ -215,7 +231,7 @@ CREATE TABLE `programs` (
 --
 
 INSERT INTO `programs` (`id`, `program_name`, `episode`, `episode_date`, `is_visible`, `program_directory`, `archive_id`, `created_at`, `updated_at`) VALUES
-(1, 'Elton Fitzgerald', '53', '1986-04-29', 'show', 'Culpa occaecat dolor', 2, '2023-11-08 05:41:03', '2023-11-08 05:41:03');
+(1, 'morning', '1', '2023-11-13', 'show', 'morning', 1, '2023-11-13 06:47:22', '2023-11-13 06:47:22');
 
 -- --------------------------------------------------------
 
@@ -238,8 +254,7 @@ CREATE TABLE `program_archives` (
 --
 
 INSERT INTO `program_archives` (`id`, `program_name`, `program_genre`, `program_directory`, `is_visible`, `created_at`, `updated_at`) VALUES
-(1, 'Quinlan Franks', 'Entertainment', 'Doloribus voluptatem', 'show', '2023-11-08 05:40:32', '2023-11-08 05:40:32'),
-(2, 'Elton Fitzgerald', 'History', 'Culpa occaecat dolor', 'show', '2023-11-08 05:40:39', '2023-11-08 05:40:39');
+(1, 'morning', 'Entertainment', 'morning', 'show', '2023-11-13 06:46:54', '2023-11-13 06:46:54');
 
 -- --------------------------------------------------------
 
@@ -260,9 +275,8 @@ CREATE TABLE `program_audio_files` (
 --
 
 INSERT INTO `program_audio_files` (`id`, `program_file`, `program_id`, `created_at`, `updated_at`) VALUES
-(1, '16994418636.mp3', 1, '2023-11-08 05:41:03', '2023-11-08 05:41:03'),
-(2, '16994418634.mp3', 1, '2023-11-08 05:41:03', '2023-11-08 05:41:03'),
-(3, '16994418633.mp3', 1, '2023-11-08 05:41:03', '2023-11-08 05:41:03');
+(1, '16998778428.mp3', 1, '2023-11-13 06:47:22', '2023-11-13 06:47:22'),
+(2, '16998778423.mp3', 1, '2023-11-13 06:47:22', '2023-11-13 06:47:22');
 
 -- --------------------------------------------------------
 
@@ -287,7 +301,7 @@ CREATE TABLE `schools` (
 --
 
 INSERT INTO `schools` (`id`, `province`, `district`, `school_name`, `school_adddress`, `school_index`, `is_visible`, `created_at`, `updated_at`) VALUES
-(1, 'Eastern', 'Trincomalee', 'Todd Riggs', 'Iure proident magna', 'Provident vel Nam v', 'show', '2023-11-08 05:39:22', '2023-11-08 05:39:22');
+(1, 'Northern', 'Jaffna', 'Gabriel Campos', 'q', '223344', 'show', '2023-11-13 06:50:40', '2023-11-13 06:50:40');
 
 -- --------------------------------------------------------
 
@@ -316,10 +330,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `role`, `school`, `student_index`, `is_active`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'AlphaU', 'Radio', 'admin@test.com', 'admin', 'NIE', '00001', 'active', NULL, '$2y$10$bQHrkNUnl0i0S.rZN.CmpO1CU2Q0qW/1C5jmLxgp.nVieS6MT7iFS', NULL, '2023-11-08 05:24:16', '2023-11-08 05:24:16'),
-(2, 'Marvin', 'Dodson', 'vojocaxuce@z.com', 'user', 'Todd Riggs', 'Voluptate quis et au', 'active', NULL, '$2y$10$Rh8vXBi75bypv5Mz/FLT5eK0.3wUR913nfw9VV4hM4ElKz3soDDv.', NULL, '2023-11-08 06:35:33', '2023-11-08 06:35:33'),
-(3, 'Jena', 'Holland', 'fahoherox@z.com', 'school', 'Todd Riggs', 'Obcaecati elit natu', 'active', NULL, '$2y$10$8QeY2nvEtqR6kKd0Pb75JOV7WB5slcwoS/qdVRvixPaI4tCzRNFjy', NULL, '2023-11-08 07:07:21', '2023-11-08 07:07:21'),
-(4, 'Stacey', 'Mcintyre', 'mirok@z.com', 'guest', 'Todd Riggs', 'Consequatur porro qu', 'active', NULL, '$2y$10$njrKjYN3Xu96tS8tsq9wgO0zVE/3CD9/5e4XSLX.Lphx4n.qyRQPO', NULL, '2023-11-08 07:07:31', '2023-11-08 07:07:31');
+(1, 'AlphaU', 'Radio', 'admin@test.com', 'admin', 'NIE', '00001', 'active', NULL, '$2y$10$ka6//jhg2YHUnys3/SS8UeBu/TJNDlm1AqL6eJ06G1kYbyMwTpnxO', NULL, '2023-11-13 06:45:36', '2023-11-13 06:45:36'),
+(2, 'Julian', 'West', 'a@z.com', 'user', 'Gabriel Campos', '12365', 'active', NULL, '$2y$10$pGLy/94uM8iS.cQZ67ykruhWqKrS02KGYmfX9kQVVxzdmeWHKy9Ty', NULL, '2023-11-13 06:51:08', '2023-11-13 06:51:08');
 
 --
 -- Indexes for dumped tables
@@ -381,6 +393,12 @@ ALTER TABLE `personal_access_tokens`
   ADD KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`);
 
 --
+-- Indexes for table `play_toggles`
+--
+ALTER TABLE `play_toggles`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `programs`
 --
 ALTER TABLE `programs`
@@ -421,7 +439,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `automations`
 --
 ALTER TABLE `automations`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `automation_audio_files`
@@ -451,12 +469,18 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `play_toggles`
+--
+ALTER TABLE `play_toggles`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
@@ -469,13 +493,13 @@ ALTER TABLE `programs`
 -- AUTO_INCREMENT for table `program_archives`
 --
 ALTER TABLE `program_archives`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `program_audio_files`
 --
 ALTER TABLE `program_audio_files`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `schools`
@@ -487,7 +511,7 @@ ALTER TABLE `schools`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables

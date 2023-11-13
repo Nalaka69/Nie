@@ -86,33 +86,52 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($automation_list as $item)
-                        <tr>
-                            <td>{{ $item->id }}</td>
-                            <td>/belt/{{ $item->automation_file }}</td>
-                            <td>{{ $item->duration }}mins.</td>
-                            {{-- <td>
-                                <i class="bi bi-trash text-danger btn"></i>
-                                <i class="bi bi-pencil-square text-info btn"></i>
-                            </td> --}}
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan=4 class="text-danger">
-                                <b><i class="bi bi-exclamation-diamond"></i> No file found.</b>
-                            </td>
-                        </tr>
-                    @endforelse
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
                 </tbody>
             </table>
         </div>
     </div>
     <script>
-        $(document).ready(function() {
-            $('#tbl_automation_files').DataTable();
-        });
-    </script>
-    <script>
+        function showTable() {
+            $(document).ready(function() {
+                $('#tbl_automation_files').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    ajax: {
+                        url: "{{ route('automation.list') }}",
+                        dataSrc: 'automation_list'
+                    },
+                    columns: [{
+                            data: 'id'
+                        },
+                        {
+                            data: 'automation_file'
+                        },
+                        {
+                            data: 'duration'
+                        }
+                    ]
+                });
+            });
+        }
+        showTable()
+        function executeBatchFile() {
+            $.ajax({
+                type: 'GET',
+                url: '{{ route('start.bat') }}',
+                success: function(response) {
+                    console.log('Batch file executed successfully.');
+                },
+                error: function(error) {
+                    console.error('Error executing batch file:', error);
+                }
+            });
+        }
+
         $(document).ready(function() {
             $('#btn_sbmt_prgrm').click(function(e) {
                 e.preventDefault();
@@ -182,17 +201,19 @@
                             $('#btn_sbmt_prgrm').prop('disabled', false);
                             $('#btn_cncl').prop('disabled', false);
                             if (statusCode === 200) {
+                                showTable()
                                 // Do something with success message here
                                 Swal.fire({
                                     position: 'center',
                                     icon: 'success',
                                     title: "Success",
                                     text: "Files Submitted",
-                                    showConfirmButton: false,
-                                    timer: 1500
-                                }).then(function() {
-                                    // Reload the page
-                                    location.reload();
+                                    showConfirmButton: true,
+                                    // timer: 1500
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        executeBatchFile();
+                                    }
                                 });
                             } else if (statusCode === 422) {
                                 // handle the validation errors
