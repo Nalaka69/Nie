@@ -48,9 +48,14 @@
                                     <input type="file" class="form-control" id="day_program_file"
                                         name="day_program_file[]" multiple accept=".mp3">
                                 </div>
+                                <div id="loadingSpinner" class="text-center" style="display: none;">
+                                    <div class="spinner-border text-success" role="status">
+                                    </div>
+                                </div>
                                 <div class="d-flex flex-row-reverse">
                                     <div class="p-2">
-                                        <Button class="btn btn-primary" type="button" data-bs-dismiss="modal">Cancel</Button>
+                                        <Button class="btn btn-primary" type="button"
+                                            data-bs-dismiss="modal"  id="btn_cncl">Cancel</Button>
                                     </div>
                                     <div class="p-2">
                                         <Button class="btn btn-primary" type="submit" id="btn_sbmt_prgrm">OK</Button>
@@ -84,7 +89,11 @@
                             </td>
                         </tr>
                     @empty
-                        <td>1</td>
+                        <tr>
+                            <td colspan=4 class="text-danger">
+                                <b><i class="bi bi-exclamation-diamond"></i> No file found.</b>
+                            </td>
+                        </tr>
                     @endforelse
                 </tbody>
             </table>
@@ -99,6 +108,9 @@
         $(document).ready(function() {
             $('#btn_sbmt_prgrm').click(function(e) {
                 e.preventDefault();
+                $('#loadingSpinner').show();
+                $('#btn_sbmt_prgrm').prop('disabled', true);
+                $('#btn_cncl').prop('disabled', true);
 
                 var day_program_files = $('input[name="day_program_file[]"]').prop('files');
 
@@ -111,60 +123,106 @@
                     formData.append('day_program_file[]', file);
                 });
 
-                $.ajax({
-                    type: 'POST',
-                    url: '{{ route('day_archive.store') }}',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    success: function(data, status, xhr) {
-                        var statusCode = xhr.status;
-                        if (statusCode === 200) {
-                            // Do something with success message here
-                            Swal.fire({
-                                position: 'center',
-                                icon: 'success',
-                                title: "Success",
-                                text: "Program Submitted.",
-                                showConfirmButton: false,
-                                timer: 1500
-                            }).then(function() {
-                                // Reload the page
-                                location.reload();
-                            });
-                        } else if (statusCode === 422) {
-                            // handle the validation errors
-                            // ----------------------------------------------------------------------------------
-                            // var errors = data.errors;
-                            // loop through the errors and show them
-                            // for (var key in errors) {
-                            Swal.fire({
-                                position: 'center',
-                                icon: 'error',
-                                title: 'Error',
-                                text: 'Input Valid Data',
-                                // title: key,
-                                // text: errors[key][0],
-                                showConfirmButton: false,
-                                timer: 1500
-                            });
-                            // }
-                        } else {
-                            // Do something with failure message here
-                            Swal.fire({
-                                position: 'center',
-                                icon: 'error',
-                                title: "Error",
-                                text: "Program Submission Failed",
-                                showConfirmButton: false,
-                                timer: 1500
-                            })
-                        }
-                    },
-                });
+                if (!$('#archive_date').val()) {
+                    $('#loadingSpinner').hide();
+                    $('#btn_sbmt_prgrm').prop('disabled', false);
+                    $('#btn_cncl').prop('disabled', false);
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Date is required.',
+                        showConfirmButton: true
+                    });
+                } else if (!$('#program_name').val()) {
+                    $('#loadingSpinner').hide();
+                    $('#btn_sbmt_prgrm').prop('disabled', false);
+                    $('#btn_cncl').prop('disabled', false);
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Program is required.',
+                        showConfirmButton: true
+                    });
+                } else if (!$('#episode').val()) {
+                    $('#loadingSpinner').hide();
+                    $('#btn_sbmt_prgrm').prop('disabled', false);
+                    $('#btn_cncl').prop('disabled', false);
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Episode is required.',
+                        showConfirmButton: true
+                    });
+                } else if (day_program_files.length === 0) {
+                    $('#loadingSpinner').hide();
+                    $('#btn_sbmt_prgrm').prop('disabled', false);
+                    $('#btn_cncl').prop('disabled', false);
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'At least 1 file must be selected.',
+                        showConfirmButton: true
+                    });
+                } else {
+                    $.ajax({
+                        type: 'POST',
+                        url: '{{ route('day_archive.store') }}',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        success: function(data, status, xhr) {
+                            var statusCode = xhr.status;
+                            if (statusCode === 200) {
+                                // Do something with success message here
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'success',
+                                    title: "Success",
+                                    text: "Program Submitted.",
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                }).then(function() {
+                                    // Reload the page
+                                    location.reload();
+                                });
+                            } else if (statusCode === 422) {
+                                // handle the validation errors
+                                // ----------------------------------------------------------------------------------
+                                // var errors = data.errors;
+                                // loop through the errors and show them
+                                // for (var key in errors) {
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: 'Input Valid Data',
+                                    // title: key,
+                                    // text: errors[key][0],
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                });
+                                // }
+                            } else {
+                                // Do something with failure message here
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'error',
+                                    title: "Error",
+                                    text: "Program Submission Failed",
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                })
+                            }
+                        },
+                    });
+                }
             });
         });
     </script>

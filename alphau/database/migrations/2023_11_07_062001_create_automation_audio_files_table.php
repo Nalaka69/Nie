@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('automation_audio_files', function (Blueprint $table) {
             $table->id();
             $table->string('automation_file')->nullable();
+            $table->string('duration')->nullable();
             $table->unsignedBigInteger('automation_id');
             $table->foreign('automation_id')->references('id')->on('automations')->onDelete('cascade');
             $table->timestamps();

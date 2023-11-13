@@ -10,6 +10,7 @@ class AutomationAudioFile extends Model
     use HasFactory;
     protected $fillable = [
         'automation_file',
+        'duration',
         'automation_id'
     ];
 

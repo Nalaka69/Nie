@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\PlayToggle;
 use App\Models\School;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -11,7 +12,8 @@ class RightController extends Controller
 {
     public function cRHome()
     {
-        return view('app.admin.dashboard_right.dashboard_right');
+        $current_play_status = PlayToggle::select('current_status')->first();
+        return view('app.admin.dashboard_right.dashboard_right', compact('current_play_status'));
     }
     public function cRUsers()
     {

@@ -4,6 +4,7 @@ use App\Http\Controllers\admin\AdminController;
 use App\Http\Controllers\admin\automation\AutomationController;
 use App\Http\Controllers\admin\day_archive\DayArchiveController;
 use App\Http\Controllers\admin\LeftController;
+use App\Http\Controllers\admin\play\PlayController;
 use App\Http\Controllers\admin\program\ProgramController;
 use App\Http\Controllers\admin\RightController;
 use App\Http\Controllers\admin\users\SchoolController;
@@ -33,7 +34,7 @@ Auth::routes();
 // });
 
 // Route::middleware(['auth', 'user-access:admin'])->group(function () {
-    Route::get('/admin', [AdminController::class, 'cHome'])->name('admin');
+Route::get('/admin', [AdminController::class, 'cHome'])->name('admin');
 // });
 
 // admin right routes
@@ -52,7 +53,7 @@ Route::post('/admin/programs/store', [ProgramController::class, 'storeProgram'])
 Route::get('/admin/automation', [LeftController::class, 'cLHome'])->name('c_ad_l_home');
 Route::post('/admin/automation/store', [AutomationController::class, 'storeAutomation'])->name('automation.store');
 Route::get('/admin/automation/list', [AutomationController::class, 'listAutomations'])->name('automation.list');
-
-
+// Route::get('/admin/play_status/show', [PlayController::class, 'showStatus'])->name('current_status.show');
+Route::put('/admin/play_status/change', [PlayController::class, 'changeStatus'])->name('current_status.change');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

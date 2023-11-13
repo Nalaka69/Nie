@@ -66,10 +66,14 @@
                                     <label for="student_index" class="form-label frm_lbl">Index No</label>
                                     <input type="text" class="form-control" id="student_index">
                                 </div>
+                                <div id="loadingSpinner" class="text-center" style="display: none;">
+                                    <div class="spinner-border text-success" role="status">
+                                    </div>
+                                </div>
                                 <div class="d-flex flex-row-reverse">
                                     <div class="p-2">
-                                        <Button class="btn btn-primary" type="button"
-                                            data-bs-dismiss="modal">Cancel</Button>
+                                        <Button class="btn btn-primary" type="button" data-bs-dismiss="modal"
+                                            id="btn_cncl">Cancel</Button>
                                     </div>
                                     <div class="p-2">
                                         <Button class="btn btn-primary" type="submit" id="btn_sbmt_user">OK</Button>
@@ -98,7 +102,11 @@
                             <td>{{ $item->student_index }}</td>
                         </tr>
                     @empty
-                        <td>1</td>
+                        <tr>
+                            <td colspan=3 class="text-danger">
+                                <b><i class="bi bi-exclamation-diamond"></i> No student found.</b>
+                            </td>
+                        </tr>
                     @endforelse
                 </tbody>
             </table>
@@ -120,7 +128,11 @@
                             <td>{{ $item->student_index }}</td>
                         </tr>
                     @empty
-                        <td>1</td>
+                        <tr>
+                            <td colspan=3 class="text-danger">
+                                <b><i class="bi bi-exclamation-diamond"></i> No guest found.</b>
+                            </td>
+                        </tr>
                     @endforelse
                 </tbody>
             </table>
@@ -142,7 +154,11 @@
                             <td>{{ $item->student_index }}</td>
                         </tr>
                     @empty
-                        <td>1</td>
+                        <tr>
+                            <td colspan=3 class="text-danger">
+                                <b><i class="bi bi-exclamation-diamond"></i> No school admin found.</b>
+                            </td>
+                        </tr>
                     @endforelse
                 </tbody>
             </table>
@@ -179,6 +195,9 @@
         $(document).ready(function() {
             $('#btn_sbmt_user').click(function(e) {
                 e.preventDefault();
+                $('#loadingSpinner').show();
+                $('#btn_sbmt_user').prop('disabled', true);
+                $('#btn_cncl').prop('disabled', true);
 
                 var formData = new FormData();
                 formData.append('category', $('#category').val());
@@ -188,61 +207,129 @@
                 formData.append('school', $('#school').val());
                 formData.append('student_index', $('#student_index').val());
 
-                $.ajax({
-                    type: 'POST',
-                    url: '{{ route('user.store') }}',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    success: function(data, status, xhr) {
-                        var statusCode = xhr.status;
-                        if (statusCode === 200) {
-                            // Do something with success message here
-                            Swal.fire({
-                                position: 'center',
-                                icon: 'success',
-                                title: "Success",
-                                text: "Files Submitted",
-                                showConfirmButton: false,
-                                timer: 1500
-                            }).then(function() {
-                                // Reload the page
-                                location.reload();
-                            });
-                        } else if (statusCode === 422) {
-                            // handle the validation errors
-                            // ----------------------------------------------------------------------------------
-                            // var errors = data.errors;
-                            // loop through the errors and show them
-                            // for (var key in errors) {
-                            Swal.fire({
-                                position: 'center',
-                                icon: 'error',
-                                title: 'Error',
-                                text: 'Input Valid Data!',
-                                // title: key,
-                                // text: errors[key][0],
-                                showConfirmButton: false,
-                                timer: 1500
-                            });
-                            // }
-                        } else {
-                            // Do something with failure message here
-                            Swal.fire({
-                                position: 'center',
-                                icon: 'success',
-                                title: "Error",
-                                text: "File Submission Failed",
-                                showConfirmButton: false,
-                                timer: 1500
-                            })
-                        }
-                    },
+                if (!$('#category').val()) {
+                    $('#loadingSpinner').hide();
+                    $('#btn_sbmt_user').prop('disabled', false);
+                    $('#btn_cncl').prop('disabled', false);
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Category is required.',
+                        showConfirmButton: true
+                    });
+                } else if (!$('#first_name').val()) {
+                    $('#loadingSpinner').hide();
+                    $('#btn_sbmt_user').prop('disabled', false);
+                    $('#btn_cncl').prop('disabled', false);
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'First name is required.',
+                        showConfirmButton: true
+                    });
+                } else if (!$('#last_name').val()) {
+                    $('#loadingSpinner').hide();
+                    $('#btn_sbmt_user').prop('disabled', false);
+                    $('#btn_cncl').prop('disabled', false);
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Last name is required.',
+                        showConfirmButton: true
+                    });
+                } else if (!$('#email').val()) {
+                    $('#loadingSpinner').hide();
+                    $('#btn_sbmt_user').prop('disabled', false);
+                    $('#btn_cncl').prop('disabled', false);
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Email is required.',
+                        showConfirmButton: true
+                    });
+                } else if (!$('#school').val()) {
+                    $('#loadingSpinner').hide();
+                    $('#btn_sbmt_user').prop('disabled', false);
+                    $('#btn_cncl').prop('disabled', false);
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'School is required.',
+                        showConfirmButton: true
+                    });
+                } else if (!$('#student_index').val()) {
+                    $('#loadingSpinner').hide();
+                    $('#btn_sbmt_user').prop('disabled', false);
+                    $('#btn_cncl').prop('disabled', false);
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Index is required.',
+                        showConfirmButton: true
+                    });
+                } else {
+                    $.ajax({
+                        type: 'POST',
+                        url: '{{ route('user.store') }}',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        success: function(data, status, xhr) {
+                            var statusCode = xhr.status;
+                            if (statusCode === 200) {
+                                // Do something with success message here
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'success',
+                                    title: "Success",
+                                    text: "Files Submitted",
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                }).then(function() {
+                                    // Reload the page
+                                    location.reload();
+                                });
+                            } else if (statusCode === 422) {
+                                // handle the validation errors
+                                // ----------------------------------------------------------------------------------
+                                // var errors = data.errors;
+                                // loop through the errors and show them
+                                // for (var key in errors) {
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: 'Input Valid Data!',
+                                    // title: key,
+                                    // text: errors[key][0],
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                });
+                                // }
+                            } else {
+                                // Do something with failure message here
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'success',
+                                    title: "Error",
+                                    text: "File Submission Failed",
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                })
+                            }
+                        },
 
-                });
+                    });
+                }
             });
         });
     </script>

@@ -29,6 +29,7 @@
         .dataTables_wrapper .dataTables_filter input {
             background-color: #fff;
             margin-bottom: 5px;
+            color: #000;
         }
 
         .dataTables_wrapper .dataTables_length,
@@ -64,10 +65,10 @@
                                     <div class="author-news-content text-center p-3">
                                         <div class="author-content pt-4 p-0">
                                             <div>
-                                                <img src="{{ asset('imgs/admn/u1.png') }}" alt="student-profile" />
+                                                <img src="{{ asset('imgs/admn/profile.svg') }}" alt="student-profile" />
                                             </div>
                                             <h3 class="mb-1 white author_title">
-                                                <a href="#" class="white">Kamal Silva</a>
+                                                <a href="#" class="white">Admin AlphaU</a>
                                             </h3>
                                             <p class="detail">
                                                 Super Admin

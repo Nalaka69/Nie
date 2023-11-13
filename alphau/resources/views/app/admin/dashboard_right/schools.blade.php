@@ -55,9 +55,14 @@
                                     <label for="school_index" class="form-label frm_lbl">School Index No:</label>
                                     <input type="text" class="form-control" id="school_index">
                                 </div>
+                                <div id="loadingSpinner" class="text-center" style="display: none;">
+                                    <div class="spinner-border text-success" role="status">
+                                    </div>
+                                </div>
                                 <div class="d-flex flex-row-reverse">
                                     <div class="p-2">
-                                        <Button class="btn btn-primary" type="button" data-bs-dismiss="modal">Cancel</Button>
+                                        <Button class="btn btn-primary" type="button" data-bs-dismiss="modal"
+                                            id="btn_cncl">Cancel</Button>
                                     </div>
                                     <div class="p-2">
                                         <Button class="btn btn-primary" type="submit" id="btn_sbmt_school">OK</Button>
@@ -84,19 +89,23 @@
                 </thead>
                 <tbody>
                     @forelse ($schools_list as $item)
-                    <tr>
-                        <td>{{ $item->school_index }}</td>
-                        <td>{{ $item->school_name }}</td>
-                        <td>{{ $item->district }}</td>
-                        <td>{{ $item->province }}</td>
-                        <td>
-                            <i class="bi bi-trash text-danger btn"></i>
-                            <i class="bi bi-pencil-square btn text-info"></i>
-                        </td>
-                    </tr>
-                @empty
-                    <td>1</td>
-                @endforelse
+                        <tr>
+                            <td>{{ $item->school_index }}</td>
+                            <td>{{ $item->school_name }}</td>
+                            <td>{{ $item->district }}</td>
+                            <td>{{ $item->province }}</td>
+                            <td>
+                                <i class="bi bi-trash text-danger btn"></i>
+                                <i class="bi bi-pencil-square btn text-info"></i>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan=5 class="text-danger">
+                                <b><i class="bi bi-exclamation-diamond"></i> No school found.</b>
+                            </td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>
@@ -135,55 +144,117 @@
         $(document).ready(function() {
             $('#btn_sbmt_school').click(function(e) {
                 e.preventDefault();
+                $('#loadingSpinner').show();
+                $('#btn_sbmt_school').prop('disabled', true);
+                $('#btn_cncl').prop('disabled', true);
+
                 var formData = new FormData();
                 formData.append('province', $('#province').val());
                 formData.append('district', $('#district').val());
                 formData.append('school_name', $('#school_name').val());
                 formData.append('school_adddress', $('#school_adddress').val());
                 formData.append('school_index', $('#school_index').val());
-                $.ajax({
-                    type: 'POST',
-                    url: '{{ route('school.store') }}',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    success: function(data, status, xhr) {
-                        var statusCode = xhr.status;
-                        if (statusCode === 200) {
-                            Swal.fire({
-                                position: 'center',
-                                icon: 'success',
-                                title: "Success",
-                                text: "Files Submitted",
-                                showConfirmButton: false,
-                                timer: 1500
-                            }).then(function() {
-                                location.reload();
-                            });
-                        } else if (statusCode === 422) {
-                            Swal.fire({
-                                position: 'center',
-                                icon: 'error',
-                                title: 'Error',
-                                text: 'Input Valid Data!',
-                                showConfirmButton: false,
-                                timer: 1500
-                            });
-                        } else {
-                            Swal.fire({
-                                position: 'center',
-                                icon: 'success',
-                                title: "Error",
-                                text: "File Submission Failed",
-                                showConfirmButton: false,
-                                timer: 1500
-                            })
-                        }
-                    },
-                });
+
+                if (!$('#province').val()) {
+                    $('#loadingSpinner').hide();
+                    $('#btn_sbmt_school').prop('disabled', false);
+                    $('#btn_cncl').prop('disabled', false);
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Province is required.',
+                        showConfirmButton: true
+                    });
+                } else if (!$('#district').val()) {
+                    $('#loadingSpinner').hide();
+                    $('#btn_sbmt_school').prop('disabled', false);
+                    $('#btn_cncl').prop('disabled', false);
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'District is required.',
+                        showConfirmButton: true
+                    });
+                } else if (!$('#school_name').val()) {
+                    $('#loadingSpinner').hide();
+                    $('#btn_sbmt_school').prop('disabled', false);
+                    $('#btn_cncl').prop('disabled', false);
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'School is required.',
+                        showConfirmButton: true
+                    });
+                } else if (!$('#school_adddress').val()) {
+                    $('#loadingSpinner').hide();
+                    $('#btn_sbmt_school').prop('disabled', false);
+                    $('#btn_cncl').prop('disabled', false);
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Address is required.',
+                        showConfirmButton: true
+                    });
+                } else if (!$('#school_index').val()) {
+                    $('#loadingSpinner').hide();
+                    $('#btn_sbmt_school').prop('disabled', false);
+                    $('#btn_cncl').prop('disabled', false);
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Index is required.',
+                        showConfirmButton: true
+                    });
+                } else {
+                    $.ajax({
+                        type: 'POST',
+                        url: '{{ route('school.store') }}',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        success: function(data, status, xhr) {
+                            var statusCode = xhr.status;
+                            if (statusCode === 200) {
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'success',
+                                    title: "Success",
+                                    text: "Files Submitted",
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                }).then(function() {
+                                    location.reload();
+                                });
+                            } else if (statusCode === 422) {
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: 'Input Valid Data!',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                });
+                            } else {
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'success',
+                                    title: "Error",
+                                    text: "File Submission Failed",
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                })
+                            }
+                        },
+                    });
+                }
             });
         });
     </script>

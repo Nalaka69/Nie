@@ -15,7 +15,7 @@ class LeftController extends Controller
     public function cLHome()
     {
         $created_archive = ProgramArchive::select('program_name')->get();
-        $automation_list = AutomationAudioFile::select('id', 'automation_file')
+        $automation_list = AutomationAudioFile::select('id', 'automation_file', 'duration')
         ->get();
         return view('app.admin.dashboard_left.automation', compact('created_archive', 'automation_list'));
     }
