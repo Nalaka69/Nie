@@ -65,8 +65,16 @@
         .crrnt_stts {
             color: #fff;
             font-size: 24px;
-            font-weight: 800;
-
+        }
+        .crrnt_stts p{
+           font-weight: 400;
+        }
+        .crrnt_stts span{
+           font-weight: 600;
+           background-color:#fff;
+           color:#303030;
+           padding: 5px;
+           border-radius:5px;
         }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
@@ -77,14 +85,14 @@
 <body>
     <div class="container text-center">
         <div class="crrnt_stts">
-            {{-- <p>{{$current_play_status->current_play_status}}</p> --}}
+            <p>current mode : <span>Automation</span></p>
         </div>
     </div>
     <div class="centered-image">
         <span class="rdo_lbl">Online</span>
-        <input class="rdo" type="radio" name="play_status" id="rdio_top_left" value="Online">
+        <input class="rdo" type="radio" name="play_status" id="rdio_top_left" value="Online" disabled>
         <img src="{{ asset('imgs/admn/gear-l.png') }}" alt="alphauradio" width="100" height="100">
-        <input class="rdo" type="radio" name="play_status" id="rdio_top_right" value="Automation">
+        <input class="rdo" type="radio" name="play_status" id="rdio_top_right" value="Automation" disabled>
         <span class="rdo_lbl">Automation</span>
     </div>
     <div class="container">

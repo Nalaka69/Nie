@@ -10,12 +10,12 @@ use Illuminate\Http\Request;
 
 class RightController extends Controller
 {
-    public function cRHome()
+    public function viewHome()
     {
         $current_play_status = PlayToggle::select('current_status')->first();
         return view('app.admin.dashboard_right.dashboard_right', compact('current_play_status'));
     }
-    public function cRUsers()
+    public function viewUsers()
     {
         $schools_list = School::select('school_name')->get();
         $students_list = User::select('first_name', 'last_name', 'school', 'student_index')->where('role', 'user')->get();
@@ -23,13 +23,13 @@ class RightController extends Controller
         $guests_list = User::select('first_name', 'last_name', 'school', 'student_index')->where('role', 'guest')->get();
         return view('app.admin.dashboard_right.users', compact('schools_list', 'students_list', 'school_admins_list', 'guests_list'));
     }
-    public function cRSchools()
+    public function viewSchools()
     {
         $schools_list = School::select('school_index', 'school_name', 'province', 'district')
             ->get();
         return view('app.admin.dashboard_right.schools', compact('schools_list'));
     }
-    public function cRNotifications()
+    public function viewNotifications()
     {
         return view('app.admin.dashboard_right.notifications');
     }

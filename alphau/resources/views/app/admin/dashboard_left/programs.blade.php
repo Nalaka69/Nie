@@ -31,9 +31,12 @@
                                 <div class="mb-3">
                                     <label for="program_genre" class="form-label frm_lbl">Genre</label>
                                     <select class="form-select" id="program_genre">
-                                        <option value="Entertainment">Entertainment</option>
-                                        <option value="Science">Science</option>
-                                        <option value="History">History</option>
+                                        @forelse ($genre_list as $item)
+                                            <option value="{{ $item->genre }}">{{ $item->genre }}
+                                            </option>
+                                        @empty
+                                            <option value="empty" disabled selected>--no genre found--</option>
+                                        @endforelse
                                     </select>
                                 </div>
                                 <div class="mb-3">
@@ -46,8 +49,8 @@
                                 </div>
                                 <div class="d-flex flex-row-reverse">
                                     <div class="p-2">
-                                        <Button class="btn btn-primary" type="button"
-                                            data-bs-dismiss="modal"  id="btn_cncl">Cancel</Button>
+                                        <Button class="btn btn-primary" type="button" data-bs-dismiss="modal"
+                                            id="btn_cncl">Cancel</Button>
                                     </div>
                                     <div class="p-2">
                                         <Button class="btn btn-primary" type="submit" id="btn_sbmt_prgrm">OK</Button>
@@ -66,40 +69,108 @@
                         <th>#</th>
                         <th>Program Name</th>
                         <th>Genre</th>
+                        <th>Directory</th>
                         <th>Functions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($programs_list as $item)
-                        <tr>
-                            <td>{{ $item->id }}</td>
-                            <td>{{ $item->program_name }}</td>
-                            <td>{{ $item->program_genre }}</td>
-                            <td>
-                                <i class="bi bi-trash text-danger btn"></i>
-                                <i class="bi bi-pencil-square btn text-info"></i>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan=4 class="text-danger">
-                                <b><i class="bi bi-exclamation-diamond"></i> No file found.</b>
-                            </td>
-                        </tr>
-                    @endforelse
                 </tbody>
             </table>
         </div>
     </div>
     <script>
-        $(document).ready(function() {
-            $('#tbl_programs').DataTable();
-        });
+        function showTable() {
+            $(document).ready(function() {
+                $('#tbl_programs').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    ajax: {
+                        url: "{{ route('archive.list') }}",
+                        dataSrc: 'programs_list'
+                    },
+                    columns: [{
+                            data: 'id'
+                        },
+                        {
+                            data: 'program_name'
+                        },
+                        {
+                            data: 'program_genre'
+                        },
+                        {
+                            data: 'program_directory'
+                        },
+                        {
+                            data: null,
+                            render: function(data, type, row) {
+                                return '<i class="bi bi-trash text-danger btn delete-btn" data-id="' +
+                                    row.id + '"></i>';
+                            }
+                        }
+                    ]
+                });
+            });
+            // Handling delete button click------
+            $('#tbl_programs').on('click', '.delete-btn', function() {
+                var del_program_id = $(this).data('id');
+                var delData = new FormData();
+                delData.append('id', del_program_id);
+                Swal.fire({
+                    position: 'center',
+                    icon: 'question',
+                    title: "Warning",
+                    text: "Are you sure you want to delete ?",
+                    showConfirmButton: true,
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type: 'POST',
+                            url: '{{ route('archive.delete') }}',
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            data: delData,
+                            contentType: false,
+                            processData: false,
+                            success: function(data, status, xhr) {
+                                var statusCode = xhr.status;
+                                if (statusCode === 200) {
+                                    Swal.fire({
+                                        position: 'center',
+                                        icon: 'success',
+                                        title: "Success",
+                                        text: "Deletion Completed.",
+                                        showConfirmButton: true,
+                                        // timer: 1500
+                                    }).then((result) => {
+                                        location.reload();
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        position: 'center',
+                                        icon: 'error',
+                                        title: "Error",
+                                        text: "Deletion Failed",
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    })
+                                }
+                            },
+                        });
+                    }
+                });
+            });
+        }
+        showTable()
     </script>
     <script>
         $(document).ready(function() {
             $('#btn_sbmt_prgrm').click(function(e) {
                 e.preventDefault();
+
                 $('#loadingSpinner').show();
                 $('#btn_sbmt_prgrm').prop('disabled', true);
                 $('#btn_cncl').prop('disabled', true);
@@ -109,39 +180,39 @@
                 formData.append('program_genre', $('#program_genre').val());
                 formData.append('program_directory', $('#program_directory').val());
 
+                var nameRegex = /^[a-zA-Z0-9]+$/;
+
+                function showError(message) {
+                    $('#loadingSpinner').hide();
+                    $('#btn_sbmt_prgrm').prop('disabled', false);
+                    $('#btn_cncl').prop('disabled', false);
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: 'Error',
+                        text: message,
+                        showConfirmButton: true
+                    });
+                }
+
                 if (!$('#program_name').val()) {
-                    $('#loadingSpinner').hide();
-                    $('#btn_sbmt_prgrm').prop('disabled', false);
-                    $('#btn_cncl').prop('disabled', false);
-                    Swal.fire({
-                        position: 'center',
-                        icon: 'error',
-                        title: 'Error',
-                        text: 'Program is required.',
-                        showConfirmButton: true
-                    });
-                } else if (!$('#program_genre').val()) {
-                    $('#loadingSpinner').hide();
-                    $('#btn_sbmt_prgrm').prop('disabled', false);
-                    $('#btn_cncl').prop('disabled', false);
-                    Swal.fire({
-                        position: 'center',
-                        icon: 'error',
-                        title: 'Error',
-                        text: 'Genre is required.',
-                        showConfirmButton: true
-                    });
+                    showError('Program name is required.');
                 } else if (!$('#program_directory').val()) {
-                    $('#loadingSpinner').hide();
-                    $('#btn_sbmt_prgrm').prop('disabled', false);
-                    $('#btn_cncl').prop('disabled', false);
-                    Swal.fire({
-                        position: 'center',
-                        icon: 'error',
-                        title: 'Error',
-                        text: 'Directory is required.',
-                        showConfirmButton: true
-                    });
+                    showError('Program name is required.');
+                } else if (!$('#program_name').val().match(nameRegex)) {
+                    showError(
+                        'Program name can only contain alphabetical characters and numbers without spaces.'
+                    );
+                } else if (!$('#program_directory').val().match(nameRegex)) {
+                    showError(
+                        'Directory can only contain alphabetical characters and numbers without spaces.'
+                    );
+                } else if (!$('#program_name').val()) {
+                    showError('Program name is required.');
+                } else if (!$('#program_genre').val()) {
+                    showError('Please add a genre first.');
+                } else if (!$('#program_directory').val()) {
+                    showError('Directory is required.');
                 } else {
                     $.ajax({
                         type: 'POST',

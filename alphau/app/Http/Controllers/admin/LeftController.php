@@ -5,38 +5,46 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Models\AutomationAudioFile;
 use App\Models\DayArchiveAudioFile;
+use App\Models\Genre;
 use App\Models\Program;
 use App\Models\ProgramArchive;
-use App\Models\ProgramAudioFile;
 use Illuminate\Http\Request;
 
 class LeftController extends Controller
 {
-    public function cLHome()
+    public function viewLeftHome()
     {
         $created_archive = ProgramArchive::select('program_name')->get();
-        $automation_list = AutomationAudioFile::select('id', 'automation_file', 'duration')
-        ->get();
-        return view('app.admin.dashboard_left.automation', compact('created_archive', 'automation_list'));
+        return view('app.admin.dashboard_left.automation', compact('created_archive'));
     }
-    public function cLPrograms()
+    public function viewPrograms()
     {
         $programs_list = ProgramArchive::select('id', 'program_name', 'program_genre')
         ->get();
-        return view('app.admin.dashboard_left.programs', compact( 'programs_list'));
+        $genre_list = Genre::select('genre')->get();
+        return view('app.admin.dashboard_left.programs', compact( 'programs_list', 'genre_list'));
     }
-    public function cLProgramsArchive()
+    public function viewGenres()
+    {
+        // $programs_list = ProgramArchive::select('id', 'program_name', 'program_genre')
+        // ->get();
+        return view('app.admin.dashboard_left.genre');
+    }
+    public function viewProgramsArchive()
     {
         $created_archive = ProgramArchive::select('program_name')->get();
-        $program_file_list = ProgramAudioFile::select('id', 'program_file', 'created_at')
+        $program_file_list = Program::select('id', 'program_file', 'episode_date', 'episode_time')
         ->get();
         return view('app.admin.dashboard_left.programarchive', compact('created_archive', 'program_file_list'));
     }
-    public function cLDayPlaylist()
+    public function viewDayPlaylist()
     {
         $created_archive = ProgramArchive::select('program_name')->get();
-        $day_list = DayArchiveAudioFile::select('id', 'day_program_file')
-        ->get();
-        return view('app.admin.dashboard_left.dayarchive', compact('created_archive', 'day_list'));
+        return view('app.admin.dashboard_left.dayarchive', compact('created_archive'));
+    }
+    public function viewLibrary()
+    {
+        $created_archive = ProgramArchive::select('program_name')->get();
+        return view('app.admin.dashboard_left.library', compact('created_archive'));
     }
 }

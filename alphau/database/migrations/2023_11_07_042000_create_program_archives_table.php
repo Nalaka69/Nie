@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('program_genre');
             $table->string('program_directory');
             $table->string('is_visible');
+            $table->unsignedBigInteger('genre_id');
+            $table->foreign('genre_id')->references('id')->on('genres')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -58,7 +58,7 @@
                                             <option value="{{ $item->school_name }}">{{ $item->school_name }}
                                             </option>
                                         @empty
-                                            <option value="Science">Science</option>
+                                            <option value="empty" disabled selected>--no program found--</option>
                                         @endforelse
                                     </select>
                                 </div>

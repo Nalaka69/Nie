@@ -12,11 +12,20 @@ class ProgramArchive extends Model
         'program_name',
         'program_genre',
         'program_directory',
-        'is_visible'
+        'is_visible',
+        'genre_id'
     ];
+    public function genres()
+    {
+        return $this->belongsTo(Genre::class);
+    }
     public function programs()
     {
         return $this->hasMany(Program::class);
+    }
+    public function libraries()
+    {
+        return $this->hasMany(Library::class);
     }
     public function day_archives()
     {

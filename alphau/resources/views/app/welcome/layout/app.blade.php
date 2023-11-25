@@ -54,7 +54,10 @@
         .bg-pi-li {
             background-color: #c9b0ea;
         }
-
+        .programs-body {
+            background-color: #372158;
+            margin-top: 58px;
+        }
         footer {
             color: #835886;
         }
@@ -62,7 +65,10 @@
     <link rel="stylesheet" href="{{ asset('css/welcome/welcome.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-
+        <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.1/font/bootstrap-icons.min.css"
+        integrity="sha512-oAvZuuYVzkcTc2dH5z1ZJup5OmSQ000qlfRvuoTTiyTBjwX1faoyearj8KdMq0LgsBTHMrRuMek7s+CxF8yE+w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
         integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -105,7 +111,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link mx-2" href="/about">
+                        <a class="nav-link mx-2" href="/about-us">
                             About Us
                         </a>
                     </li>

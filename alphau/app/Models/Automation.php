@@ -9,19 +9,14 @@ class Automation extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'program_name',
-        'automation_episode',
-        'automation_url',
         'is_visible',
-        'program_directory',
-        'archive_id'
+        'automation_file',
+        'duration',
+        'program_id'
+
     ];
     public function program_archives()
     {
-        return $this->belongsTo(ProgramArchive::class);
-    }
-    public function automation_audio_files()
-    {
-        return $this->hasMany(AutomationAudioFile::class);
+        return $this->belongsTo(Program::class);
     }
 }

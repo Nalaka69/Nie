@@ -12,8 +12,11 @@ class Program extends Model
         'program_name',
         'episode',
         'episode_date',
+        'episode_time',
         'is_visible',
         'program_directory',
+        'program_file',
+        'duration',
         'archive_id'
 
     ];
@@ -21,9 +24,12 @@ class Program extends Model
     {
         return $this->belongsTo(ProgramArchive::class);
     }
-    public function program_audio_files()
+    public function day_archives()
     {
-        return $this->hasMany(ProgramAudioFile::class);
+        return $this->hasMany(DayArchive::class);
     }
-
+    public function automations()
+    {
+        return $this->hasMany(Automation::class);
+    }
 }

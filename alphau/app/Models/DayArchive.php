@@ -10,19 +10,15 @@ class DayArchive extends Model
     use HasFactory;
     protected $fillable = [
         'archive_date',
-        'program_name',
-        'episode',
+        'archive_time',
         'is_visible',
-        'program_directory',
-        'archive_id'
+        'program_file',
+        'duration',
+        'program_id'
 
     ];
     public function program_archives()
     {
-        return $this->belongsTo(ProgramArchive::class);
-    }
-    public function day_archive_audio_files()
-    {
-        return $this->hasMany(DayArchiveAudioFile::class);
+        return $this->belongsTo(Program::class);
     }
 }

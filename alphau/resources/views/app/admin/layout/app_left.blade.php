@@ -92,20 +92,33 @@
                                             </a>
                                         </li>
                                         <li class="sidebar_link ">
+                                            <a href="/admin/genres">
+                                                <img src="{{ asset('imgs/icons/music-note-list.svg') }}" />&nbsp;
+                                                Genres
+                                            </a>
+                                        </li>
+                                        <li class="sidebar_link ">
                                             <a href="/admin/programs">
                                                 <img src="{{ asset('imgs/icons/files.svg') }}" />&nbsp;
                                                 Programs
                                             </a>
                                         </li>
                                         <li class="sidebar_link ">
-                                            <a href="/admin/programs/add">
+                                            <a href="/admin/programs-archive">
                                                 <img src="{{ asset('imgs/icons/list-ul.svg') }}" />&nbsp;
                                                 Program Archive
                                             </a>
                                         </li>
                                         <li class="sidebar_link ">
+                                            <a href="/admin/library">
+                                                <img src="{{ asset('imgs/icons/list-ul.svg') }}" />&nbsp;
+                                                Library Archive
+                                            </a>
+                                        </li>
+                                        <li class="sidebar_link ">
                                             <a href="#">
-                                                <img src="{{ asset('imgs/icons/bar-chart.svg') }}" />&nbsp; Statistics
+                                                <img src="{{ asset('imgs/icons/bar-chart.svg') }}" />&nbsp;
+                                                Statistics
                                             </a>
                                         </li>
                                         <li class="sidebar_link btn">

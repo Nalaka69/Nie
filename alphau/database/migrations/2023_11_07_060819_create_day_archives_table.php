@@ -16,12 +16,12 @@ return new class extends Migration
         Schema::create('day_archives', function (Blueprint $table) {
             $table->id();
             $table->date('archive_date');
-            $table->string('program_name');
-            $table->string('episode');
+            $table->time('archive_time');
             $table->string('is_visible');
-            $table->string('program_directory');
-            $table->unsignedBigInteger('archive_id');
-            $table->foreign('archive_id')->references('id')->on('program_archives')->onDelete('cascade');
+            $table->string('program_file');
+            $table->string('duration');
+            $table->unsignedBigInteger('program_id');
+            $table->foreign('program_id')->references('id')->on('programs')->onDelete('cascade');
             $table->timestamps();
         });
     }

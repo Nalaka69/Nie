@@ -31,7 +31,7 @@
                                             <option value="{{ $item->program_name }}">{{ $item->program_name }}
                                             </option>
                                         @empty
-                                            <option value="Science">Science</option>
+                                            <option value="empty" disabled selected>--no program found--</option>
                                         @endforelse
                                     </select>
                                 </div>
@@ -41,13 +41,19 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="episode_date" class="form-label frm_lbl">Directory</label>
+                                    <label for="episode_date" class="form-label frm_lbl">Date</label>
                                     <input type="date" class="form-control" id="episode_date">
                                 </div>
+
                                 <div class="mb-3">
-                                    <label for="program_file" class="form-label frm_lbl">Files</label>
-                                    <input type="file" class="form-control" id="program_file" name="program_file[]"
-                                        multiple accept=".mp3">
+                                    <label for="episode_time" class="form-label frm_lbl">Time</label>
+                                    <input type="time" class="form-control" id="episode_time">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="program_file" class="form-label frm_lbl">File</label>
+                                    <input type="file" class="form-control" id="program_file" name="program_file"
+                                        accept=".mp3">
                                 </div>
                                 <div id="loadingSpinner" class="text-center" style="display: none;">
                                     <div class="spinner-border text-success" role="status">
@@ -55,8 +61,8 @@
                                 </div>
                                 <div class="d-flex flex-row-reverse">
                                     <div class="p-2">
-                                        <Button class="btn btn-primary" type="button"
-                                            data-bs-dismiss="modal"  id="btn_cncl">Cancel</Button>
+                                        <Button class="btn btn-primary" type="button" data-bs-dismiss="modal"
+                                            id="btn_cncl">Cancel</Button>
                                     </div>
                                     <div class="p-2">
                                         <Button class="btn btn-primary" type="submit" id="btn_sbmt_prgrm">OK</Button>
@@ -69,41 +75,116 @@
             </div>
         </div>
         <div class="mb-2">
-            <table id="tbl_programs" class="table table-hover" style="width:100%">
+            <table id="tbl_programs_archive" class="table table-hover" style="width:100%">
                 <thead>
                     <tr>
                         <th>#</th>
                         <th>Media Name</th>
                         <th>Date</th>
+                        <th>Time</th>
                         <th>Functions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($program_file_list as $item)
-                        <tr>
-                            <td>{{ $item->id }}</td>
-                            <td>{{ $item->program_file }}</td>
-                            <td>{{ $item->created_at }}</td>
-                            <td>
-                                <i class="bi bi-trash text-danger btn"></i>
-                                <i class="bi bi-pencil-square btn text-info"></i>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan=4 class="text-danger">
-                                <b><i class="bi bi-exclamation-diamond"></i> No program found.</b>
-                            </td>
-                        </tr>
-                    @endforelse
                 </tbody>
             </table>
         </div>
     </div>
     <script>
-        $(document).ready(function() {
-            $('#tbl_programs').DataTable();
-        });
+        function showTable() {
+            $(document).ready(function() {
+                $('#tbl_programs_archive').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    ajax: {
+                        url: "{{ route('program.list') }}",
+                        dataSrc: 'programs_list'
+                    },
+                    columns: [{
+                            data: 'id'
+                        },
+                        {
+                            data: 'program_file'
+                        },
+                        {
+                            data: 'episode_date'
+                        },
+                        {
+                            data: 'episode_time',
+                            render: function(data, type, row) {
+                                const time = new Date('2000-01-01 ' + data);
+                                return time.toLocaleString('en-US', {
+                                    hour: 'numeric',
+                                    minute: 'numeric',
+                                    hour12: true
+                                });
+                            }
+                        },
+                        {
+                            data: null,
+                            render: function(data, type, row) {
+                                return '<i class="bi bi-trash text-danger btn delete-btn" data-id="' +
+                                    row.id + '"></i>';
+                            }
+                        }
+                    ]
+                });
+            });
+            // Handling delete button click------
+            $('#tbl_programs_archive').on('click', '.delete-btn', function() {
+                var del_program_id = $(this).data('id');
+                var delData = new FormData();
+                delData.append('id', del_program_id);
+                Swal.fire({
+                    position: 'center',
+                    icon: 'question',
+                    title: "Warning",
+                    text: "Are you sure you want to delete ?",
+                    showConfirmButton: true,
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type: 'POST',
+                            url: '{{ route('program.delete') }}',
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            data: delData,
+                            contentType: false,
+                            processData: false,
+                            success: function(data, status, xhr) {
+                                var statusCode = xhr.status;
+                                if (statusCode === 200) {
+                                    Swal.fire({
+                                        position: 'center',
+                                        icon: 'success',
+                                        title: "Success",
+                                        text: "Deletion Completed.",
+                                        showConfirmButton: true,
+                                        // timer: 1500
+                                    }).then((result) => {
+                                        location.reload();
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        position: 'center',
+                                        icon: 'error',
+                                        title: "Error",
+                                        text: "Deletion Failed",
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    })
+                                }
+                            },
+                        });
+                    }
+                });
+            });
+        }
+        showTable()
     </script>
     <script>
         $(document).ready(function() {
@@ -113,30 +194,39 @@
                 $('#btn_sbmt_prgrm').prop('disabled', true);
                 $('#btn_cncl').prop('disabled', true);
 
-                var program_files = $('input[name="program_file[]"]').prop('files');
+                var program_file = $('input[name="program_file"]').prop('files')[0];
 
                 var formData = new FormData();
                 formData.append('program_name', $('#program_name').val());
                 formData.append('episode', $('#episode').val());
                 formData.append('episode_date', $('#episode_date').val());
-
-                $.each(program_files, function(i, file) {
-                    formData.append('program_file[]', file);
-                });
+                formData.append('episode_time', $('#episode_time').val());
+                formData.append('program_file', program_file);
 
                 if (!$('#program_name').val()) {
-                     $('#loadingSpinner').hide();
+                    $('#loadingSpinner').hide();
                     $('#btn_sbmt_prgrm').prop('disabled', false);
                     $('#btn_cncl').prop('disabled', false);
                     Swal.fire({
                         position: 'center',
                         icon: 'error',
                         title: 'Error',
-                        text: 'Program is required.',
+                        text: 'Please add a program first.',
+                        showConfirmButton: true
+                    });
+                } else if (!$('#program_name').val() == 'empty') {
+                    $('#loadingSpinner').hide();
+                    $('#btn_sbmt_library').prop('disabled', false);
+                    $('#btn_cncl').prop('disabled', false);
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Please add a program first.',
                         showConfirmButton: true
                     });
                 } else if (!$('#episode').val()) {
-                     $('#loadingSpinner').hide();
+                    $('#loadingSpinner').hide();
                     $('#btn_sbmt_prgrm').prop('disabled', false);
                     $('#btn_cncl').prop('disabled', false);
                     Swal.fire({
@@ -147,7 +237,7 @@
                         showConfirmButton: true
                     });
                 } else if (!$('#episode_date').val()) {
-                     $('#loadingSpinner').hide();
+                    $('#loadingSpinner').hide();
                     $('#btn_sbmt_prgrm').prop('disabled', false);
                     $('#btn_cncl').prop('disabled', false);
                     Swal.fire({
@@ -157,8 +247,19 @@
                         text: 'Date is required.',
                         showConfirmButton: true
                     });
-                } else if (program_files.length === 0) {
-                     $('#loadingSpinner').hide();
+                } else if (!$('#episode_time').val()) {
+                    $('#loadingSpinner').hide();
+                    $('#btn_sbmt_prgrm').prop('disabled', false);
+                    $('#btn_cncl').prop('disabled', false);
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Time is required.',
+                        showConfirmButton: true
+                    });
+                } else if (!$('#program_file').val()) {
+                    $('#loadingSpinner').hide();
                     $('#btn_sbmt_prgrm').prop('disabled', false);
                     $('#btn_cncl').prop('disabled', false);
                     Swal.fire({

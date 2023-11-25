@@ -31,31 +31,17 @@
                                             <option value="{{ $item->program_name }}">{{ $item->program_name }}
                                             </option>
                                         @empty
-                                            <option value="Science">Science</option>
+                                            <option value="empty" disabled selected>--no program found--</option>
                                         @endforelse
                                     </select>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="automation_episode" class="form-label frm_lbl">Episode</label>
-                                    <input type="text" class="form-control" id="automation_episode">
-                                </div>
-                                {{-- <div class="mb-3">
-                                    <label for="automation_url" class="form-label frm_lbl">URL</label>
-                                    <input type="text" class="form-control" id="automation_url">
-                                </div> --}}
-                                <div class="mb-3">
-                                    <label for="automation_file" class="form-label frm_lbl">Files</label>
-                                    <input type="file" class="form-control" id="automation_file" name="automation_file[]"
-                                        accept=".mp3">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="file_repeat" class="form-label frm_lbl">Repeat</label>
-                                    <select class="form-select" id="file_repeat">
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
+                                    <label for="episode" class="form-label frm_lbl">Episode</label>
+                                    <select class="form-select" id="episode">
+                                        <option value="0">--no episode found--</option>
                                     </select>
                                 </div>
+
                                 <div id="loadingSpinner" class="text-center" style="display: none;">
                                     <div class="spinner-border text-success" role="status">
                                     </div>
@@ -82,19 +68,41 @@
                         <th>#</th>
                         <th>Media Name</th>
                         <th>Duration</th>
-                        {{-- <th>Functions</th> --}}
+                        <th>Functions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
+
                 </tbody>
             </table>
         </div>
     </div>
+    <script>
+        $('#program_name').change(function() {
+            var selectedProgram = $(this).val();
+            $.ajax({
+                type: 'GET',
+                url: '{{ route('episode.get') }}',
+                data: {
+                    program_name: selectedProgram
+                },
+                success: function(data) {
+                    $('#episode').empty();
+                    if (data.length === 0) {
+                        $('#episode').append('<option value="0">--no episode found--</option>');
+                    } else {
+                        $.each(data, function(key, value) {
+                            $('#episode').append('<option value="' + value.episode + '">' +
+                                value.episode + '</option>');
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        });
+    </script>
     <script>
         function showTable() {
             $(document).ready(function() {
@@ -112,25 +120,76 @@
                             data: 'automation_file'
                         },
                         {
-                            data: 'duration'
+                            data: 'duration',
+                            render: function(data, type, row) {
+                                return Math.round(parseFloat(data)) + ' mins';
+                            }
+                        },
+                        {
+                            data: null,
+                            render: function(data, type, row) {
+                                return '<i class="bi bi-trash text-danger btn delete-btn" data-id="' +
+                                    row.id + '"></i>';
+                            }
                         }
                     ]
                 });
             });
-        }
-        showTable()
-        function executeBatchFile() {
-            $.ajax({
-                type: 'GET',
-                url: '{{ route('start.bat') }}',
-                success: function(response) {
-                    console.log('Batch file executed successfully.');
-                },
-                error: function(error) {
-                    console.error('Error executing batch file:', error);
-                }
+            // Handling delete button click------
+            $('#tbl_automation_files').on('click', '.delete-btn', function() {
+                var del_automation_id = $(this).data('id');
+                var delData = new FormData();
+                delData.append('id', del_automation_id);
+                Swal.fire({
+                    position: 'center',
+                    icon: 'question',
+                    title: "Warning",
+                    text: "Are you sure you want to delete ?",
+                    showConfirmButton: true,
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type: 'POST',
+                            url: '{{ route('automation.delete') }}',
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            data: delData,
+                            contentType: false,
+                            processData: false,
+                            success: function(data, status, xhr) {
+                                var statusCode = xhr.status;
+                                if (statusCode === 200) {
+                                    Swal.fire({
+                                        position: 'center',
+                                        icon: 'success',
+                                        title: "Success",
+                                        text: "Deletion Completed.",
+                                        showConfirmButton: true,
+                                        // timer: 1500
+                                    }).then((result) => {
+                                        location.reload();
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        position: 'center',
+                                        icon: 'error',
+                                        title: "Error",
+                                        text: "Deletion Failed",
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    })
+                                }
+                            },
+                        });
+                    }
+                });
             });
         }
+        showTable()
 
         $(document).ready(function() {
             $('#btn_sbmt_prgrm').click(function(e) {
@@ -139,18 +198,9 @@
                 $('#btn_sbmt_prgrm').prop('disabled', true);
                 $('#btn_cncl').prop('disabled', true);
 
-                var automation_files = $('input[name="automation_file[]"]').prop('files');
-
                 var formData = new FormData();
                 formData.append('program_name', $('#program_name').val());
-                formData.append('automation_episode', $('#automation_episode').val());
-                // formData.append('automation_url', $('#automation_url').val());
-                formData.append('automation_url', 'abcd');
-                formData.append('file_repeat', $('#file_repeat').val());
-
-                $.each(automation_files, function(i, file) {
-                    formData.append('automation_file[]', file);
-                });
+                formData.append('episode', $('#episode').val());
 
                 if (!$('#program_name').val()) {
                     $('#loadingSpinner').hide();
@@ -160,10 +210,21 @@
                         position: 'center',
                         icon: 'error',
                         title: 'Error',
-                        text: 'Program is required.',
+                        text: 'Please add a program first.',
                         showConfirmButton: true
                     });
-                } else if (!$('#automation_episode').val()) {
+                } else if (!$('#program_name').val() == 'empty') {
+                    $('#loadingSpinner').hide();
+                    $('#btn_sbmt_library').prop('disabled', false);
+                    $('#btn_cncl').prop('disabled', false);
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Please add a program first.',
+                        showConfirmButton: true
+                    });
+                } else if ($('#episode').val() == '0') {
                     $('#loadingSpinner').hide();
                     $('#btn_sbmt_prgrm').prop('disabled', false);
                     $('#btn_cncl').prop('disabled', false);
@@ -172,17 +233,6 @@
                         icon: 'error',
                         title: 'Error',
                         text: 'Episode is required.',
-                        showConfirmButton: true
-                    });
-                } else if (automation_files.length === 0) {
-                    $('#loadingSpinner').hide();
-                    $('#btn_sbmt_prgrm').prop('disabled', false);
-                    $('#btn_cncl').prop('disabled', false);
-                    Swal.fire({
-                        position: 'center',
-                        icon: 'error',
-                        title: 'Error',
-                        text: 'At least 1 file must be selected.',
                         showConfirmButton: true
                     });
                 } else {
@@ -201,7 +251,6 @@
                             $('#btn_sbmt_prgrm').prop('disabled', false);
                             $('#btn_cncl').prop('disabled', false);
                             if (statusCode === 200) {
-                                showTable()
                                 // Do something with success message here
                                 Swal.fire({
                                     position: 'center',
@@ -211,9 +260,7 @@
                                     showConfirmButton: true,
                                     // timer: 1500
                                 }).then((result) => {
-                                    if (result.isConfirmed) {
-                                        executeBatchFile();
-                                    }
+                                    location.reload();
                                 });
                             } else if (statusCode === 422) {
                                 // handle the validation errors
@@ -244,7 +291,6 @@
                                 })
                             }
                         },
-
                     });
                 }
             });

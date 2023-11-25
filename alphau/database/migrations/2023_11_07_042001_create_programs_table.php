@@ -18,10 +18,14 @@ return new class extends Migration
             $table->string('program_name');
             $table->string('episode');
             $table->date('episode_date');
+            $table->time('episode_time');
             $table->string('is_visible');
             $table->string('program_directory');
-            $table->unsignedBigInteger('archive_id');
-            $table->foreign('archive_id')->references('id')->on('program_archives')->onDelete('cascade');
+            $table->string('program_file')->nullable();
+            $table->string('duration')->nullable();
+            // $table->unsignedBigInteger('archive_id');
+            $table->integer('archive_id');
+            // $table->foreign('archive_id')->references('id')->on('program_archives')->onDelete('cascade');
             $table->timestamps();
         });
     }
