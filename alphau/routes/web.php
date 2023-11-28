@@ -83,4 +83,4 @@ Route::post('/admin/automation/delete', [AutomationController::class, 'deleteAut
 
 Route::put('/admin/play_status/change', [PlayController::class, 'changeStatus'])->name('current_status.change');
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

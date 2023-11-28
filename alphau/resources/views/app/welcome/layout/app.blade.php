@@ -34,14 +34,6 @@
             /* padding: 5px 15px; */
         }
 
-        /* hero */
-        .hero-section {
-            background: url("{{ asset('imgs/hero-nie.png') }}") no-repeat center center;
-            background-size: cover;
-            padding: 100px 0;
-            height: 710px;
-        }
-
         /* footer */
         .fab {
             color: beige;
@@ -54,10 +46,7 @@
         .bg-pi-li {
             background-color: #c9b0ea;
         }
-        .programs-body {
-            background-color: #372158;
-            margin-top: 58px;
-        }
+
         footer {
             color: #835886;
         }
@@ -158,35 +147,10 @@
     @yield('welcomebody')
     {{-- footer starts --}}
     <footer class="text-center bg-pi-li text-lg-start text-muted footer_style">
-        <section class="bg-pi-dk d-flex justify-content-center justify-content-lg-between p-4 border-bottom ftr_lbls">
-            <div class="me-5 d-none d-lg-block">
-                <span></span>
-            </div>
-            <div>
-                <a href="/" class="me-4 text-reset">
-                    <i class="fab fa-facebook-f"></i>
-                </a>
-                <a href="/" class="me-4 text-reset">
-                    <i class="fab fa-twitter"></i>
-                </a>
-                <a href="/" class="me-4 text-reset">
-                    <i class="fab fa-google"></i>
-                </a>
-                <a href="/" class="me-4 text-reset">
-                    <i class="fab fa-instagram"></i>
-                </a>
-                <a href="/" class="me-4 text-reset">
-                    <i class="fab fa-linkedin"></i>
-                </a>
 
-                <a href="/" class="me-4 text-reset">
-                    <i class="fab fa-github"></i>
-                </a>
-            </div>
-        </section>
         <section class="">
-            <div class="container text-center text-md-start mt-5">
-                <div class="row mt-3">
+            <div class="container text-center text-md-start p-2">
+                <div class="row">
                     <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
                         <h6 class="text-uppercase fw-bold mb-4">National Institute of Education
                         </h6>

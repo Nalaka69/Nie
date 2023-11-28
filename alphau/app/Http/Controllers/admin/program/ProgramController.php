@@ -16,7 +16,7 @@ class ProgramController extends Controller
     {
         $data = $request->all();
         $genre_id = Genre::select('id')
-        ->where('genre', $data['genre'])
+        ->where('genre', $data['program_genre'])
         ->first();
         $program_archive = ProgramArchive::create([
             'program_name' => $data['program_name'],

@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 
 class RightController extends Controller
 {
-    public function viewHome()
+    public function viewRightHome()
     {
         $current_play_status = PlayToggle::select('current_status')->first();
         return view('app.admin.dashboard_right.dashboard_right', compact('current_play_status'));
