@@ -154,11 +154,11 @@
                     <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
                         <h6 class="text-uppercase fw-bold mb-4">National Institute of Education
                         </h6>
-                        <p>
+                        {{-- <p>
                             Here you can use rows and columns to organize your footer
                             content. Lorem ipsum dolor sit amet, consectetur adipisicing
                             elit.
-                        </p>
+                        </p> --}}
                     </div>
                     {{-- <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
                         <h6 class="text-uppercase fw-bold mb-4">Products</h6>
@@ -218,7 +218,7 @@
                         </p>
                         <p>
                             <i class="fas fa-envelope me-3"></i>
-                            info@nie.edu.lk
+                            alphau@nie.edu.lk
                         </p>
                         <p>
                             <i class="fas fa-phone me-3"></i> +94 117 601 601
@@ -241,7 +241,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
     </script>
-
+<script src="
+https://cdn.jsdelivr.net/npm/howler@2.2.4/dist/howler.min.js
+"></script>
 </body>
 
 
