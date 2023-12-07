@@ -12,6 +12,7 @@ use App\Http\Controllers\admin\RightController;
 use App\Http\Controllers\admin\users\SchoolController;
 use App\Http\Controllers\admin\users\UserController;
 use App\Http\Controllers\BaseController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -29,6 +30,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [BaseController::class, 'index'])->name('index');
 Route::get('/programs', [BaseController::class, 'programs'])->name('welcome.programs');
 Route::get('/programs/list', [BaseController::class, 'welcomeProgramsList'])->name('welcome.programs.list');
+Route::get('/programs/archives', [BaseController::class, 'programArchivesList'])->name('welcome.archives.list');
+Route::get('/programs/archive/programs', [BaseController::class, 'welcomeArchiveProgramsList'])->name('welcome.archive.programs.list');
 Route::get('/about-us', [BaseController::class, 'about'])->name('about-us');
 
 Auth::routes();
@@ -37,9 +40,14 @@ Auth::routes();
 //     Route::get('/', [BaseController::class, 'index'])->name('index');
 // });
 
-// Route::middleware(['auth', 'user-access:admin'])->group(function () {
-Route::get('/admin', [AdminController::class, 'cHome'])->name('admin');
+Route::middleware(['auth', 'user-access:admin'])->group(function () {
+    Route::get('/admin/home', [HomeController::class, 'adminHome'])->name('admin.home');
+});
+
+// Route::middleware(['auth', 'user-access:user'])->group(function () {
+//     Route::get('/user', [HomeController::class, 'userHome'])->name('user');
 // });
+
 
 // admin right routes
 Route::get('/admin/dashboard', [RightController::class, 'viewRightHome'])->name('c_ad_r_home');
@@ -79,8 +87,7 @@ Route::get('/admin/automation', [LeftController::class, 'viewLeftHome'])->name('
 Route::get('/admin/automation/list', [AutomationController::class, 'listAutomations'])->name('automation.list');
 Route::post('/admin/automation/store', [AutomationController::class, 'storeAutomation'])->name('automation.store');
 Route::post('/admin/automation/delete', [AutomationController::class, 'deleteAutomation'])->name('automation.delete');
+
 // Route::get('/admin/play_status/show', [PlayController::class, 'showStatus'])->name('current_status.show');
-
-Route::put('/admin/play_status/change', [PlayController::class, 'changeStatus'])->name('current_status.change');
-
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::post('/admin/automation/start', [PlayController::class, 'startAutomation'])->name('automation.start');
+Route::get('/admin/automation/status', [PlayController::class, 'getStatus'])->name('automation.status');

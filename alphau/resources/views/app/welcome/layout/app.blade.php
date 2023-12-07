@@ -9,241 +9,278 @@
     <title>
         @yield('title')
     </title>
-    <link href="{{ asset('imgs/favicon.png') }}"rel=icon sizes=16x16 type=image/gif>
-    <style>
-        /* nav bar */
-        .bg-pink {
-            background-color: #c9b0ea;
-        }
 
-        .navbar-nav .nav-link {
-            color: #835886;
-            font-weight: 700;
-            font-size: large;
-            background-color: #c9b0ea;
-            border-radius: 30px;
-            border: 1px solid #c9b0ea;
-            padding: 5px 15px;
-        }
-
-        .navbar-nav .nav-link:hover {
-            color: #f8faf9;
-            background-color: #835886;
-            border-radius: 30px;
-            border: 1px solid #835886;
-            /* padding: 5px 15px; */
-        }
-
-        /* footer */
-        .fab {
-            color: beige;
-        }
-
-        .bg-pi-dk {
-            background-color: #8563b9;
-        }
-
-        .bg-pi-li {
-            background-color: #c9b0ea;
-        }
-
-        footer {
-            color: #835886;
-        }
-    </style>
-    <link rel="stylesheet" href="{{ asset('css/welcome/welcome.css') }}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-        <link rel="stylesheet"
+    {{-- admin  --}}
+    <link rel="stylesheet" type="text/css" href="{{ asset('admin/css/fonts.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('admin/css/bootstrap.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('admin/css/font-awesome.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('admin/js/plugins/swiper/css/swiper.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('admin/js/plugins/nice_select/nice-select.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('admin/js/plugins/player/volume.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('admin/js/plugins/scroll/jquery.mCustomScrollbar.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('admin/css/style.css') }}">
+    <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.1/font/bootstrap-icons.min.css"
         integrity="sha512-oAvZuuYVzkcTc2dH5z1ZJup5OmSQ000qlfRvuoTTiyTBjwX1faoyearj8KdMq0LgsBTHMrRuMek7s+CxF8yE+w=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    {{-- admin --}}
+    <link href="{{ asset('imgs/favicon.png') }}"rel=icon sizes=16x16 type=image/gif>
+    {{-- jquery --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
         integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
 </head>
 
 <body>
-    {{-- nav bar starts --}}
-    <nav class="navbar navbar-expand-lg fixed-top bg-pink navbar-light">
-        <div class="container">
-            <a class="navbar-brand" href="/">
-                <img id="MDB-logo" src="{{ asset('imgs/logo.png') }}" alt="alphau-logo" draggable="false"
-                    height="30" />
-            </a>
-            <button class="navbar-toggler" type="button" data-mdb-toggle="collapse"
-                data-mdb-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <i class="fas fa-bars"></i>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ms-auto align-items-center">
-                    {{-- <li class="nav-item">
-                        <a class="nav-link mx-2" href="/messenger">
-                            Messenger
-                        </a>
-                    </li> --}}
-                    <li class="nav-item">
-                        <a class="nav-link mx-2" href="/programs">
-                            Programs
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link mx-2" href="/3d-radio">
-                            3D Radio
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link mx-2" href="/blog">
-                            Blog
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link mx-2" href="/about-us">
-                            About Us
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        |
-                    </li>
-                    @guest
-                        @if (Route::has('login'))
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                            </li>
-                        @endif
-
-                        @if (Route::has('register'))
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                            </li>
-                        @endif
-                    @else
-                        <li class="nav-item dropdown">
-                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                {{ Auth::user()->first_name }}
+    <!----Loader Start---->
+    {{-- <div class="ms_loader">
+        <div class="wrap">
+            <img src="{{ asset('admin/images/loader.gif') }}" alt="">
+        </div>
+    </div> --}}
+    <!----Main Wrapper Start---->
+    <div class="ms_main_wrapper">
+        <!---Side Menu Start--->
+        <div class="ms_sidemenu_wrapper">
+            <div class="ms_nav_close">
+                <i class="fa fa-angle-right" aria-hidden="true"></i>
+            </div>
+            <div class="ms_sidemenu_inner">
+                <div class="ms_logo_inner">
+                    <div class="ms_logo">
+                        <a href="{{ route('index') }}"><img src="{{ asset('admin/images/favicon.png') }}"
+                                alt="" class="img-fluid" /></a>
+                    </div>
+                    <div class="ms_logo_open">
+                        <a href="{{ route('index') }}"><img src="{{ asset('admin/images/open_logo.png') }}"
+                                alt="" class="img-fluid" /></a>
+                    </div>
+                </div>
+                <div class="ms_nav_wrapper">
+                    <ul>
+                        <li><a href="{{ route('welcome.programs') }}" title="Albums">
+                                <span class="nav_icon">
+                                    <span class="icon icon_albums"></span>
+                                </span>
+                                <span class="nav_text">
+                                    Programs
+                                </span>
                             </a>
-
-                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('logout') }}"
-                                    onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                    {{ __('Logout') }}
-                                </a>
-
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                    @csrf
-                                </form>
-                            </div>
                         </li>
-                    @endguest
-                </ul>
+                        <li><a href="#" title="Artists">
+                                <span class="nav_icon">
+                                    <span class="icon icon_artists"></span>
+                                </span>
+                                <span class="nav_text">
+                                    3D Radio
+                                </span>
+                            </a>
+                        </li>
+                        <li><a href="#" title="Genres">
+                                <span class="nav_icon">
+                                    <span class="icon icon_genres"></span>
+                                </span>
+                                <span class="nav_text">
+                                    Blog
+                                </span>
+                            </a>
+                        </li>
+                        <li><a href="{{ route('about-us') }}" title="Top Tracks">
+                                <span class="nav_icon">
+                                    <span class="icon icon_tracks"></span>
+                                </span>
+                                <span class="nav_text">
+                                    About
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
-    </nav>
-    {{-- nav bar ends --}}
-    @yield('welcomebody')
-    {{-- footer starts --}}
-    <footer class="text-center bg-pi-li text-lg-start text-muted footer_style">
-
-        <section class="">
-            <div class="container text-center text-md-start p-2">
-                <div class="row">
-                    <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
-                        <h6 class="text-uppercase fw-bold mb-4">National Institute of Education
-                        </h6>
-                        {{-- <p>
-                            Here you can use rows and columns to organize your footer
-                            content. Lorem ipsum dolor sit amet, consectetur adipisicing
-                            elit.
-                        </p> --}}
-                    </div>
-                    {{-- <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
-                        <h6 class="text-uppercase fw-bold mb-4">Products</h6>
-                        <p>
-                            <a href="#!" class="text-reset">
-                                Angular
-                            </a>
-                        </p>
-                        <p>
-                            <a href="#!" class="text-reset">
-                                React
-                            </a>
-                        </p>
-                        <p>
-                            <a href="#!" class="text-reset">
-                                Vue
-                            </a>
-                        </p>
-                        <p>
-                            <a href="#!" class="text-reset">
-                                Laravel
-                            </a>
-                        </p>
+        <!---Main Content Start--->
+        <div class="ms_content_wrapper padder_top80">
+            <!---Header--->
+            <div class="ms_header">
+                <div class="ms_top_left">
+                    {{-- <div class="ms_top_search">
+                        <input type="text" class="form-control" placeholder="Search Music Here..">
+                        <span class="search_icon">
+                            <img src="{{ asset('admin/images/svg/search.svg') }}" alt="">
+                        </span>
                     </div> --}}
-                    <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
-                        <h6 class="text-uppercase fw-bold mb-4">Useful links</h6>
-                        {{-- <p>
-                            <a href="#!" class="text-reset">
-                                Messenger
-                            </a>
-                        </p> --}}
-                        <p>
-                            <a href="#!" class="text-reset">
-                                Programs
-                            </a>
-                        </p>
-                        <p>
-                            <a href="#!" class="text-reset">
-                                3D Radio
-                            </a>
-                        </p>
-                        <p>
-                            <a href="#!" class="text-reset">
-                                Blog
-                            </a>
-                        </p>
-                        <p>
-                            <a href="#!" class="text-reset">
-                                Contact Us
-                            </a>
-                        </p>
+                    <div class="ms_top_trend">
+                        <span><a href="{{ route('index') }}" class="ms_color">AlphaU Radio</a></span></span>
                     </div>
-                    <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
-                        <h6 class="text-uppercase fw-bold mb-4">Contact</h6>
-                        <p>
-                            <i class="fas fa-home me-3"></i> P.O. Box 21, High Level Rd, Maharagama, Sri Lanka
-                        </p>
-                        <p>
-                            <i class="fas fa-envelope me-3"></i>
-                            alphau@nie.edu.lk
-                        </p>
-                        <p>
-                            <i class="fas fa-phone me-3"></i> +94 117 601 601
-                        </p>
+                </div>
+                <div class="ms_top_right">
+                    {{-- <div class="ms_top_lang">
+                        <span data-toggle="modal" data-target="#lang_modal">languages <img
+                                src="{{ asset('admin/images/svg/lang.svg') }}" alt=""></span>
+                    </div> --}}
+                    <div class="ms_top_btn">
+                        @guest
+                            @if (Route::has('login'))
+                                <a class="ms_btn login_btn" href="{{ route('login') }}">{{ __('Login') }}</a>
+                            @endif
+
+                            @if (Route::has('register'))
+                                <a class="ms_btn reg_btn" href="{{ route('register') }}">{{ __('Register') }}</a>
+                            @endif
+                        @else
+                            <a class="" href="#" role="button" v-pre>
+                                {{ Auth::user()->first_name }}
+                            </a>
+                            <a class="ms_btn" href="{{ route('logout') }}"
+                                onclick="event.preventDefault();
+                                                         document.getElementById('logout-form').submit();">
+                                {{ __('Logout') }}
+                            </a>
+
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
+                        @endguest
                     </div>
                 </div>
             </div>
-        </section>
-        <div class="text-center p-4">
-            Copyright © 2023 - National Institute of Education -
-            <a class="text-reset fw-bold" href="#">
-                Designed and Implemented by Yuwan Audio Visuals
-            </a>
-            <a class="text-reset fw-bold" href="https://realit.lk">
-                - Developed By Real IT PVT LTD
-            </a>
+            {{-- nav bar ends --}}
+            @yield('welcomebody')
+            {{-- footer starts --}}
         </div>
-    </footer>
-    {{-- footer ends --}}
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
-    </script>
-<script src="
-https://cdn.jsdelivr.net/npm/howler@2.2.4/dist/howler.min.js
-"></script>
+        <!----Footer Start---->
+        <div class="ms_footer_wrapper">
+            <div class="ms_footer_logo">
+                <a href="{{ route('index') }}"><img src="{{ asset('admin/images/open_logo.png') }}"
+                        alt=""></a>
+            </div>
+            <div class="ms_footer_inner">
+                <div class="row">
+                    <div class="col-lg-3 col-md-6">
+                        <div class="footer_box">
+                            <h1 class="footer_title">AlphaU Radio</h1>
+                            {{-- <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+                                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+                                exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat duis aute irure
+                                dolor.</p> --}}
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        &nbsp;
+                        {{-- <div class="footer_box footer_app">
+                            <h1 class="footer_title">Download our App</h1>
+                            <p>Go Mobile with our app.<br> Listen to your favourite songs at just one click. Download
+                                Now !</p>
+                            <a href="#" class="foo_app_btn"><img
+                                    src="{{ asset('admin/images/google_play.jpg') }}" alt=""
+                                    class="img-fluid"></a>
+                            <a href="#" class="foo_app_btn"><img
+                                    src="{{ asset('admin/images/app_store.jpg') }}" alt=""
+                                    class="img-fluid"></a>
+                            <a href="#" class="foo_app_btn"><img src="{{ asset('admin/images/windows.jpg') }}"
+                                    alt="" class="img-fluid"></a>
+                        </div> --}}
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        &nbsp;
+                        {{-- <div class="footer_box footer_subscribe">
+                            <h1 class="footer_title">subscribe</h1>
+                            <p>Subscribe to our newsletter and get latest updates and offers.</p>
+                            <form>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="Enter Your Name">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="Enter Your Email">
+                                </div>
+                                <div class="form-group">
+                                    <a href="#" class="ms_btn">sign me up</a>
+                                </div>
+                            </form>
+                        </div> --}}
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="footer_box footer_contacts">
+                            <h1 class="footer_title">contact us</h1>
+                            <ul class="foo_con_info">
+                                <li>
+                                    <div class="foo_con_icon">
+                                        <img src="{{ asset('admin/images/svg/phone.svg') }}" alt="">
+                                    </div>
+                                    <div class="foo_con_data">
+                                        <span class="con-title">Call us :</span>
+                                        <span>(+94) 117 601 601</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="foo_con_icon">
+                                        <img src="{{ asset('admin/images/svg/message.svg') }}" alt="">
+                                    </div>
+                                    <div class="foo_con_data">
+                                        <span class="con-title">email us :</span>
+                                        <span><a href="#">alphau@nie.edu.lk</a></span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="foo_con_icon">
+                                        <img src="{{ asset('admin/images/svg/add.svg') }}" alt="">
+                                    </div>
+                                    <div class="foo_con_data">
+                                        <span class="con-title">walk in :</span>
+                                        <span>PO.Box 21, High Level Rd., Maharagama</span>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div class="foo_sharing">
+                                <div class="share_title">follow us :</div>
+                                <ul>
+                                    <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+                                    </li>
+                                    <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+                                    </li>
+                                    <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                                    </li>
+                                    <li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!----Copyright---->
+            <div class="col-lg-12">
+                <div class="ms_copyright">
+                    <div class="footer_border"></div>
+                    <p>
+                        Copyright © 2023 - National Institute of Education -
+                        <a class="text-reset fw-bold" href="#">
+                            Designed and Implemented by Yuwan Audio Visuals
+                        </a>
+                        <a class="text-reset fw-bold" href="https://realit.lk">
+                            - Developed By Real IT PVT LTD
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        {{-- audio player starts --}}
+        @include('app.welcome.layout.audioplayer')
+        {{-- audio player ends --}}
+    </div>
+
+    {{-- admin --}}
+    <script type="text/javascript" src="{{ asset('admin/js/jquery.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/swiper/js/swiper.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/player/jplayer.playlist.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/player/jquery.jplayer.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/player/audio-player.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/player/volume.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/nice_select/jquery.nice-select.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/scroll/jquery.mCustomScrollbar.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/custom.js') }}"></script>
+    {{-- admin --}}
 </body>
 
 

@@ -3,9 +3,11 @@
 
 <head>
     <title>Administrator - AlphaU Radio</title>
+    <link href="{{ asset('imgs/favicon.png') }}"rel=icon sizes=16x16 type=image/gif>
+    <meta content="{{ csrf_token() }}"name=csrf-token>
+    <meta charset=UTF-8>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <meta content="{{ csrf_token() }}"name=csrf-token>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.7.5/sweetalert2.min.css"
         integrity="sha512-InYSgxgTnnt8BG3Yy0GcpSnorz5gxHvT6OEoRWj91Gg+RvNdCiAharnBe+XFIDS754Kd9TekdjXw3V7TAgh6Vw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -30,10 +32,16 @@
             transform: translate(-50%, -50%);
         }
 
+
         .centered-image img {
-            width: 200px;
+            width: 210px;
             height: 200px;
         }
+
+        .centered-image img:hover {
+            transition: transform 0.3s ease-in-out;
+        }
+
 
         .bottom-images {
             position: absolute;
@@ -66,15 +74,17 @@
             color: #fff;
             font-size: 24px;
         }
-        .crrnt_stts p{
-           font-weight: 400;
+
+        .crrnt_stts p {
+            font-weight: 400;
         }
-        .crrnt_stts span{
-           font-weight: 600;
-           background-color:#fff;
-           color:#303030;
-           padding: 5px;
-           border-radius:5px;
+
+        .crrnt_stts span {
+            font-weight: 600;
+            background-color: #fff;
+            color: #303030;
+            padding: 5px;
+            border-radius: 5px;
         }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
@@ -84,16 +94,15 @@
 
 <body>
     <div class="container text-center">
-        <div class="crrnt_stts">
-            <p>current mode : <span>Automation</span></p>
+        <div class="crrnt_stts align-items-center">
+            <p>
+                <span id="on_status" class="align-middle"></span>
+            </p>
         </div>
     </div>
     <div class="centered-image">
-        <span class="rdo_lbl">Online</span>
-        <input class="rdo" type="radio" name="play_status" id="rdio_top_left" value="Online" disabled>
-        <img src="{{ asset('imgs/admn/gear-l.png') }}" alt="alphauradio" width="100" height="100">
-        <input class="rdo" type="radio" name="play_status" id="rdio_top_right" value="Automation" disabled>
-        <span class="rdo_lbl">Automation</span>
+        <img class="btn" src="{{ asset('imgs/admn/switch.png') }}" alt="alphauradio" width="120" height="100"
+            id="change_play_status">
     </div>
     <div class="container">
         <div class="bottom-images d-flex justify-content-between">
@@ -127,16 +136,52 @@
             });
         });
     </script>
+
     <script>
         $(document).ready(function() {
-            $('.rdo').change(function(e) {
-                e.preventDefault();
-                var formData = new FormData();
-                formData.append('current_status', $('input[name="play_status"]:checked').val());
-                console.log(formData);
+            function set_status() {
                 $.ajax({
-                    type: 'PUT',
-                    url: '{{ route('current_status.change') }}',
+                    url: '{{ route('automation.status') }}',
+                    method: 'GET',
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.current_status.current_status == 'AUTOMATION') {
+                            document.getElementById('on_status').innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#d60000"
+                        class="bi bi-broadcast" viewBox="0 0 16 16">
+                        <path d="M3.05 3.05a7 7 0 0 0 0 9.9.5.5 0 0 1-.707.707 8 8 0 0 1 0-11.314.5.5 0 0 1 .707.707m2.122 2.122a4 4 0 0 0 0 5.656.5.5 0 1 1-.708.708 5 5 0 0 1 0-7.072.5.5 0 0 1 .708.708m5.656-.708a.5.5 0 0 1 .708 0 5 5 0 0 1 0 7.072.5.5 0 1 1-.708-.708 4 4 0 0 0 0-5.656.5.5 0 0 1 0-.708m2.122-2.12a.5.5 0 0 1 .707 0 8 8 0 0 1 0 11.313.5.5 0 0 1-.707-.707 7 7 0 0 0 0-9.9.5.5 0 0 1 0-.707zM10 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0" />
+                    </svg> AUTOMATION`;
+                        } else if (response.current_status.current_status == 'LIVE') {
+                            document.getElementById('on_status').innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#00d600"
+                        class="bi bi-broadcast" viewBox="0 0 16 16">
+                        <path d="M3.05 3.05a7 7 0 0 0 0 9.9.5.5 0 0 1-.707.707 8 8 0 0 1 0-11.314.5.5 0 0 1 .707.707m2.122 2.122a4 4 0 0 0 0 5.656.5.5 0 1 1-.708.708 5 5 0 0 1 0-7.072.5.5 0 0 1 .708.708m5.656-.708a.5.5 0 0 1 .708 0 5 5 0 0 1 0 7.072.5.5 0 1 1-.708-.708 4 4 0 0 0 0-5.656.5.5 0 0 1 0-.708m2.122-2.12a.5.5 0 0 1 .707 0 8 8 0 0 1 0 11.313.5.5 0 0 1-.707-.707 7 7 0 0 0 0-9.9.5.5 0 0 1 0-.707zM10 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0" />
+                    </svg> LIVE`;
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error:', error);
+                    }
+                });
+            }
+            set_status();
+            $('#change_play_status').click(function(e) {
+                e.preventDefault();
+                var __status = $('#on_status').html();
+                var tempElement = $('<div>').html(__status);
+                var _on_status = tempElement.text().trim();
+                var status;
+                if (_on_status == 'LIVE') {
+                    status = 'AUTOMATION';
+                } else if (_on_status == 'AUTOMATION') {
+                    status = 'LIVE';
+                }
+                var formData = new FormData();
+                console.log(status);
+                formData.append('status', status);
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('automation.start') }}',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
@@ -144,35 +189,32 @@
                     contentType: false,
                     processData: false,
                     success: function(data, status, xhr) {
+                         set_status();
                         var statusCode = xhr.status;
                         if (statusCode === 200) {
-                            // Do something with success message here
                             Swal.fire({
                                 position: 'center',
                                 icon: 'success',
                                 // title: "Success",
                                 text: "Streaming mode changed.",
                                 showConfirmButton: false,
-                                timer: 1500
-                            }).then(function() {
-                                // Reload the page
-                                // location.reload();
+                                timer: 3500
                             });
                         } else if (statusCode === 422) {
                             Swal.fire({
                                 position: 'center',
                                 icon: 'error',
                                 title: 'Error',
-                                text: 'Input Valid Data!',
+                                text: 'Streaming mode switching failed.',
                                 showConfirmButton: false,
                                 timer: 1500
                             });
                         } else {
                             Swal.fire({
                                 position: 'center',
-                                icon: 'success',
+                                icon: 'error',
                                 title: "Error",
-                                text: "File Submission Failed",
+                                text: "Streaming mode switching failed.",
                                 showConfirmButton: false,
                                 timer: 1500
                             })

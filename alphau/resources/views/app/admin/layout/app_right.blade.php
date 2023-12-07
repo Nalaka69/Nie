@@ -116,7 +116,7 @@
                                             </a>
                                         </li>
                                         <li class="sidebar_link btn">
-                                            <a href="/admin" class="p-0">
+                                            <a href="/admin/home" class="p-0">
                                                 <img src="{{ asset('imgs/icons/gear-2.svg') }}" width="50"
                                                     height="50" />
                                             </a>

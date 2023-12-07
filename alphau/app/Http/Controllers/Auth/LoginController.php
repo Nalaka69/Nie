@@ -48,9 +48,22 @@ class LoginController extends Controller
             'password' => 'required',
         ]);
 
-        if (auth()->attempt(array('email' => $input['email'], 'password' => $input['password']))) {
+        // if (auth()->attempt(array('email' => $input['email'], 'password' => $input['password']))) {
+        //     if (auth()->user()->role == 'admin') {
+        //         return redirect()->route('admin');
+        //     } else if (auth()->user()->role == 'school') {
+        //         return redirect()->route('school');
+        //     } else {
+        //         return redirect()->route('index');
+        //     }
+        // } else {
+        //     return redirect()->route('login')
+        //         ->with('error', 'Email-Address And Password Are Wrong.');
+        // }
+
+        if (auth()->attempt(['email' => $input["email"], 'password' => $input['password']])) {
             if (auth()->user()->role == 'admin') {
-                return redirect()->route('admin');
+                return redirect()->route('admin.home');
             } else if (auth()->user()->role == 'school') {
                 return redirect()->route('school');
             } else {

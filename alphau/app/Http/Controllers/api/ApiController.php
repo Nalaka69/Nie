@@ -14,13 +14,16 @@ class ApiController extends Controller
             ->get();
         return response()->json(['programs_list' => $programs_list]);
     }
-    public function programsSingle(Request $request, $_date)
+    public function programsDateFiltered(Request $request, $_date)
     {
-        $_date = $_date;
-        // $selectedDate = $request->input('selectedDate');
-        $programs = Program::whereDate('episode_date', $_date)
+        $programs_filtered = Program::whereDate('episode_date', $_date)
             ->select('id', 'program_name', 'episode', 'program_file')
             ->get();
-        return response()->json(['programs_single' => $programs]);
+        return response()->json(['program_filtereds' => $program_filtereds]);
+    }
+    public function programSingle(Request $request, $_id)
+    {
+        $program_single = Program::findOrFail($_id);
+        return response()->json(['program_single' => $program_single]);
     }
 }

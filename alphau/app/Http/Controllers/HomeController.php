@@ -21,17 +21,19 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+
+    public function userHome()
     {
         return view('app.welcome.index');
     }
-    public function adminDashboard()
+
+    // public function schoolHome()
+    // {
+    //     return view('home',["msg"=>"I am Editor role"]);
+    // }
+
+    public function adminHome()
     {
         return view('app.admin.admin');
     }
-
-    // public function schoolAdmin()
-    // {
-    //     return view('super_admin_dashboard');
-    // }
 }
