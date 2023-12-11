@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('program_archives', function (Blueprint $table) {
             $table->id();
+            $table->string('program_thumbanail')->nullable();
             $table->string('program_name');
             $table->string('program_genre');
             $table->string('program_directory');

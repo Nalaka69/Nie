@@ -25,6 +25,12 @@
                             </div>
                             <form>
                                 <div class="mb-3">
+                                    <label for="program_thumbanail" class="form-label frm_lbl">Program Thumbanail</label>
+                                    <input type="file" class="form-control" id="program_thumbanail"
+                                        name="program_thumbanail" accept=".png, .jpg, .jpeg" class="mb-2">
+                                    <div id="thumbanail_preview"></div>
+                                </div>
+                                <div class="mb-3">
                                     <label for="program_name" class="form-label frm_lbl">Program Name</label>
                                     <input type="text" class="form-control" id="program_name">
                                 </div>
@@ -168,6 +174,26 @@
     </script>
     <script>
         $(document).ready(function() {
+            function previewImage(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function(e) {
+                        $('#thumbanail_preview').html('<img src="' + e.target.result +
+                            '" class="preview-img" width="200px"/>');
+                    }
+
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+            $('#program_thumbanail').change(function() {
+                previewImage(this);
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
             $('#btn_sbmt_prgrm').click(function(e) {
                 e.preventDefault();
 
@@ -175,10 +201,13 @@
                 $('#btn_sbmt_prgrm').prop('disabled', true);
                 $('#btn_cncl').prop('disabled', true);
 
+                var program_thumbanail = $('input[name="program_thumbanail"]').prop('files')[0];
+
                 var formData = new FormData();
                 formData.append('program_name', $('#program_name').val());
                 formData.append('program_genre', $('#program_genre').val());
                 formData.append('program_directory', $('#program_directory').val());
+                formData.append('program_thumbanail', program_thumbanail);
 
                 var nameRegex = /^[a-zA-Z0-9]+$/;
 
@@ -195,7 +224,9 @@
                     });
                 }
 
-                if (!$('#program_name').val()) {
+                if (!program_thumbanail) {
+                    showError('Program name is required.');
+                } else if (!$('#program_name').val()) {
                     showError('Program name is required.');
                 } else if (!$('#program_directory').val()) {
                     showError('Program name is required.');

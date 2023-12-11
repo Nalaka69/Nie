@@ -51,10 +51,23 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
 
 // admin right routes
 Route::get('/admin/dashboard', [RightController::class, 'viewRightHome'])->name('c_ad_r_home');
-Route::get('/admin/users', [RightController::class, 'viewUsers'])->name('c_ad_r_users');
-Route::post('/admin/users/store', [UserController::class, 'storeUser'])->name('user.store');
+
 Route::get('/admin/schools', [RightController::class, 'viewSchools'])->name('c_ad_r_schools');
 Route::post('/admin/schools/store', [SchoolController::class, 'storeSchool'])->name('school.store');
+Route::get('/admin/schools/list', [SchoolController::class, 'listSchools'])->name('school.list');
+Route::post('/admin/schools/delete', [SchoolController::class, 'deleteSchool'])->name('school.delete');
+
+Route::get('/admin/users', [RightController::class, 'viewUsers'])->name('c_ad_r_users');
+Route::post('/admin/users/store', [UserController::class, 'storeUser'])->name('user.store');
+Route::get('/admin/users/students/list', [UserController::class, 'listStudents'])->name('user.list.students');
+Route::post('/admin/users/students/delete', [UserController::class, 'deleteStudent'])->name('user.delete.students');
+Route::get('/admin/users/guests/list', [UserController::class, 'listGuests'])->name('user.list.guests');
+Route::post('/admin/users/guests/delete', [UserController::class, 'deleteGuest'])->name('user.delete.guests');
+Route::get('/admin/users/schooladmins/list', [UserController::class, 'listSchoolAdmins'])->name('user.list.schooladmins');
+Route::post('/admin/users/schooladmins/delete', [UserController::class, 'deleteSchoolAdmin'])->name('user.delete.schooladmins');
+Route::get('/admin/users/teachers/list', [UserController::class, 'listTeachers'])->name('user.list.teachers');
+Route::post('/admin/users/teachers/delete', [UserController::class, 'deleteTeacher'])->name('user.delete.teachers');
+
 Route::get('/admin/notifications', [RightController::class, 'viewNotifications'])->name('c_ad_r_notifications');
 
 Route::get('/admin/genres', [LeftController::class, 'viewGenres'])->name('c_ad_l_genres');

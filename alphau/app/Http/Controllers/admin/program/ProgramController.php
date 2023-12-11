@@ -16,20 +16,32 @@ class ProgramController extends Controller
     {
         $data = $request->all();
         $genre_id = Genre::select('id')
-        ->where('genre', $data['program_genre'])
-        ->first();
-        $program_archive = ProgramArchive::create([
-            'program_name' => $data['program_name'],
-            'program_genre' => $data['program_genre'],
-            'program_directory' => $data['program_directory'],
-            'is_visible' => 'show',
-            'genre_id' => $genre_id->id
-        ]);
+            ->where('genre', $data['program_genre'])
+            ->first();
+
+        if ($request->hasFile('program_thumbanail')) {
+            $file = $request->file('program_thumbanail');
+            $timestamp = time();
+            $extension = $file->getClientOriginalExtension();
+            $file_name = $timestamp . '.' . $extension;
+            $file_path = 'resources/thumbnails/' . $file_name;
+            $file->move('resources/thumbnails/', $file_name);
+
+            // Proceed to store in the database
+            $program_archive = ProgramArchive::create([
+                'program_thumbanail' => $file_path, // Store the path to the renamed file
+                'program_name' => $data['program_name'],
+                'program_genre' => $data['program_genre'],
+                'program_directory' => $data['program_directory'],
+                'is_visible' => 'show',
+                'genre_id' => $genre_id->id
+            ]);
+        }
     }
 
     public function listArchives()
     {
-        $programs_list = ProgramArchive::select('id', 'program_name', 'program_genre', 'program_directory')
+        $programs_list = ProgramArchive::select('id','program_thumbanail', 'program_name', 'program_genre', 'program_directory')
             ->get();
         return response()->json(['programs_list' => $programs_list]);
     }

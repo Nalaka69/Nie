@@ -17,9 +17,10 @@
             </div>
             <div class="mb-2">
                 <select class="form-select form-select-sm" id="list_view_category">
-                    <option value="dv_tbl_stdnts">Student</option>
+                    <option value="dv_tbl_stdnts">Students</option>
                     <option value="dv_tbl_schl_admns">School Admins</option>
-                    <option value="dv_tbl_gsts">Guest</option>
+                    <option value="dv_tbl_gsts">Guests</option>
+                    <option value="dv_tbl_tchrs">Teachers</option>
                 </select>
             </div>
             <!--User Modal Modal -->
@@ -37,6 +38,7 @@
                                         <option value="school">School Admins</option>
                                         <option value="user">Student</option>
                                         <option value="guest">Guest</option>
+                                        <option value="teacher">Teacher</option>
                                     </select>
                                 </div>
                                 <div class="mb-3">
@@ -92,23 +94,10 @@
                         <th>Name</th>
                         <th>School</th>
                         <th>Index No.</th>
+                        <th>Functions</th>
                     </tr>
                 </thead>
-                <tbody>
-                    @forelse ($students_list as $item)
-                        <tr>
-                            <td>{{ $item->first_name }}&nbsp;{{ $item->last_name }}</td>
-                            <td>{{ $item->school }}</td>
-                            <td>{{ $item->student_index }}</td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan=3 class="text-danger">
-                                <b><i class="bi bi-exclamation-diamond"></i> No student found.</b>
-                            </td>
-                        </tr>
-                    @endforelse
-                </tbody>
+                <tbody></tbody>
             </table>
         </div>
         <div class="mb-2" id="dv_tbl_gsts">
@@ -118,23 +107,10 @@
                         <th>Name</th>
                         <th>School</th>
                         <th>Index No.</th>
+                        <th>Functions</th>
                     </tr>
                 </thead>
-                <tbody>
-                    @forelse ($guests_list as $item)
-                        <tr>
-                            <td>{{ $item->first_name }}&nbsp;{{ $item->last_name }}</td>
-                            <td>{{ $item->school }}</td>
-                            <td>{{ $item->student_index }}</td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan=3 class="text-danger">
-                                <b><i class="bi bi-exclamation-diamond"></i> No guest found.</b>
-                            </td>
-                        </tr>
-                    @endforelse
-                </tbody>
+                <tbody></tbody>
             </table>
         </div>
         <div class="mb-2" id="dv_tbl_schl_admns">
@@ -144,50 +120,392 @@
                         <th>Name</th>
                         <th>School</th>
                         <th>Index No.</th>
+                        <th>Functions</th>
                     </tr>
                 </thead>
-                <tbody>
-                    @forelse ($school_admins_list as $item)
-                        <tr>
-                            <td>{{ $item->first_name }}&nbsp;{{ $item->last_name }}</td>
-                            <td>{{ $item->school }}</td>
-                            <td>{{ $item->student_index }}</td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan=3 class="text-danger">
-                                <b><i class="bi bi-exclamation-diamond"></i> No school admin found.</b>
-                            </td>
-                        </tr>
-                    @endforelse
-                </tbody>
+                <tbody></tbody>
+            </table>
+        </div>
+        <div class="mb-2" id="dv_tbl_tchrs">
+            <table id="tbl_teachers" class="table table-hover" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>School</th>
+                        <th>Index No.</th>
+                        <th>Functions</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
             </table>
         </div>
     </div>
     <script>
-        $(document).ready(function() {
-            $('#tbl_students').DataTable();
-            $('#tbl_guest_users').DataTable();
-            $('#tbl_school_admins').DataTable();
-        });
+        function showStudentTable() {
+            $(document).ready(function() {
+                $('#tbl_students').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    ajax: {
+                        url: "{{ route('user.list.students') }}",
+                        dataSrc: 'students_list'
+                    },
+                    columns: [{
+                            data: 'first_name'
+                        },
+                        {
+                            data: 'school'
+                        },
+                        {
+                            data: 'email'
+                        },
+                        {
+                            data: null,
+                            render: function(data, type, row) {
+                                return '<i class="bi bi-trash text-danger btn delete-student-btn" data-id="' +
+                                    row.id + '"></i>';
+                            }
+                        }
+                    ]
+                });
+            });
+            // Handling delete button click------
+            $('#tbl_students').on('click', '.delete-student-btn', function() {
+                var del_student_id = $(this).data('id');
+                var delStudentData = new FormData();
+                delStudentData.append('id', del_student_id);
+                Swal.fire({
+                    position: 'center',
+                    icon: 'question',
+                    title: "Warning",
+                    text: "Are you sure you want to delete ?",
+                    showConfirmButton: true,
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type: 'POST',
+                            url: '{{ route('user.delete.students') }}',
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            data: delStudentData,
+                            contentType: false,
+                            processData: false,
+                            success: function(data, status, xhr) {
+                                var statusCode = xhr.status;
+                                if (statusCode === 200) {
+                                    Swal.fire({
+                                        position: 'center',
+                                        icon: 'success',
+                                        title: "Success",
+                                        text: "Deletion Completed.",
+                                        showConfirmButton: true,
+                                        // timer: 1500
+                                    }).then((result) => {
+                                        location.reload();
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        position: 'center',
+                                        icon: 'error',
+                                        title: "Error",
+                                        text: "Deletion Failed",
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    })
+                                }
+                            },
+                        });
+                    }
+                });
+            });
+        }
+        showStudentTable()
+    </script>
+    <script>
+        function showGuestTable() {
+            $(document).ready(function() {
+                $('#tbl_guest_users').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    ajax: {
+                        url: "{{ route('user.list.guests') }}",
+                        dataSrc: 'guests_list'
+                    },
+                    columns: [{
+                            data: 'first_name'
+                        },
+                        {
+                            data: 'school'
+                        },
+                        {
+                            data: 'email'
+                        },
+                        {
+                            data: null,
+                            render: function(data, type, row) {
+                                return '<i class="bi bi-trash text-danger btn delete-guest-btn" data-id="' +
+                                    row.id + '"></i>';
+                            }
+                        }
+                    ]
+                });
+            });
+            // Handling delete button click------
+            $('#tbl_guest_users').on('click', '.delete-guest-btn', function() {
+                var del_guest_id = $(this).data('id');
+                var delGuestData = new FormData();
+                delGuestData.append('id', del_guest_id);
+                Swal.fire({
+                    position: 'center',
+                    icon: 'question',
+                    title: "Warning",
+                    text: "Are you sure you want to delete ?",
+                    showConfirmButton: true,
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type: 'POST',
+                            url: '{{ route('user.delete.guests') }}',
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            data: delGuestData,
+                            contentType: false,
+                            processData: false,
+                            success: function(data, status, xhr) {
+                                var statusCode = xhr.status;
+                                if (statusCode === 200) {
+                                    Swal.fire({
+                                        position: 'center',
+                                        icon: 'success',
+                                        title: "Success",
+                                        text: "Deletion Completed.",
+                                        showConfirmButton: true,
+                                        // timer: 1500
+                                    }).then((result) => {
+                                        location.reload();
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        position: 'center',
+                                        icon: 'error',
+                                        title: "Error",
+                                        text: "Deletion Failed",
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    })
+                                }
+                            },
+                        });
+                    }
+                });
+            });
+        }
+        showGuestTable()
+    </script>
+    <script>
+        function showSchoolAdminTable() {
+            $(document).ready(function() {
+                $('#tbl_school_admins').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    ajax: {
+                        url: "{{ route('user.list.schooladmins') }}",
+                        dataSrc: 'school_admins_list'
+                    },
+                    columns: [{
+                            data: 'first_name'
+                        },
+                        {
+                            data: 'school'
+                        },
+                        {
+                            data: 'email'
+                        },
+                        {
+                            data: null,
+                            render: function(data, type, row) {
+                                return '<i class="bi bi-trash text-danger btn delete-school-admin-btn" data-id="' +
+                                    row.id + '"></i>';
+                            }
+                        }
+                    ]
+                });
+            });
+            // Handling delete button click------
+            $('#tbl_school_admins').on('click', '.delete-school-admin-btn', function() {
+                var del_school_admin_id = $(this).data('id');
+                var delSchoolAdminData = new FormData();
+                delSchoolAdminData.append('id', del_school_admin_id);
+                Swal.fire({
+                    position: 'center',
+                    icon: 'question',
+                    title: "Warning",
+                    text: "Are you sure you want to delete ?",
+                    showConfirmButton: true,
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type: 'POST',
+                            url: '{{ route('user.delete.schooladmins') }}',
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            data: delSchoolAdminData,
+                            contentType: false,
+                            processData: false,
+                            success: function(data, status, xhr) {
+                                var statusCode = xhr.status;
+                                if (statusCode === 200) {
+                                    Swal.fire({
+                                        position: 'center',
+                                        icon: 'success',
+                                        title: "Success",
+                                        text: "Deletion Completed.",
+                                        showConfirmButton: true,
+                                        // timer: 1500
+                                    }).then((result) => {
+                                        location.reload();
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        position: 'center',
+                                        icon: 'error',
+                                        title: "Error",
+                                        text: "Deletion Failed",
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    })
+                                }
+                            },
+                        });
+                    }
+                });
+            });
+        }
+        showSchoolAdminTable()
+    </script>
+    <script>
+        function showTeacherTable() {
+            $(document).ready(function() {
+                $('#tbl_teachers').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    ajax: {
+                        url: "{{ route('user.list.teachers') }}",
+                        dataSrc: 'teachers_list'
+                    },
+                    columns: [{
+                            data: 'first_name'
+                        },
+                        {
+                            data: 'school'
+                        },
+                        {
+                            data: 'email'
+                        },
+                        {
+                            data: null,
+                            render: function(data, type, row) {
+                                return '<i class="bi bi-trash text-danger btn delete-teacher-btn" data-id="' +
+                                    row.id + '"></i>';
+                            }
+                        }
+                    ]
+                });
+            });
+            // Handling delete button click------
+            $('#tbl_teachers').on('click', '.delete-teacher-btn', function() {
+                var del_teacher_id = $(this).data('id');
+                var delTeacherData = new FormData();
+                delTeacherData.append('id', del_teacher_id);
+                Swal.fire({
+                    position: 'center',
+                    icon: 'question',
+                    title: "Warning",
+                    text: "Are you sure you want to delete ?",
+                    showConfirmButton: true,
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type: 'POST',
+                            url: '{{ route('user.delete.teachers') }}',
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            data: delTeacherData,
+                            contentType: false,
+                            processData: false,
+                            success: function(data, status, xhr) {
+                                var statusCode = xhr.status;
+                                if (statusCode === 200) {
+                                    Swal.fire({
+                                        position: 'center',
+                                        icon: 'success',
+                                        title: "Success",
+                                        text: "Deletion Completed.",
+                                        showConfirmButton: true,
+                                        // timer: 1500
+                                    }).then((result) => {
+                                        location.reload();
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        position: 'center',
+                                        icon: 'error',
+                                        title: "Error",
+                                        text: "Deletion Failed",
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    })
+                                }
+                            },
+                        });
+                    }
+                });
+            });
+        }
+        showTeacherTable()
     </script>
     <script>
         $('#dv_tbl_gsts').hide();
         $('#dv_tbl_schl_admns').hide();
+        $('#dv_tbl_tchrs').hide();
         $('#list_view_category').on('change', function() {
             var selectedOption = $(this).val();
             if (selectedOption === 'dv_tbl_stdnts') {
                 $('#dv_tbl_stdnts').show();
                 $('#dv_tbl_gsts').hide();
                 $('#dv_tbl_schl_admns').hide();
+                $('#dv_tbl_tchrs').hide();
             } else if (selectedOption === 'dv_tbl_gsts') {
                 $('#dv_tbl_stdnts').hide();
                 $('#dv_tbl_gsts').show();
                 $('#dv_tbl_schl_admns').hide();
+                $('#dv_tbl_tchrs').hide();
             } else if (selectedOption === 'dv_tbl_schl_admns') {
                 $('#dv_tbl_stdnts').hide();
                 $('#dv_tbl_gsts').hide();
                 $('#dv_tbl_schl_admns').show();
+                $('#dv_tbl_tchrs').hide();
+            } else if (selectedOption === 'dv_tbl_tchrs') {
+                $('#dv_tbl_stdnts').hide();
+                $('#dv_tbl_gsts').hide();
+                $('#dv_tbl_schl_admns').hide();
+                $('#dv_tbl_tchrs').show();
             }
         });
     </script>

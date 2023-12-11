@@ -9,6 +9,7 @@ class ProgramArchive extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'program_thumbanail',
         'program_name',
         'program_genre',
         'program_directory',

@@ -265,7 +265,7 @@
             </div>
         </div>
         {{-- audio player starts --}}
-        @include('app.welcome.layout.audioplayer')
+        @yield('audplayer')
         {{-- audio player ends --}}
     </div>
 

@@ -88,25 +88,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($schools_list as $item)
-                        <tr>
-                            <td>{{ $item->school_index }}</td>
-                            <td>{{ $item->school_name }}</td>
-                            <td>{{ $item->district }}</td>
-                            <td>{{ $item->province }}</td>
-                            <td>
-                                <i class="bi bi-trash text-danger btn"></i>
-                                <i class="bi bi-pencil-square btn text-info"></i>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan=5 class="text-danger">
-                                <b><i class="bi bi-exclamation-diamond"></i> No school found.</b>
-                            </td>
-                        </tr>
-                    @endforelse
-                </tbody>
+                    </tbody>
             </table>
         </div>
     </div>
@@ -134,11 +116,93 @@
             }
         }
     </script>
-
     <script>
-        $(document).ready(function() {
-            $('#tbl_schools').DataTable();
-        });
+        function showTable() {
+            $(document).ready(function() {
+                $('#tbl_schools').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    ajax: {
+                        url: "{{ route('school.list') }}",
+                        dataSrc: 'schools_list'
+                    },
+                    columns: [{
+                            data: 'id'
+                        },
+                        {
+                            data: 'school_name'
+                        },
+                        {
+                            data: 'province'
+                        },
+                        {
+                            data: 'district'
+                        },
+                        {
+                            data: null,
+                            render: function(data, type, row) {
+                                return '<i class="bi bi-trash text-danger btn delete-btn" data-id="' +
+                                    row.id + '"></i>';
+                            }
+                        }
+                    ]
+                });
+            });
+            // Handling delete button click------
+            $('#tbl_schools').on('click', '.delete-btn', function() {
+                var del_school_id = $(this).data('id');
+                var delData = new FormData();
+                delData.append('id', del_school_id);
+                Swal.fire({
+                    position: 'center',
+                    icon: 'question',
+                    title: "Warning",
+                    text: "Are you sure you want to delete ?",
+                    showConfirmButton: true,
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type: 'POST',
+                            url: '{{ route('school.delete') }}',
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            data: delData,
+                            contentType: false,
+                            processData: false,
+                            success: function(data, status, xhr) {
+                                var statusCode = xhr.status;
+                                if (statusCode === 200) {
+                                    Swal.fire({
+                                        position: 'center',
+                                        icon: 'success',
+                                        title: "Success",
+                                        text: "Deletion Completed.",
+                                        showConfirmButton: true,
+                                        // timer: 1500
+                                    }).then((result) => {
+                                        location.reload();
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        position: 'center',
+                                        icon: 'error',
+                                        title: "Error",
+                                        text: "Deletion Failed",
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    })
+                                }
+                            },
+                        });
+                    }
+                });
+            });
+        }
+        showTable()
     </script>
     <script>
         $(document).ready(function() {

@@ -20,4 +20,18 @@ class SchoolController extends Controller
             'is_visible' => 'show'
         ]);
     }
+
+    public function listSchools()
+    {
+        $schools_list = School::select('id', 'school_name', 'province', 'district', 'school_adddress', 'school_index')->get();
+        return response()->json(['schools_list' => $schools_list]);
+    }
+
+    public function deleteSchool(Request $request)
+    {
+        $id = $request->id;
+        $school = School::findOrFail($id);
+        $school->delete();
+        return response()->json(200);
+    }
 }

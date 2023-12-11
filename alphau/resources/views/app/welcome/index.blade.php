@@ -25,8 +25,12 @@
         </div>
     </div>
 
-    <!----Add Section Start---->
-    {{-- <div class="ms_advr_wrapper">
+@section('audplayer')
+    @include('app.welcome.layout.audioplayer')
+@endsection
+
+<!----Add Section Start---->
+{{-- <div class="ms_advr_wrapper">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -37,5 +41,5 @@
         </div>
     </div> --}}
 
-    <!----Main div close---->
+<!----Main div close---->
 @endsection
