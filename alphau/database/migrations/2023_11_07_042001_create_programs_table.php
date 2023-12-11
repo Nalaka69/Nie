@@ -21,6 +21,8 @@ return new class extends Migration
             $table->time('episode_time');
             $table->string('is_visible');
             $table->string('program_directory');
+            $table->string('program_genre');
+            $table->string('program_thumbanail');
             $table->string('program_file')->nullable();
             $table->string('duration')->nullable();
             // $table->unsignedBigInteger('archive_id');

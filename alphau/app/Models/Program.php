@@ -15,6 +15,8 @@ class Program extends Model
         'episode_time',
         'is_visible',
         'program_directory',
+        'program_genre',
+        'program_thumbanail',
         'program_file',
         'duration',
         'archive_id'

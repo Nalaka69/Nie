@@ -41,7 +41,7 @@ class ProgramController extends Controller
 
     public function listArchives()
     {
-        $programs_list = ProgramArchive::select('id','program_thumbanail', 'program_name', 'program_genre', 'program_directory')
+        $programs_list = ProgramArchive::select('id', 'program_thumbanail', 'program_name', 'program_genre', 'program_directory')
             ->get();
         return response()->json(['programs_list' => $programs_list]);
     }
@@ -65,7 +65,7 @@ class ProgramController extends Controller
     public function storeProgram(Request $request)
     {
         $data = $request->all();
-        $archive_id = ProgramArchive::select('id', 'program_directory')
+        $archive_id = ProgramArchive::select('id', 'program_directory', 'program_genre', 'program_thumbanail')
             ->where('program_name', $data['program_name'])
             ->first();
         $program_directory = $archive_id->program_directory;
@@ -77,7 +77,7 @@ class ProgramController extends Controller
             $file->move('resources/programs/' . $program_directory . '/', $file_path);
             $file_info = $getID3->analyze($file_path);
             $duration_seconds = isset($file_info['playtime_seconds']) ? $file_info['playtime_seconds'] : 0;
-            $duration_minutes = $duration_seconds / 60;
+            $duration_minutes = number_format(($duration_seconds / 60), 2);
         }
 
         $program = Program::create([
@@ -87,6 +87,8 @@ class ProgramController extends Controller
             'episode_time' => $data['episode_time'],
             'is_visible' => 'show',
             'program_directory' => $program_directory,
+            'program_genre' => $archive_id->program_genre,
+            'program_thumbanail' => $archive_id->program_thumbanail,
             'program_file' => $file_path,
             'duration' =>  $duration_minutes,
             'archive_id' => $archive_id->id

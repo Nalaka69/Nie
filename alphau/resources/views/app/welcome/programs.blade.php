@@ -6,13 +6,16 @@
     <style>
         /* filter according to archive */
         .crd_archive {
-            width: 200px;
             height: 40px;
-            background-color: #d2b4ff;
-            border-radius: 10px;
+            background-color: #583E81;
+            color: #f3f3f3;
             margin: 2px;
             padding: 2;
             text-align: center;
+        }
+        .crd_archive :hover {
+            background-color: #3BC8E7;
+            color: #000;
         }
 
         .albmart {
@@ -34,7 +37,7 @@
         }
 
         .li_play_btn:hover {
-            color: #d2b4ff;
+            color: #583E81;
         }
 
         .single_play_btn i {
@@ -63,9 +66,9 @@
 
         /* calendar */
         /* .program_calender {
-                                                                                        height: 600px;
-                                                                                        overflow: hidden;
-                                                                                    } */
+                                                                                                                    height: 600px;
+                                                                                                                    overflow: hidden;
+                                                                                                                } */
         #calendar {
             color: #fff;
             background-color: #583e81;
@@ -145,8 +148,8 @@
         }
 
         /* audio:hover::-webkit-media-controls {
-                                                                    display: block;
-                                                                } */
+                                                                                                display: block;
+                                                                                            } */
     </style>
     <div class="programs-body">
         <div class="container">
@@ -168,83 +171,21 @@
                     </div>
                 </div>
                 <div class="col-md-7 col-lg-7 col-sm-12">
-                    {{-- <div class="ms_weekly_wrapper ms_free_music">
-                        <div class="ms_weekly_inner">
-                            <div class="row">
-                                <div class="col-lg-4 col-md-12 padding_right40">
-                                    <div class="ms_weekly_box">
-                                        <div class="weekly_left">
-                                            <div class="w_top_song">
-                                                <div class="w_tp_song_img">
-                                                    <img src="images/weekly/song1.jpg" alt="">
-                                                    <div class="ms_song_overlay">
-                                                    </div>
-                                                    <div class="ms_play_icon">
-                                                        <img src="images/svg/play.svg" alt="">
-                                                    </div>
-                                                </div>
-                                                <div class="w_tp_song_name">
-                                                    <h3><a href="#">Until I Met You</a></h3>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="weekly_right">
-                                            <span class="w_song_time">5:10</span>
-                                            <span class="ms_more_icon" data-other="1">
-                                                <img src="images/svg/more.svg" alt="">
-                                            </span>
-                                            <span class="w_song_dwnload">
-                                                <i class="ms_icon1 dwnload_icon"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="ms_divider"></div>
-                                    <div class="ms_weekly_box">
-                                        <div class="weekly_left">
-                                            <div class="w_top_song">
-                                                <div class="w_tp_song_img">
-                                                    <img src="images/weekly/song1.jpg" alt="">
-                                                    <div class="ms_song_overlay">
-                                                    </div>
-                                                    <div class="ms_play_icon">
-                                                        <img src="images/svg/play.svg" alt="">
-                                                    </div>
-                                                </div>
-                                                <div class="w_tp_song_name">
-                                                    <h3><a href="#">Until I Met You</a></h3>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="weekly_right">
-                                            <span class="w_song_time">5:10</span>
-                                            <span class="ms_more_icon" data-other="1">
-                                                <img src="images/svg/more.svg" alt="">
-                                            </span>
-                                            <span class="w_song_dwnload">
-                                                <i class="ms_icon1 dwnload_icon"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="ms_divider"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> --}}
-                    <ol class="list-group list-group-flush programs-list">
-                    </ol>
+                    <div class=" ms_free_music programs-list">
+                    </div>
                 </div>
             </div>
             {{-- filter according to program name --}}
             <div class="row mt-4 pb-5">
                 <div class="col-md-5 col-lg-5 col-sm-12">
                     <div class="program_filter">
-                        <div id="archives_list" class="d-flex justify-content-start">
+                        <div class="list-group" id="archives_list">
                         </div>
                     </div>
                 </div>
                 <div class="col-md-7 col-lg-7 col-sm-12">
-                    <ol class="list-group list-group-flush programs-list-filter">
-                    </ol>
+                    <div class=" ms_free_music programs-list-filter">
+                    </div>
                 </div>
             </div>
         </div>
@@ -282,36 +223,91 @@
                 var programsList = $('.programs-list').empty();
                 if (response.programs.length > 0) {
                     response.programs.forEach(function(program) {
-                        var listItem = $('<li>', {
-                            class: 'list-group-item d-flex justify-content-between text-start li_bg'
+                        var colDiv = $('<div>', {
+                            class: 'col-lg-12 col-md-12 col-sm-12'
+                        });
+                        var msWeeklyBox = $('<div>', {
+                            class: 'ms_weekly_box'
+                        });
+                        var weeklyLeft = $('<div>', {
+                            class: 'weekly_left'
+                        });
+                        var wTopSong = $('<div>', {
+                            class: 'w_top_song'
+                        });
+                        var wTpSongImg = $('<div>', {
+                            class: 'w_tp_song_img'
                         }).append(
                             $('<img>', {
-                                src: '/imgs/albumart.jpg',
-                                class: 'albmart',
-                                alt: program.program_name
+                                src: program.program_thumbanail,
+                                alt: ''
                             }),
                             $('<div>', {
-                                class: 'ms-2 me-auto li_text'
-                            }).append(
-                                $('<div>', {
-                                    class: 'fw-bold',
+                                class: 'ms_song_overlay'
+                            })
+                        );
+                        var wTpSongName = $('<div>', {
+                            class: 'w_tp_song_name'
+                        }).append(
+                            $('<h3>').append(
+                                $('<a>', {
+                                    href: '#',
                                     text: program.program_name + '-e' + program.episode
                                 })
                             ),
-                            $('<span>').append(
+                            $('<p>', {
+                                text: program.program_genre
+                            })
+                        );
+                        var weeklyRight = $('<div>', {
+                            class: 'weekly_right'
+                        }).append(
+                            $('<span>', {
+                                class: 'w_song_time',
+                                text: program.duration + ' mins'
+                            }),
+                            $('<span>', {
+                                class: 'w_song_dwnload'
+                            }).append(
                                 $('<i>', {
                                     class: 'bi bi-play-circle-fill btn btn-sm single_play_btn li_play_btn',
                                     'data-audio-src': program.program_file
                                 })
                             )
                         );
-                        programsList.append(listItem);
+                        var msDivider = $('<div>', {
+                            class: 'ms_divider'
+                        });
+                        // Appending elements to construct the desired structure
+                        colDiv.append(
+                            msWeeklyBox.append(
+                                weeklyLeft.append(
+                                    wTopSong.append(
+                                        wTpSongImg,
+                                        wTpSongName
+                                    )
+                                ),
+                                weeklyRight
+                            ),
+                            msDivider
+                        );
+                        programsList.append(colDiv);
                     });
                 } else {
-                    programsList.append($('<li>', {
-                        class: 'list-group-item',
-                        html: '<div class="ms-2 me-auto fw-bold">No programs available for this date.</div>'
-                    }));
+                    var noProgramsMessage = $('<div>', {
+                        class: 'ms-2 me-auto text-muted',
+                        html: '<i class="bi bi-exclamation-circle-fill me-1"></i>No programs available for this date.'
+                    });
+                    var listItem = $('<li>', {
+                        class: 'list-group-item border-2'
+                    }).append(
+                        $('<div>', {
+                            class: 'd-flex align-items-center'
+                        }).append(
+                            noProgramsMessage
+                        )
+                    );
+                    programsList.append(listItem);
                 }
             }
 
@@ -337,7 +333,7 @@
                 var archivesListDiv = $('#archives_list');
 
                 archives.forEach(function(archive) {
-                    var archiveElement = $('<button class="crd_archive" onclick="clickedArchive(\'' +
+                    var archiveElement = $('<button class="list-group-item list-group-item-action crd_archive" onclick="clickedArchive(\'' +
                         archive.program_name + '\')">' + archive.program_name + '</button>');
                     archivesListDiv.append(archiveElement);
                 });
@@ -362,30 +358,75 @@
             var archiveProgramsList = $('.programs-list-filter').empty();
             if (response.archive_programs.length > 0) {
                 response.archive_programs.forEach(function(program) {
-                    var listItem = $('<li>', {
-                        class: 'list-group-item d-flex justify-content-between text-start li_bg'
-                    }).append(
-                        $('<img>', {
-                            src: '/imgs/albumart.jpg',
-                            class: 'albmart',
-                            alt: program.program_name
-                        }),
-                        $('<div>', {
-                            class: 'ms-2 me-auto li_text'
+                    var colDiv = $('<div>', {
+                            class: 'col-lg-12 col-md-12 col-sm-12'
+                        });
+                        var msWeeklyBox = $('<div>', {
+                            class: 'ms_weekly_box'
+                        });
+                        var weeklyLeft = $('<div>', {
+                            class: 'weekly_left'
+                        });
+                        var wTopSong = $('<div>', {
+                            class: 'w_top_song'
+                        });
+                        var wTpSongImg = $('<div>', {
+                            class: 'w_tp_song_img'
                         }).append(
+                            $('<img>', {
+                                src: program.program_thumbanail,
+                                alt: ''
+                            }),
                             $('<div>', {
-                                class: 'fw-bold',
-                                text: program.program_name + '-e' + program.episode
+                                class: 'ms_song_overlay'
                             })
-                        ),
-                        $('<span>').append(
-                            $('<i>', {
-                                class: 'bi bi-play-circle-fill btn btn-sm single_play_btn li_play_btn',
-                                'data-audio-src': program.program_file
+                        );
+                        var wTpSongName = $('<div>', {
+                            class: 'w_tp_song_name'
+                        }).append(
+                            $('<h3>').append(
+                                $('<a>', {
+                                    href: '#',
+                                    text: program.program_name + '-e' + program.episode
+                                })
+                            ),
+                            $('<p>', {
+                                text: program.program_genre + ' - ' + program.episode_date
                             })
-                        )
-                    );
-                    archiveProgramsList.append(listItem);
+                        );
+                        var weeklyRight = $('<div>', {
+                            class: 'weekly_right'
+                        }).append(
+                            $('<span>', {
+                                class: 'w_song_time',
+                                text: program.duration + ' mins'
+                            }),
+                            $('<span>', {
+                                class: 'w_song_dwnload'
+                            }).append(
+                                $('<i>', {
+                                    class: 'bi bi-play-circle-fill btn btn-sm single_play_btn li_play_btn',
+                                    'data-audio-src': program.program_file
+                                })
+                            )
+                        );
+                        var msDivider = $('<div>', {
+                            class: 'ms_divider'
+                        });
+                        // Appending elements to construct the desired structure
+                        colDiv.append(
+                            msWeeklyBox.append(
+                                weeklyLeft.append(
+                                    wTopSong.append(
+                                        wTpSongImg,
+                                        wTpSongName
+                                    )
+                                ),
+                                weeklyRight
+                            ),
+                            msDivider
+                        );
+                        archiveProgramsList.append(colDiv);
                 });
             } else {
                 archiveProgramsList.append($('<li>', {

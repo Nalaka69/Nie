@@ -26,7 +26,7 @@ class BaseController extends Controller
     {
         $selectedDate = $request->input('selectedDate');
         $programs = Program::whereDate('episode_date', $selectedDate)
-            ->select('id', 'program_name', 'episode', 'program_file')
+            ->select('id', 'program_name', 'episode', 'program_file', 'duration', 'program_thumbanail', 'program_genre')
             ->get();
 
         return response()->json(['programs' => $programs]);
@@ -43,7 +43,7 @@ class BaseController extends Controller
     {
         $selectedProgram = $request->input('selectedArchive');
         $archive_programs = Program::where('program_name', $selectedProgram)
-            ->select('id', 'program_name', 'episode', 'program_file')
+            ->select('id', 'program_name', 'episode', 'program_file', 'duration', 'program_thumbanail', 'program_genre', 'episode_date')
             ->get();
 
         return response()->json(['archive_programs' => $archive_programs]);
