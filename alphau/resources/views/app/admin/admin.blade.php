@@ -165,63 +165,63 @@
                 });
             }
             set_status();
-            $('#change_play_status').click(function(e) {
-                e.preventDefault();
-                var __status = $('#on_status').html();
-                var tempElement = $('<div>').html(__status);
-                var _on_status = tempElement.text().trim();
-                var status;
-                if (_on_status == 'LIVE') {
-                    status = 'AUTOMATION';
-                } else if (_on_status == 'AUTOMATION') {
-                    status = 'LIVE';
-                }
-                var formData = new FormData();
-                console.log(status);
-                formData.append('status', status);
-                $.ajax({
-                    type: 'POST',
-                    url: '{{ route('automation.start') }}',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    success: function(data, status, xhr) {
-                         set_status();
-                        var statusCode = xhr.status;
-                        if (statusCode === 200) {
-                            Swal.fire({
-                                position: 'center',
-                                icon: 'success',
-                                // title: "Success",
-                                text: "Streaming mode changed.",
-                                showConfirmButton: false,
-                                timer: 3500
-                            });
-                        } else if (statusCode === 422) {
-                            Swal.fire({
-                                position: 'center',
-                                icon: 'error',
-                                title: 'Error',
-                                text: 'Streaming mode switching failed.',
-                                showConfirmButton: false,
-                                timer: 1500
-                            });
-                        } else {
-                            Swal.fire({
-                                position: 'center',
-                                icon: 'error',
-                                title: "Error",
-                                text: "Streaming mode switching failed.",
-                                showConfirmButton: false,
-                                timer: 1500
-                            })
-                        }
-                    },
-                });
-            });
+            // $('#change_play_status').click(function(e) {
+            //     e.preventDefault();
+            //     var __status = $('#on_status').html();
+            //     var tempElement = $('<div>').html(__status);
+            //     var _on_status = tempElement.text().trim();
+            //     var status;
+            //     if (_on_status == 'LIVE') {
+            //         status = 'AUTOMATION';
+            //     } else if (_on_status == 'AUTOMATION') {
+            //         status = 'LIVE';
+            //     }
+            //     var formData = new FormData();
+            //     console.log(status);
+            //     formData.append('status', status);
+            //     $.ajax({
+            //         type: 'POST',
+            //         url: '{{ route('automation.start') }}',
+            //         headers: {
+            //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            //         },
+            //         data: formData,
+            //         contentType: false,
+            //         processData: false,
+            //         success: function(data, status, xhr) {
+            //              set_status();
+            //             var statusCode = xhr.status;
+            //             if (statusCode === 200) {
+            //                 Swal.fire({
+            //                     position: 'center',
+            //                     icon: 'success',
+            //                     // title: "Success",
+            //                     text: "Streaming mode changed.",
+            //                     showConfirmButton: false,
+            //                     timer: 3500
+            //                 });
+            //             } else if (statusCode === 422) {
+            //                 Swal.fire({
+            //                     position: 'center',
+            //                     icon: 'error',
+            //                     title: 'Error',
+            //                     text: 'Streaming mode switching failed.',
+            //                     showConfirmButton: false,
+            //                     timer: 1500
+            //                 });
+            //             } else {
+            //                 Swal.fire({
+            //                     position: 'center',
+            //                     icon: 'error',
+            //                     title: "Error",
+            //                     text: "Streaming mode switching failed.",
+            //                     showConfirmButton: false,
+            //                     timer: 1500
+            //                 })
+            //             }
+            //         },
+            //     });
+            // });
         });
     </script>
 </body>

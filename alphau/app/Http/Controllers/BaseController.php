@@ -10,7 +10,8 @@ class BaseController extends Controller
 {
     public function index()
     {
-        return view('app.welcome.index');
+        $archiveslist = ProgramArchive::select('id', 'program_name', 'program_genre', 'program_thumbanail')->get();
+        return view('app.welcome.index', compact('archiveslist'));
     }
     public function programs()
     {

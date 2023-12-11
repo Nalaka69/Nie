@@ -209,7 +209,7 @@
                                     </div>
                                     <div class="foo_con_data">
                                         <span class="con-title">Call us :</span>
-                                        <span>(+94) 117 601 601</span>
+                                        <span>(+94) 77 354 6549</span>
                                     </div>
                                 </li>
                                 <li>
