@@ -279,10 +279,6 @@
                                 <div class="details">
                                     <div class="track-art"></div>
                                 </div>
-
-
-
-
                                 <div class="sldr_cntnr">
                                     <div class="slider_container">
                                         <input type="range" min="1" max="100" value="0"

@@ -25,6 +25,24 @@
         </div>
     </div>
 
+    <!-- Static Message Icon -->
+    {{-- <div id="chatIcon" style="position: fixed; bottom: 100px; right: 20px; z-index: 9999;">
+        <a href="#" id="openChat"
+            style="display: inline-block; padding: 10px; background-color: #3BC8E7; color: #fff; border-radius: 50%; text-decoration: none;">
+            <i class="bi bi-chat-dots-fill" style="font-size: 50px;"></i>
+        </a>
+    </div> --}}
+
+    <!-- Chat Box (Initially hidden) -->
+    {{-- <div id="chatBox" style="display: none; position: fixed; bottom: 100px; right: 20px; z-index: 9999;">
+
+        <div style="background-color: #eeeeee; padding: 20px; border: 1px solid #ccc;">
+            @include('app.chat.chat_student')
+            <button id="closeChat">Close</button>
+        </div>
+    </div> --}}
+
+
     <!---Recently Played Music--->
     <div class="ms_rcnt_slider">
         <div class="ms_heading">
@@ -88,4 +106,17 @@
     </div> --}}
 
     <!----Main div close---->
+    <script>
+        $(document).ready(function() {
+            $('#openChat').on('click', function() {
+                $('#chatIcon').hide();
+                $('#chatBox').show();
+            });
+
+            $('#closeChat').on('click', function() {
+                $('#chatBox').hide();
+                $('#chatIcon').show();
+            });
+        });
+    </script>
 @endsection

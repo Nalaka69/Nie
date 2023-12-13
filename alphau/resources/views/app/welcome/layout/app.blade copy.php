@@ -177,7 +177,7 @@
                         </p>
                         <p>
                             <i class="fas fa-envelope me-3"></i>
-                            alphau@nie.edu.lk
+                            alphau@nie.ac.lk
                         </p>
                         <p>
                             <i class="fas fa-phone me-3"></i> +94 117 601 601

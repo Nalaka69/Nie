@@ -12,6 +12,7 @@ use App\Http\Controllers\admin\RightController;
 use App\Http\Controllers\admin\users\SchoolController;
 use App\Http\Controllers\admin\users\UserController;
 use App\Http\Controllers\BaseController;
+use App\Http\Controllers\chat\ChatController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -48,6 +49,11 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
 //     Route::get('/user', [HomeController::class, 'userHome'])->name('user');
 // });
 
+// chat
+Route::post('/chat/student/store', [ChatController::class, 'storeStudentMessage'])->name('msg.store');
+Route::get('/chat/student/list', [ChatController::class, 'listStudentChat'])->name('student.chat');
+Route::post('/chat/admin/store', [ChatController::class, 'storeAdminReply'])->name('rply.store');
+Route::get('/chat/admin/list', [ChatController::class, 'listAdminChat'])->name('admin.chat');
 
 // admin right routes
 Route::get('/admin/dashboard', [RightController::class, 'viewRightHome'])->name('c_ad_r_home');

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 11, 2023 at 11:54 AM
+-- Generation Time: Dec 13, 2023 at 02:45 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -118,6 +118,36 @@ CREATE TABLE `libraries` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `messages`
+--
+
+CREATE TABLE `messages` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `student_id` int(11) NOT NULL,
+  `student_name` varchar(255) NOT NULL,
+  `message` varchar(255) NOT NULL,
+  `reply` varchar(255) DEFAULT NULL,
+  `message_status` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `messages`
+--
+
+INSERT INTO `messages` (`id`, `student_id`, `student_name`, `message`, `reply`, `message_status`, `created_at`, `updated_at`) VALUES
+(1, 2, 'Buffy', 'test msg', 'zxfzfd', 'seen', '2023-12-11 19:15:47', '2023-12-12 01:08:11'),
+(2, 2, 'Buffy', 'test msg', 'reply 2', 'seen', '2023-12-11 19:17:50', '2023-12-12 01:13:07'),
+(3, 2, 'Buffy', 'test 3', NULL, 'sent', '2023-12-12 01:29:18', '2023-12-12 01:29:18'),
+(4, 2, 'Buffy', 'test 4', NULL, 'sent', '2023-12-12 01:29:24', '2023-12-12 01:29:24'),
+(5, 2, 'Buffy', 'test 5', NULL, 'sent', '2023-12-12 01:29:35', '2023-12-12 01:29:35'),
+(6, 2, 'Buffy', 'zzzzz', NULL, 'sent', '2023-12-12 02:07:46', '2023-12-12 02:07:46'),
+(7, 2, 'Buffy', 'xxxddd', NULL, 'sent', '2023-12-12 02:11:10', '2023-12-12 02:11:10');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `migrations`
 --
 
@@ -143,7 +173,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (9, '2023_11_07_060819_create_day_archives_table', 1),
 (10, '2023_11_07_062000_create_automations_table', 1),
 (11, '2023_11_08_040147_create_schools_table', 1),
-(12, '2023_11_13_034059_create_play_toggles_table', 1);
+(12, '2023_11_13_034059_create_play_toggles_table', 1),
+(14, '2023_12_11_231640_create_messages_table', 2);
 
 -- --------------------------------------------------------
 
@@ -300,7 +331,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `role`, `school`, `student_index`, `is_active`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'AlphaU', 'Radio', 'admin@test.com', 'admin', 'NIE', '00001', 'active', NULL, '$2y$10$sY.5QwGznKX9uZ322LRdpOSTw0uiTYaeFR8H0u5rzRucS0dF8AKda', NULL, '2023-12-11 04:07:21', '2023-12-11 04:07:21');
+(1, 'AlphaU', 'Radio', 'admin@test.com', 'admin', 'NIE', '00001', 'active', NULL, '$2y$10$sY.5QwGznKX9uZ322LRdpOSTw0uiTYaeFR8H0u5rzRucS0dF8AKda', NULL, '2023-12-11 04:07:21', '2023-12-11 04:07:21'),
+(2, 'Buffy', 'Carney', 'xuvyxicim@z.com', 'user', 'Alias ab qui hic dol', 'Aut et quia ut archi', 'active', NULL, '$2y$10$20eXjI.EF3p4MyH3LbDevOoxKKzXOV5G/2RQoKTVIj8tQzBOgjKHK', NULL, '2023-12-11 19:14:59', '2023-12-11 19:14:59');
 
 --
 -- Indexes for dumped tables
@@ -337,6 +369,12 @@ ALTER TABLE `genres`
 -- Indexes for table `libraries`
 --
 ALTER TABLE `libraries`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `messages`
+--
+ALTER TABLE `messages`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -426,10 +464,16 @@ ALTER TABLE `libraries`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `messages`
+--
+ALTER TABLE `messages`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -465,7 +509,7 @@ ALTER TABLE `schools`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables

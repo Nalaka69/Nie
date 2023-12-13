@@ -19,6 +19,9 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('admin/js/plugins/player/volume.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('admin/js/plugins/scroll/jquery.mCustomScrollbar.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('admin/css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.7.5/sweetalert2.min.css"
+        integrity="sha512-InYSgxgTnnt8BG3Yy0GcpSnorz5gxHvT6OEoRWj91Gg+RvNdCiAharnBe+XFIDS754Kd9TekdjXw3V7TAgh6Vw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.1/font/bootstrap-icons.min.css"
         integrity="sha512-oAvZuuYVzkcTc2dH5z1ZJup5OmSQ000qlfRvuoTTiyTBjwX1faoyearj8KdMq0LgsBTHMrRuMek7s+CxF8yE+w=="
@@ -209,7 +212,7 @@
                                     </div>
                                     <div class="foo_con_data">
                                         <span class="con-title">Call us :</span>
-                                        <span>(+94) 77 354 6549</span>
+                                        <span>(+94) 11 760 1680</span>
                                     </div>
                                 </li>
                                 <li>
@@ -218,7 +221,7 @@
                                     </div>
                                     <div class="foo_con_data">
                                         <span class="con-title">email us :</span>
-                                        <span><a href="#">alphau@nie.edu.lk</a></span>
+                                        <span><a href="#">alphau@nie.ac.lk</a></span>
                                     </div>
                                 </li>
                                 <li>
