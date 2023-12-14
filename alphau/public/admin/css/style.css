@@ -3480,7 +3480,7 @@ button.save_btn:hover {
 .ms_admin_name:after {
 	content: "";
 	position: absolute;
-	top: 23px;
+	top: 12px;
 	right: 0px;
 	bottom: auto;
 	left: auto;

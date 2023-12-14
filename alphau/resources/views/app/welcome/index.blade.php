@@ -17,9 +17,9 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12">
                     <div class="ms_banner_img">
-                        <img src="{{ asset('imgs/admn/hero-bg.png') }}" alt="" class="img-fluid">
+                        <img src="{{ asset('imgs/admn/hero-bg.jpeg') }}" alt="" class="img-fluid">
                     </div>
-                    <div class="ms_banner_text">
+                    <div class="ms_banner_text ">
                         <h1>Welcome to</h1>
                         {{-- <p>to</p> --}}
                         <h1 class="ms_color">AlphaU Radio</h1>

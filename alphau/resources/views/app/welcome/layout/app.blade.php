@@ -35,12 +35,6 @@
 </head>
 
 <body>
-    <!----Loader Start---->
-    {{-- <div class="ms_loader">
-        <div class="wrap">
-            <img src="{{ asset('admin/images/loader.gif') }}" alt="">
-        </div>
-    </div> --}}
     <!----Main Wrapper Start---->
     <div class="ms_main_wrapper">
         <!---Side Menu Start--->
@@ -131,18 +125,33 @@
                                 <a class="ms_btn reg_btn" href="{{ route('register') }}">{{ __('Register') }}</a>
                             @endif
                         @else
-                            <a class="" href="#" role="button" v-pre>
-                                {{ Auth::user()->first_name }}
-                            </a>
-                            <a class="ms_btn" href="{{ route('logout') }}"
-                                onclick="event.preventDefault();
-                                                         document.getElementById('logout-form').submit();">
-                                {{ __('Logout') }}
-                            </a>
+                            <div class="ms_top_btn">
+                                <a href="javascript:;" class="ms_admin_name">Hello {{ Auth::user()->first_name }}</a>
+                                <ul class="pro_dropdown_menu">
+                                    @if (Auth::user()->role == 'admin')
+                                        <!-- Admin Role -->
+                                        <a href="{{ route('admin.home') }}">Admin Dashboard</a>
+                                    @elseif(Auth::user()->role == 'user')
+                                        <!-- Student Role -->
+                                        <a href="{{ route('student.profile') }}">Profile</a>
+                                    @elseif(Auth::user()->role == 'school')
+                                        <!-- School Role -->
+                                        <a href="{{ route('school.dashboard') }}">School Admin Dashboard</a>
+                                    @endif
+                                    <li>
+                                        <a class="" href="{{ route('logout') }}"
+                                            onclick="event.preventDefault();
+                                            document.getElementById('logout-form').submit();">
+                                            {{ __('Logout') }}
+                                        </a>
 
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                @csrf
-                            </form>
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                            class="d-none">
+                                            @csrf
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
                         @endguest
                     </div>
                 </div>
@@ -283,6 +292,9 @@
     <script type="text/javascript" src="{{ asset('admin/js/plugins/nice_select/jquery.nice-select.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('admin/js/plugins/scroll/jquery.mCustomScrollbar.js') }}"></script>
     <script type="text/javascript" src="{{ asset('admin/js/custom.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.7.5/sweetalert2.all.min.js"
+        integrity="sha512-2JsZvEefv9GpLmJNnSW3w/hYlXEdvCCfDc+Rv7ExMFHV9JNlJ2jaM+uVVlCI1MAQMkUG8K83LhsHYx1Fr2+MuA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     {{-- admin --}}
 </body>
 

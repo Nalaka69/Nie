@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Program;
 use App\Models\ProgramArchive;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class BaseController extends Controller
 {
@@ -54,4 +57,34 @@ class BaseController extends Controller
     {
         return view('app.welcome.about');
     }
+
+    // student user management
+    public function userProfile()
+    {
+        return view('app.student.profile');
+    }
+// update user-student
+public function userUpdate(Request $request)
+{
+    $data = $request->all();
+    $userId = Auth::id();
+    $currentUser = Auth::user();
+
+    if (!Hash::check($data['current_password'], $currentUser->password)) {
+        return response()->json(['error' => 'Current password is incorrect.'], 422);
+    }
+    // Update the user information
+    $user = User::find($userId);
+    $user->first_name = $data['first_name'];
+    $user->last_name = $data['last_name'];
+    $user->email = $data['email'];
+    $user->school = $data['school'];
+    if (!empty($data['new_password'])) {
+        $user->password = Hash::make($data['new_password']);
+    }
+
+    $user->save();
+
+    return response()->json(['success' => 'Profile updated successfully'], 200);
+}
 }

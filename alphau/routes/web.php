@@ -11,6 +11,7 @@ use App\Http\Controllers\admin\program\ProgramController;
 use App\Http\Controllers\admin\RightController;
 use App\Http\Controllers\admin\users\SchoolController;
 use App\Http\Controllers\admin\users\UserController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\BaseController;
 use App\Http\Controllers\chat\ChatController;
 use App\Http\Controllers\HomeController;
@@ -34,12 +35,16 @@ Route::get('/programs/list', [BaseController::class, 'welcomeProgramsList'])->na
 Route::get('/programs/archives', [BaseController::class, 'programArchivesList'])->name('welcome.archives.list');
 Route::get('/programs/archive/programs', [BaseController::class, 'welcomeArchiveProgramsList'])->name('welcome.archive.programs.list');
 Route::get('/about-us', [BaseController::class, 'about'])->name('about-us');
+Route::get('/user/profile', [BaseController::class, 'userProfile'])->name('student.profile');
+Route::post('/user/update', [BaseController::class, 'userUpdate'])->name('student.profile.update');
 
 Auth::routes();
 
 // Route::middleware(['auth', 'user-access:user'])->group(function () {
 //     Route::get('/', [BaseController::class, 'index'])->name('index');
 // });
+
+
 
 Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::get('/admin/home', [HomeController::class, 'adminHome'])->name('admin.home');
