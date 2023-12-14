@@ -8,13 +8,30 @@
         font-size: 18rem;
     }
 
-    #send_msg {}
+    .snd_grp,
+    .form-control {
+        background-color: #dcffff;
+    }
+
+    #chat_list {
+        max-height: 300px;
+        overflow-y: auto;
+        padding-right: 10px;
+    }
+
+    .list-group-item {
+        width: 100%;
+    }
+
+    .list-group-item span {
+        display: block;
+    }
 </style>
 
 <ol class="list-group list-group-flush" id="chat_list"></ol>
-<div class="input-group mb-3">
+<div class="input-group mb-3 snd_grp">
     <input type="text" class="form-control" placeholder="Type a message" id="send_msg">
-    <i class="btn bi bi-send-fill" type="button" id="send_btn"></i>
+    <b><i class="btn bi bi-send-fill text-success" type="button" id="send_btn"></i></b>
 </div>
 <script>
     $(document).ready(function() {
@@ -43,6 +60,7 @@
                     success: function(data, status, xhr) {
                         var statusCode = xhr.status;
                         if (statusCode === 200) {
+                            $('#send_msg').val('');
                             loadData();
                         } else {
                             loadData();
@@ -66,14 +84,13 @@
 
             function displayChatList(msgs) {
                 var messageList = $('#chat_list');
+                messageList.empty(); // Clear the existing content before updating
+
                 msgs.forEach(function(msg) {
-                    var chatElement = $(
-                        '<li class="list-group-item d-flex justify-content-between align-items-start"></li>'
-                    );
-
-                    var spanElement = $('<span class=""></span>');
-
                     if (msg.reply) {
+                        var chatElement = $(
+                            '<li class="list-group-item d-flex justify-content-between"></li>'
+                        );
                         var innerDiv = $('<div class="ms-2 me-auto"></div>');
                         innerDiv.append('<div class="fw-bold fs-6 text-primary">' + msg.message +
                             ' <i class="bi bi-reply-all-fill text-info"></i></div>');
@@ -83,17 +100,26 @@
                         var replyDiv = $('<div class="fs-5 fw-normal text-dark text-end"></div>');
                         replyDiv.append('<div>' + msg.message + '</div>');
                         chatElement.append(replyDiv);
+
+                        messageList.append(chatElement);
                     } else {
-                        var replyDiv = $('<div class="fs-5 fw-normal text-dark d-flex justify-content-end"></div>');
+                        var chatElement = $(
+                            '<li class="list-group-item d-flex justify-content-end align-items-end"></li>'
+                        );
+                        var replyDiv = $(
+                            '<div class="fs-5 fw-normal text-dark d-flex justify-content-end"></div>'
+                        );
                         replyDiv.append('<div>' + msg.message + '</div>');
                         chatElement.append(replyDiv);
+                        messageList.append(chatElement);
                     }
-                    chatElement.append(spanElement);
-                    messageList.append(chatElement);
                 });
             }
         }
 
         loadData();
+        setInterval(function() {
+            loadData();
+        }, 30000);
     });
 </script>
