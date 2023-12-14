@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -77,5 +78,11 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
             'is_active' => 'active'
         ]);
+    }
+
+    protected function registered(Request $request, $user)
+    {
+        // Redirect user to the 'index' route after successful registration
+        return redirect()->route('index');
     }
 }

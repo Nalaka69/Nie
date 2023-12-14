@@ -5,8 +5,6 @@
 @section('welcomebody')
     <div class="web_body bg_dm_drk">
         <div class="container mt-5 p-5 ">
-
-
                 <div class=" login_dialog">
                     <!-- Modal content-->
                     <div class="modal-content">
@@ -73,7 +71,6 @@
                                         </div>
                                     </div>
                                 </form>
-
                                 <p>Don't Have An Account? <a href="{{route('register')}}">register here</a></p>
                             </div>
                         </div>
