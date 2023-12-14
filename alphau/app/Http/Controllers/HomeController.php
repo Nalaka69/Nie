@@ -27,10 +27,10 @@ class HomeController extends Controller
         return view('app.welcome.index');
     }
 
-    // public function schoolHome()
-    // {
-    //     return view('home',["msg"=>"I am Editor role"]);
-    // }
+    public function schoolHome()
+    {
+        return view('app.moderator.school');
+    }
 
     public function adminHome()
     {

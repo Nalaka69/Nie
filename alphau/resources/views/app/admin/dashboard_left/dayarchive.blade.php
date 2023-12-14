@@ -90,7 +90,7 @@
             var selectedProgram = $(this).val();
             $.ajax({
                 type: 'GET',
-                url: '{{ route('episode.get') }}',
+                url: '{{ route('admin.episode.get') }}',
                 data: {
                     program_name: selectedProgram
                 },
@@ -118,7 +118,7 @@
                     processing: true,
                     serverSide: true,
                     ajax: {
-                        url: "{{ route('day_archive.list') }}",
+                        url: "{{ route('admin.day_archive.list') }}",
                         dataSrc: 'day_archives_list'
                     },
                     columns: [{
@@ -175,7 +175,7 @@
                     if (result.isConfirmed) {
                         $.ajax({
                             type: 'POST',
-                            url: '{{ route('day_archive.delete') }}',
+                            url: '{{ route('admin.day_archive.delete') }}',
                             headers: {
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                             },
@@ -284,7 +284,7 @@
                 } else {
                     $.ajax({
                         type: 'POST',
-                        url: '{{ route('day_archive.store') }}',
+                        url: '{{ route('admin.day_archive.store') }}',
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },

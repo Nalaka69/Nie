@@ -82,7 +82,7 @@
             var selectedProgram = $(this).val();
             $.ajax({
                 type: 'GET',
-                url: '{{ route('episode.get') }}',
+                url: '{{ route('admin.episode.get') }}',
                 data: {
                     program_name: selectedProgram
                 },
@@ -110,7 +110,7 @@
                     processing: true,
                     serverSide: true,
                     ajax: {
-                        url: "{{ route('automation.list') }}",
+                        url: "{{ route('admin.automation.list') }}",
                         dataSrc: 'automation_list'
                     },
                     columns: [{
@@ -153,7 +153,7 @@
                     if (result.isConfirmed) {
                         $.ajax({
                             type: 'POST',
-                            url: '{{ route('automation.delete') }}',
+                            url: '{{ route('admin.automation.delete') }}',
                             headers: {
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                             },
@@ -238,7 +238,7 @@
                 } else {
                     $.ajax({
                         type: 'POST',
-                        url: '{{ route('automation.store') }}',
+                        url: '{{ route('admin.automation.store') }}',
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },

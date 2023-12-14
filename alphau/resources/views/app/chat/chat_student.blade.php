@@ -50,7 +50,7 @@
             } else {
                 $.ajax({
                     type: 'POST',
-                    url: '{{ route('msg.store') }}',
+                    url: '{{ route('student.admin.chat') }}',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },

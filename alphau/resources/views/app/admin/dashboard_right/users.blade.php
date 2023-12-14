@@ -147,7 +147,7 @@
                     processing: true,
                     serverSide: true,
                     ajax: {
-                        url: "{{ route('user.list.students') }}",
+                        url: "{{ route('admin.user.list.students') }}",
                         dataSrc: 'students_list'
                     },
                     columns: [{
@@ -187,7 +187,7 @@
                     if (result.isConfirmed) {
                         $.ajax({
                             type: 'POST',
-                            url: '{{ route('user.delete.students') }}',
+                            url: '{{ route('admin.user.delete.students') }}',
                             headers: {
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                             },
@@ -232,7 +232,7 @@
                     processing: true,
                     serverSide: true,
                     ajax: {
-                        url: "{{ route('user.list.guests') }}",
+                        url: "{{ route('admin.user.list.guests') }}",
                         dataSrc: 'guests_list'
                     },
                     columns: [{
@@ -272,7 +272,7 @@
                     if (result.isConfirmed) {
                         $.ajax({
                             type: 'POST',
-                            url: '{{ route('user.delete.guests') }}',
+                            url: '{{ route('admin.user.delete.guests') }}',
                             headers: {
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                             },
@@ -317,7 +317,7 @@
                     processing: true,
                     serverSide: true,
                     ajax: {
-                        url: "{{ route('user.list.schooladmins') }}",
+                        url: "{{ route('admin.user.list.schooladmins') }}",
                         dataSrc: 'school_admins_list'
                     },
                     columns: [{
@@ -357,7 +357,7 @@
                     if (result.isConfirmed) {
                         $.ajax({
                             type: 'POST',
-                            url: '{{ route('user.delete.schooladmins') }}',
+                            url: '{{ route('admin.user.delete.schooladmins') }}',
                             headers: {
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                             },
@@ -402,7 +402,7 @@
                     processing: true,
                     serverSide: true,
                     ajax: {
-                        url: "{{ route('user.list.teachers') }}",
+                        url: "{{ route('admin.user.list.teachers') }}",
                         dataSrc: 'teachers_list'
                     },
                     columns: [{
@@ -442,7 +442,7 @@
                     if (result.isConfirmed) {
                         $.ajax({
                             type: 'POST',
-                            url: '{{ route('user.delete.teachers') }}',
+                            url: '{{ route('admin.user.delete.teachers') }}',
                             headers: {
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                             },
@@ -594,7 +594,7 @@
                 } else {
                     $.ajax({
                         type: 'POST',
-                        url: '{{ route('user.store') }}',
+                        url: '{{ route('admin.user.store') }}',
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
@@ -609,7 +609,7 @@
                                     position: 'center',
                                     icon: 'success',
                                     title: "Success",
-                                    text: "Files Submitted",
+                                    text: "User Submitted",
                                     showConfirmButton: false,
                                     timer: 1500
                                 }).then(function() {
@@ -639,7 +639,7 @@
                                     position: 'center',
                                     icon: 'success',
                                     title: "Error",
-                                    text: "File Submission Failed",
+                                    text: "User Submission Failed",
                                     showConfirmButton: false,
                                     timer: 1500
                                 })

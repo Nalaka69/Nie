@@ -141,7 +141,7 @@
         $(document).ready(function() {
             function set_status() {
                 $.ajax({
-                    url: '{{ route('automation.status') }}',
+                    url: '{{ route('admin.automation.status') }}',
                     method: 'GET',
                     dataType: 'json',
                     success: function(response) {
@@ -181,7 +181,7 @@
             //     formData.append('status', status);
             //     $.ajax({
             //         type: 'POST',
-            //         url: '{{ route('automation.start') }}',
+            //         url: '{{ route('admin.automation.start') }}',
             //         headers: {
             //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             //         },

@@ -47,7 +47,7 @@
             } else {
                 $.ajax({
                     type: 'POST',
-                    url: '{{ route('rply.store') }}',
+                    url: '{{ route('admin.rply.store') }}',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
@@ -74,7 +74,7 @@
 
         function loadData() {
             $.ajax({
-                url: '{{ route('admin.chat') }}',
+                url: '{{ route('admin.admin.chat') }}',
                 method: 'GET',
                 success: function(data) {
                     displayChatList(data.admin_messages);

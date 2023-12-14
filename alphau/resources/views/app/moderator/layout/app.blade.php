@@ -29,6 +29,7 @@
     {{-- admin --}}
     <link href="{{ asset('imgs/favicon.png') }}"rel=icon sizes=16x16 type=image/gif>
     {{-- jquery --}}
+    <link href="https://cdn.datatables.net/v/dt/dt-1.13.7/r-2.5.0/sl-1.7.0/datatables.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
         integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -92,6 +93,16 @@
                             </a>
                         </li>
                     </ul>
+                    <ul class="nav_downloads">
+                        <li>
+                            <a href="{{ route('school.dashboard') }}">
+                                <span class="nav_icon">
+                                    <span class="icon icon_favourite"></span>
+                                </span>
+                                <span class="nav_text"> Students </span>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -126,18 +137,11 @@
                             @endif
                         @else
                             <div class="ms_top_btn">
-                                <a href="javascript:;" class="ms_admin_name">Hello {{ Auth::user()->first_name }}</a>
+                                <a href="javascript:;" class="ms_admin_name">{{ Auth::user()->first_name }}'s Dashboard</a>
                                 <ul class="pro_dropdown_menu">
-                                    @if (Auth::user()->role == 'admin')
-                                        <!-- Admin Role -->
-                                        <a href="{{ route('admin.home') }}">Admin Dashboard</a>
-                                    @elseif(Auth::user()->role == 'user')
-                                        <!-- Student Role -->
-                                        <a href="{{ route('student.profile') }}">Profile</a>
-                                    @elseif(Auth::user()->role == 'school')
-                                        <!-- School Role -->
-                                        <a href="{{ route('school.dashboard') }}">School Admin Dashboard</a>
-                                    @endif
+                                    <li>
+                                        <a href="{{ route('moderator.profile') }}">Profile</a>
+                                    </li>
                                     <li>
                                         <a class="" href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
@@ -157,7 +161,7 @@
                 </div>
             </div>
             {{-- nav bar ends --}}
-            @yield('welcomebody')
+            @yield('schoolbody')
             {{-- footer starts --}}
         </div>
         <!----Footer Start---->
@@ -295,6 +299,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.7.5/sweetalert2.all.min.js"
         integrity="sha512-2JsZvEefv9GpLmJNnSW3w/hYlXEdvCCfDc+Rv7ExMFHV9JNlJ2jaM+uVVlCI1MAQMkUG8K83LhsHYx1Fr2+MuA=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.datatables.net/v/dt/dt-1.13.7/r-2.5.0/sl-1.7.0/datatables.min.js"></script>
     {{-- admin --}}
 </body>
 

@@ -27,8 +27,8 @@
                                 <div class="mb-3">
                                     <label for="province" class="form-label frm_lbl">Province</label>
                                     <select class="form-select" id="province" onchange="loadDistricts()">
-                                        <option value="Western">Western</option>
                                         <option value="Northern">Northern</option>
+                                        <option value="Western">Western</option>
                                         <option value="Southern">Southern</option>
                                         <option value="Eastern">Eastern</option>
                                         <option value="Central">Central</option>
@@ -123,7 +123,7 @@
                     processing: true,
                     serverSide: true,
                     ajax: {
-                        url: "{{ route('school.list') }}",
+                        url: "{{ route('admin.school.list') }}",
                         dataSrc: 'schools_list'
                     },
                     columns: [{
@@ -166,7 +166,7 @@
                     if (result.isConfirmed) {
                         $.ajax({
                             type: 'POST',
-                            url: '{{ route('school.delete') }}',
+                            url: '{{ route('admin.school.delete') }}',
                             headers: {
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                             },
@@ -277,7 +277,7 @@
                 } else {
                     $.ajax({
                         type: 'POST',
-                        url: '{{ route('school.store') }}',
+                        url: '{{ route('admin.school.store') }}',
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
@@ -291,7 +291,7 @@
                                     position: 'center',
                                     icon: 'success',
                                     title: "Success",
-                                    text: "Files Submitted",
+                                    text: "School Submitted",
                                     showConfirmButton: false,
                                     timer: 1500
                                 }).then(function() {
@@ -311,7 +311,7 @@
                                     position: 'center',
                                     icon: 'success',
                                     title: "Error",
-                                    text: "File Submission Failed",
+                                    text: "School Submission Failed",
                                     showConfirmButton: false,
                                     timer: 1500
                                 })

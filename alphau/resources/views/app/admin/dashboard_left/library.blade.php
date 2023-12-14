@@ -97,7 +97,7 @@
                     processing: true,
                     serverSide: true,
                     ajax: {
-                        url: "{{ route('library.list') }}",
+                        url: "{{ route('admin.library.list') }}",
                         dataSrc: 'programs_list'
                     },
                     columns: [{
@@ -148,7 +148,7 @@
                     if (result.isConfirmed) {
                         $.ajax({
                             type: 'POST',
-                            url: '{{ route('library.delete') }}',
+                            url: '{{ route('admin.library.delete') }}',
                             headers: {
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                             },
@@ -285,7 +285,7 @@
                 } else {
                     $.ajax({
                         type: 'POST',
-                        url: '{{ route('library.store') }}',
+                        url: '{{ route('admin.library.store') }}',
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },

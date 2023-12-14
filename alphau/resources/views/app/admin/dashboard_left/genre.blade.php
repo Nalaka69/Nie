@@ -64,7 +64,7 @@
                     processing: true,
                     serverSide: true,
                     ajax: {
-                        url: "{{ route('genre.list') }}",
+                        url: "{{ route('admin.genre.list') }}",
                         dataSrc: 'genres_list'
                     },
                     columns: [{
@@ -101,7 +101,7 @@
                     if (result.isConfirmed) {
                         $.ajax({
                             type: 'POST',
-                            url: '{{ route('genre.delete') }}',
+                            url: '{{ route('admin.genre.delete') }}',
                             headers: {
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                             },
@@ -169,7 +169,7 @@
                 } else {
                     $.ajax({
                         type: 'POST',
-                        url: '{{ route('genre.store') }}',
+                        url: '{{ route('admin.genre.store') }}',
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
