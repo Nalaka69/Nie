@@ -1,3 +1,10 @@
+<style>
+    #chat_list {
+        max-height: 70vh;
+        overflow-y: auto;
+    }
+</style>
+
 <div class="modal fade" id="replyModal" tabindex="-1" role="dialog" aria-labelledby="replyModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -8,17 +15,22 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary btn-sm" onclick="sendReply()">Send</button>
+                <button type="button" class="btn btn-primary btn-sm" id="sendReplyBtn">Send</button>
             </div>
         </div>
     </div>
 </div>
 
-<ol class="list-group list-group-flush" id="chat_list"></ol>
+<ol class="list-group list-group-flush" id="chat_list" style="max-height: 70vh; overflow-y: auto;"></ol>
 
 <script>
     $(document).ready(function(e) {
         loadData();
+
+        $('#sendReplyBtn').on('click', function() {
+            sendReply();
+        });
+
         function sendReply() {
             var formData = new FormData();
             formData.append('reply_msg', $('#reply_msg').val());
@@ -46,8 +58,10 @@
                         var statusCode = xhr.status;
                         if (statusCode === 200) {
                             $('#replyModal').modal('hide');
-                            loadData();
+                            clearReplyFields(); // Clear reply modal fields after sending
+                            loadData(); // Reload messages after sending a reply
                         } else {
+                            loadData();
                             console.error('Error sending reply');
                         }
                     },
@@ -72,6 +86,7 @@
 
             function displayChatList(msgs) {
                 var messageList = $('#chat_list');
+                messageList.empty();
                 msgs.forEach(function(msg) {
                     var chatElement = $(
                         '<li class="list-group-item d-flex justify-content-between align-items-start"></li>'
@@ -120,7 +135,10 @@
             }
         }
 
-        loadData();
+        // Function to clear reply modal fields
+        function clearReplyFields() {
+            $('#reply_msg').val(''); // Clear reply message textarea
+        }
 
         // Function to open the reply modal
         function openReplyModal(msg_id, msg_content) {
@@ -129,5 +147,12 @@
             // Set the message content in the modal
             $('#replyModal').modal('show');
         }
+        // Initial load of messages
+        loadData();
+
+        // Automatic refresh every 30 seconds
+        setInterval(function() {
+            loadData();
+        }, 30000);
     });
 </script>

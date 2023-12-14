@@ -164,6 +164,11 @@
                     </div>
                 </div>
             </div>
+            <div class="col-lg-12   mt-2">
+                <div class="ms_heading">
+                    <h1>Sync Tracks with Calendar</h1>
+                </div>
+            </div>
             <div class="row mt-4 pb-5">
                 <div class="col-md-5 col-lg-5 col-sm-12">
                     <div class="program_calender">
@@ -176,6 +181,11 @@
                 </div>
             </div>
             {{-- filter according to program name --}}
+            <div class="col-lg-12   mt-2">
+                <div class="ms_heading">
+                    <h1>Sync Tracks with Programs</h1>
+                </div>
+            </div>
             <div class="row mt-4 pb-5">
                 <div class="col-md-5 col-lg-5 col-sm-12">
                     <div class="program_filter">

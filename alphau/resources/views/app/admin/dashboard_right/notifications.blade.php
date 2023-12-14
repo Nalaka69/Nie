@@ -8,11 +8,11 @@
         <h5 class="mb-0 font_white">Notifications</h5>
     </div>
     <div class="dashboard-body">
-        <div class="card card-sm crd_drk mb-2">
+        {{-- <div class="card card-sm crd_drk mb-2">
             <div class="card-body">
                 This is some text within a card body.
             </div>
-        </div>
+        </div> --}}
         <div class="card card-sm crd_drk mb-2">
             <div class="card-body">
                 {{-- notifications body starts --}}
