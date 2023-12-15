@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 13, 2023 at 02:45 AM
+-- Generation Time: Dec 15, 2023 at 11:03 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -90,9 +90,7 @@ CREATE TABLE `genres` (
 --
 
 INSERT INTO `genres` (`id`, `genre`, `is_visible`, `created_at`, `updated_at`) VALUES
-(1, 'entertainment', 'show', '2023-12-11 04:11:48', '2023-12-11 04:11:48'),
-(2, 'science', 'show', '2023-12-11 04:11:55', '2023-12-11 04:11:55'),
-(3, 'drama', 'show', '2023-12-11 04:12:02', '2023-12-11 04:12:02');
+(1, 'testgenre1', 'show', '2023-12-15 03:57:51', '2023-12-15 03:57:51');
 
 -- --------------------------------------------------------
 
@@ -109,7 +107,7 @@ CREATE TABLE `libraries` (
   `is_visible` varchar(255) NOT NULL,
   `program_directory` varchar(255) NOT NULL,
   `program_file` varchar(255) DEFAULT NULL,
-  `duration` varchar(255) DEFAULT NULL,
+  `duration` time DEFAULT NULL,
   `archive_id` int(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -131,19 +129,6 @@ CREATE TABLE `messages` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `messages`
---
-
-INSERT INTO `messages` (`id`, `student_id`, `student_name`, `message`, `reply`, `message_status`, `created_at`, `updated_at`) VALUES
-(1, 2, 'Buffy', 'test msg', 'zxfzfd', 'seen', '2023-12-11 19:15:47', '2023-12-12 01:08:11'),
-(2, 2, 'Buffy', 'test msg', 'reply 2', 'seen', '2023-12-11 19:17:50', '2023-12-12 01:13:07'),
-(3, 2, 'Buffy', 'test 3', NULL, 'sent', '2023-12-12 01:29:18', '2023-12-12 01:29:18'),
-(4, 2, 'Buffy', 'test 4', NULL, 'sent', '2023-12-12 01:29:24', '2023-12-12 01:29:24'),
-(5, 2, 'Buffy', 'test 5', NULL, 'sent', '2023-12-12 01:29:35', '2023-12-12 01:29:35'),
-(6, 2, 'Buffy', 'zzzzz', NULL, 'sent', '2023-12-12 02:07:46', '2023-12-12 02:07:46'),
-(7, 2, 'Buffy', 'xxxddd', NULL, 'sent', '2023-12-12 02:11:10', '2023-12-12 02:11:10');
 
 -- --------------------------------------------------------
 
@@ -174,7 +159,7 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (10, '2023_11_07_062000_create_automations_table', 1),
 (11, '2023_11_08_040147_create_schools_table', 1),
 (12, '2023_11_13_034059_create_play_toggles_table', 1),
-(14, '2023_12_11_231640_create_messages_table', 2);
+(13, '2023_12_11_231640_create_messages_table', 1);
 
 -- --------------------------------------------------------
 
@@ -220,13 +205,6 @@ CREATE TABLE `play_toggles` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `play_toggles`
---
-
-INSERT INTO `play_toggles` (`id`, `current_status`, `created_at`, `updated_at`) VALUES
-(1, 'AUTOMATION', NULL, NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -244,7 +222,7 @@ CREATE TABLE `programs` (
   `program_genre` varchar(255) NOT NULL,
   `program_thumbanail` varchar(255) NOT NULL,
   `program_file` varchar(255) DEFAULT NULL,
-  `duration` varchar(255) DEFAULT NULL,
+  `duration` time DEFAULT NULL,
   `archive_id` int(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -255,9 +233,8 @@ CREATE TABLE `programs` (
 --
 
 INSERT INTO `programs` (`id`, `program_name`, `episode`, `episode_date`, `episode_time`, `is_visible`, `program_directory`, `program_genre`, `program_thumbanail`, `program_file`, `duration`, `archive_id`, `created_at`, `updated_at`) VALUES
-(1, 'testprogram1', '1', '2023-12-11', '15:21:00', 'show', 'testprogram1', 'entertainment', 'resources/thumbnails/1702287770.jpg', 'resources/programs/testprogram1/testprogram1_1.mp3', '26.93', 1, '2023-12-11 04:20:01', '2023-12-11 04:20:01'),
-(2, 'testprogram2', '1', '2023-12-11', '15:24:00', 'show', 'testprogram2', 'science', 'resources/thumbnails/1702287795.jpg', 'resources/programs/testprogram2/testprogram2_1.mp3', '19.93', 2, '2023-12-11 04:20:42', '2023-12-11 04:20:42'),
-(3, 'testprogram3', '1', '2023-12-11', '15:23:00', 'show', 'testprogram3', 'drama', 'resources/thumbnails/1702287816.jpg', 'resources/programs/testprogram3/testprogram3_1.mp3', '26.22', 3, '2023-12-11 04:22:16', '2023-12-11 04:22:16');
+(1, 'test1', '1', '2023-12-15', '15:02:00', 'show', 'test1', 'testgenre1', 'resources/thumbnails/1702632502.jpg', 'resources/programs/test1/test1_1.mp3', '00:00:10', 1, '2023-12-15 04:01:10', '2023-12-15 04:01:10'),
+(2, 'test1', '2', '2023-12-15', '15:04:00', 'show', 'test1', 'testgenre1', 'resources/thumbnails/1702632502.jpg', 'resources/programs/test1/test1_2.mp3', '00:26:56', 1, '2023-12-15 04:02:30', '2023-12-15 04:02:30');
 
 -- --------------------------------------------------------
 
@@ -282,9 +259,7 @@ CREATE TABLE `program_archives` (
 --
 
 INSERT INTO `program_archives` (`id`, `program_thumbanail`, `program_name`, `program_genre`, `program_directory`, `is_visible`, `genre_id`, `created_at`, `updated_at`) VALUES
-(1, 'resources/thumbnails/1702287770.jpg', 'testprogram1', 'entertainment', 'testprogram1', 'show', 1, '2023-12-11 04:12:50', '2023-12-11 04:12:50'),
-(2, 'resources/thumbnails/1702287795.jpg', 'testprogram2', 'science', 'testprogram2', 'show', 2, '2023-12-11 04:13:15', '2023-12-11 04:13:15'),
-(3, 'resources/thumbnails/1702287816.jpg', 'testprogram3', 'drama', 'testprogram3', 'show', 3, '2023-12-11 04:13:36', '2023-12-11 04:13:36');
+(1, 'resources/thumbnails/1702632502.jpg', 'test1', 'testgenre1', 'test1', 'show', 1, '2023-12-15 03:58:22', '2023-12-15 03:58:22');
 
 -- --------------------------------------------------------
 
@@ -331,8 +306,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `role`, `school`, `student_index`, `is_active`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'AlphaU', 'Radio', 'admin@test.com', 'admin', 'NIE', '00001', 'active', NULL, '$2y$10$sY.5QwGznKX9uZ322LRdpOSTw0uiTYaeFR8H0u5rzRucS0dF8AKda', NULL, '2023-12-11 04:07:21', '2023-12-11 04:07:21'),
-(2, 'Buffy', 'Carney', 'xuvyxicim@z.com', 'user', 'Alias ab qui hic dol', 'Aut et quia ut archi', 'active', NULL, '$2y$10$20eXjI.EF3p4MyH3LbDevOoxKKzXOV5G/2RQoKTVIj8tQzBOgjKHK', NULL, '2023-12-11 19:14:59', '2023-12-11 19:14:59');
+(1, 'AlphaU', 'Radio', 'admin@test.com', 'admin', 'NIE', '00001', 'active', NULL, '$2y$10$L4BkIW5t0Xpf69m7HcHzxeAJRCUkTuOwv1ppGSEE1KBpONuRsAXri', NULL, '2023-12-15 03:57:01', '2023-12-15 03:57:01');
 
 --
 -- Indexes for dumped tables
@@ -455,7 +429,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `genres`
 --
 ALTER TABLE `genres`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `libraries`
@@ -467,13 +441,13 @@ ALTER TABLE `libraries`
 -- AUTO_INCREMENT for table `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -485,19 +459,19 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `play_toggles`
 --
 ALTER TABLE `play_toggles`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `programs`
 --
 ALTER TABLE `programs`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `program_archives`
 --
 ALTER TABLE `program_archives`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `schools`
@@ -509,7 +483,7 @@ ALTER TABLE `schools`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
