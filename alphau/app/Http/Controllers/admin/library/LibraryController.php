@@ -24,7 +24,13 @@ class LibraryController extends Controller
             $file->move('resources/library/' . $program_directory . '/', $file_path);
             $file_info = $getID3->analyze($file_path);
             $duration_seconds = isset($file_info['playtime_seconds']) ? $file_info['playtime_seconds'] : 0;
-            $duration_minutes = $duration_seconds / 60;
+
+            $duration_formatted = sprintf(
+                "%02d:%02d:%02d",
+                floor($duration_seconds / 3600),
+                floor(($duration_seconds % 3600) / 60),
+                $duration_seconds % 60
+            );
         }
 
         $program = Library::create([
@@ -35,7 +41,7 @@ class LibraryController extends Controller
             'is_visible' => 'show',
             'program_directory' => $program_directory,
             'program_file' => $file_path,
-            'duration' =>  $duration_minutes,
+            'duration' =>  $duration_formatted,
             'archive_id' => $archive_id->id
         ]);
     }

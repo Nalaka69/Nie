@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('is_visible');
             $table->string('program_directory');
             $table->string('program_file')->nullable();
-            $table->string('duration')->nullable();
+            $table->time('duration')->nullable();
             // $table->unsignedBigInteger('archive_id');
             $table->integer('archive_id');
             // $table->foreign('archive_id')->references('id')->on('program_archives')->onDelete('cascade');

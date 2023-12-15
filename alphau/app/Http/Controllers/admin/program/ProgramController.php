@@ -77,7 +77,13 @@ class ProgramController extends Controller
             $file->move('resources/programs/' . $program_directory . '/', $file_path);
             $file_info = $getID3->analyze($file_path);
             $duration_seconds = isset($file_info['playtime_seconds']) ? $file_info['playtime_seconds'] : 0;
-            $duration_minutes = number_format(($duration_seconds / 60), 2);
+
+            $duration_formatted = sprintf(
+                "%02d:%02d:%02d",
+                floor($duration_seconds / 3600),
+                floor(($duration_seconds % 3600) / 60),
+                $duration_seconds % 60
+            );
         }
 
         $program = Program::create([
@@ -90,7 +96,7 @@ class ProgramController extends Controller
             'program_genre' => $archive_id->program_genre,
             'program_thumbanail' => $archive_id->program_thumbanail,
             'program_file' => $file_path,
-            'duration' =>  $duration_minutes,
+            'duration' =>  $duration_formatted,
             'archive_id' => $archive_id->id
         ]);
     }
