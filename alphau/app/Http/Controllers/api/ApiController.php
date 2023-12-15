@@ -45,26 +45,28 @@ class ApiController extends Controller
         return response()->json(['archive_programs' => $archive_programs]);
     }
 
-    // chat
+    // chat------------------------------------------------
     public function storeStudentMessage(Request $request)
     {
         $data = $request->all();
         $msg = Message::create([
-            'student_id' => auth()->user()->id,
-            'student_name' => auth()->user()->first_name,
+            'student_id' => $data['id'],
+            'student_name' => $data['send_msg'],
             'message' => $data['send_msg'],
             'message_status' => 'sent'
         ]);
+        return response()->json(['message' => 'Message sent successfully'], 201);
     }
+
     public function storeAdminReply(Request $request)
     {
         $data = $request->all();
         $rply = Message::where('id', $data['msg_id'])->update(['reply' => $data['reply_msg'], 'message_status' => 'seen']);
     }
 
-    public function listStudentChat()
+    public function listStudentChat($student_id)
     {
-        $student_messages = Message::all();
+        $student_messages = Message::where('student_id',$student_id)->get();
         return response()->json(['student_messages' => $student_messages]);
     }
     public function listAdminChat()
