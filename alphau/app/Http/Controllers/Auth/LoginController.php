@@ -51,11 +51,11 @@ class LoginController extends Controller
             'password' => 'required',
         ]);
 
-        // if (auth()->attempt(array('email' => $input['email'], 'password' => $input['password']))) {
+        // if (auth()->attempt(['email' => $input["email"], 'password' => $input['password']])) {
         //     if (auth()->user()->role == 'admin') {
-        //         return redirect()->route('admin');
+        //         return redirect()->route('admin.home');
         //     } else if (auth()->user()->role == 'school') {
-        //         return redirect()->route('school');
+        //         return redirect()->route('index');
         //     } else {
         //         return redirect()->route('index');
         //     }
@@ -64,7 +64,12 @@ class LoginController extends Controller
         //         ->with('error', 'Email-Address And Password Are Wrong.');
         // }
 
-        if (auth()->attempt(['email' => $input["email"], 'password' => $input['password']])) {
+        $credentials = [
+            'email' => $input["email"],
+            'password' => $input['password'],
+        ];
+
+        if (auth()->attempt($credentials)) {
             if (auth()->user()->role == 'admin') {
                 return redirect()->route('admin.home');
             } else if (auth()->user()->role == 'school') {
@@ -72,9 +77,24 @@ class LoginController extends Controller
             } else {
                 return redirect()->route('index');
             }
-        } else {
-            return redirect()->route('login')
-                ->with('error', 'Email-Address And Password Are Wrong.');
         }
+
+        // Authentication failed
+        // Check if the email is incorrect
+        $user = User::where('email', $input['email'])->first();
+        if (!$user) {
+            return redirect()->route('login')
+                ->withInput($request->only('email', 'remember'))
+                ->withErrors([
+                    'email' => 'The provided email is incorrect.',
+                ]);
+        }
+
+        // Email is correct, but password is wrong
+        return redirect()->route('login')
+            ->withInput($request->only('email', 'remember'))
+            ->withErrors([
+                'password' => 'The provided password is incorrect.',
+            ]);
     }
 }

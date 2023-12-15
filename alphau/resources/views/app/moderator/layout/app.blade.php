@@ -74,7 +74,7 @@
                                 </span>
                             </a>
                         </li>
-                        <li><a href="#" title="Genres">
+                        <li><a href="{{route('welcome.blog.index')}}" title="Genres">
                                 <span class="nav_icon">
                                     <span class="icon icon_genres"></span>
                                 </span>

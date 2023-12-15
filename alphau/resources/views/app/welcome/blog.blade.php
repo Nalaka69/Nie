@@ -3,30 +3,310 @@
     AlphaU - NIE Radio for Students 24/7
 @endsection
 @section('welcomebody')
-    <div class="hero-section">
-        <style>
-            .radio_box {
-                border: 4px solid #cbcbcb;
-            }
-        </style>
-        <div class="container mt-5">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="hero-content mt-5">
-                        <h1 class="welcome">WELCOME</h1>
-                        <h1 class="nie-radio"><span class="to">TO </span> AlphaU <span class="by">by NIE</span></h1>
-
-                        <Link to="/about" class="btn-readmore">Read More</Link>
+    <div class="ms_blog_wrapper">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="ms_blog_section blog_active marger_bottom30">
+                    <div class="ms_blog_img">
+                        <img src="{{ asset('admin/images/blog/blog1.jpg') }}" alt="" class="img-fluid">
+                    </div>
+                    <div class="ms_main_overlay">
+                        <div class="ms_box_overlay"></div>
+                        <div class="ovrly_text_div">
+                            <span class="ovrly_text1"><a href="{{route('welcome.blog.single.index')}}">blog 3</a></span>
+                            <div class="bottom">
+                                <span class="ovrly_text1">May 12,2018</span>
+                                <span class="ovrly_text2"><a href="{{route('welcome.blog.single.index')}}"><i
+                                            class="fa fa-long-arrow-right"></i></a></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ms_box_overlay_on">
+                        <div class="ovrly_text_div">
+                            <span class="ovrly_text1"><a href="{{route('welcome.blog.single.index')}}">blog 3</a></span>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="hero-image mt-2">
-                        <img src="{{ asset('imgs/radio-nie.png') }}" alt="Hero" />
+            </div>
+            <div class="col-lg-6">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="ms_blog_section marger_bottom30">
+                            <div class="ms_blog_img">
+                                <img src="{{ asset('admin/images/blog/blog2.jpg') }}" alt="" class="img-fluid">
+                            </div>
+                            <div class="ms_main_overlay">
+                                <div class="ms_box_overlay"></div>
+                                <div class="ovrly_text_div">
+                                    <span class="ovrly_text1"><a href="{{route('welcome.blog.single.index')}}">blog 3</a></span>
+                                    <div class="bottom">
+                                        <span class="ovrly_text1">May 12,2018</span>
+                                        <span class="ovrly_text2"><a href="{{route('welcome.blog.single.index')}}"><i
+                                                    class="fa fa-long-arrow-right"></i></a></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ms_box_overlay_on">
+                                <div class="ovrly_text_div">
+                                    <span class="ovrly_text1"><a href="{{route('welcome.blog.single.index')}}">blog 2</a></span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="radio-box">
-                        <audio src="http://143.244.134.209:8000/stream" controls autoPlay=false volume=0.5 class="">
+                    <div class="col-lg-6">
+                        <div class="ms_blog_section marger_bottom30">
+                            <div class="ms_blog_img">
+                                <img src="{{ asset('admin/images/blog/blog3.jpg') }}" alt="" class="img-fluid">
+                            </div>
+                            <div class="ms_main_overlay">
+                                <div class="ms_box_overlay"></div>
+                                <div class="ovrly_text_div">
+                                    <span class="ovrly_text1"><a href="{{route('welcome.blog.single.index')}}">blog 3</a></span>
+                                    <div class="bottom">
+                                        <span class="ovrly_text1">May 12,2018</span>
+                                        <span class="ovrly_text2"><a href="{{route('welcome.blog.single.index')}}"><i
+                                                    class="fa fa-long-arrow-right"></i></a></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ms_box_overlay_on">
+                                <div class="ovrly_text_div">
+                                    <span class="ovrly_text1"><a href="{{route('welcome.blog.single.index')}}">blog 2</a></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="ms_blog_section marger_bottom30">
+                            <div class="ms_blog_img">
+                                <img src="{{ asset('admin/images/blog/blog4.jpg') }}" alt="" class="img-fluid">
+                            </div>
+                            <div class="ms_main_overlay">
+                                <div class="ms_box_overlay"></div>
+                                <div class="ovrly_text_div">
+                                    <span class="ovrly_text1"><a href="{{route('welcome.blog.single.index')}}">blog 1</a></span>
+                                    <div class="bottom">
+                                        <span class="ovrly_text1">May 12,2018</span>
+                                        <span class="ovrly_text2"><a href="{{route('welcome.blog.single.index')}}"><i
+                                                    class="fa fa-long-arrow-right"></i></a></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ms_box_overlay_on">
+                                <div class="ovrly_text_div">
+                                    <span class="ovrly_text1"><a href="{{route('welcome.blog.single.index')}}">blog 1</a></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="ms_blog_section marger_bottom30">
+                            <div class="ms_blog_img">
+                                <img src="{{ asset('admin/images/blog/blog5.jpg') }}" alt="" class="img-fluid">
+                            </div>
+                            <div class="ms_main_overlay">
+                                <div class="ms_box_overlay"></div>
+                                <div class="ovrly_text_div">
+                                    <span class="ovrly_text1"><a href="{{route('welcome.blog.single.index')}}">blog 2</a></span>
+                                    <div class="bottom">
+                                        <span class="ovrly_text1">May 12,2018</span>
+                                        <span class="ovrly_text2"><a href="{{route('welcome.blog.single.index')}}"><i
+                                                    class="fa fa-long-arrow-right"></i></a></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ms_box_overlay_on">
+                                <div class="ovrly_text_div">
+                                    <span class="ovrly_text1"><a href="{{route('welcome.blog.single.index')}}">blog 3</a></span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+            </div>
+            <div class="col-lg-6">
+                {{-- <div class="row">
+            <div class="col-lg-5">
+                <div class="ms_blog_section marger_bottom30">
+                    <div class="ms_blog_img">
+                        <img src="{{asset('admin/images/blog/blog6.jpg')}}" alt="" class="img-fluid">
+                    </div>
+                    <div class="ms_main_overlay">
+                        <div class="ms_box_overlay"></div>
+                        <div class="ovrly_text_div">
+                            <span class="ovrly_text1"><a href="{{route('welcome.blog.single.index')}}">blog 3</a></span>
+                            <div class="bottom">
+                                <span class="ovrly_text1">May 12,2018</span>
+                                <span class="ovrly_text2"><a href="{{route('welcome.blog.single.index')}}"><i class="fa fa-long-arrow-right"></i></a></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ms_box_overlay_on">
+                        <div class="ovrly_text_div">
+                            <span class="ovrly_text1"><a href="{{route('welcome.blog.single.index')}}">blog 3</a></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-7">
+                <div class="ms_blog_section marger_bottom30">
+                    <div class="ms_blog_img">
+                        <img src="{{asset('admin/images/blog/blog8.jpg')}}" alt="" class="img-fluid">
+                    </div>
+                    <div class="ms_main_overlay">
+                        <div class="ms_box_overlay"></div>
+                        <div class="ovrly_text_div">
+                            <span class="ovrly_text1"><a href="{{route('welcome.blog.single.index')}}">blog 3</a></span>
+                            <div class="bottom">
+                                <span class="ovrly_text1">May 12,2018</span>
+                                <span class="ovrly_text2"><a href="{{route('welcome.blog.single.index')}}"><i class="fa fa-long-arrow-right"></i></a></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ms_box_overlay_on">
+                        <div class="ovrly_text_div">
+                            <span class="ovrly_text1"><a href="{{route('welcome.blog.single.index')}}">blog 3</a></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-7">
+                <div class="ms_blog_section">
+                    <div class="ms_blog_img">
+                        <img src="{{asset('admin/images/blog/blog10.jpg')}}" alt="" class="img-fluid">
+                    </div>
+                    <div class="ms_main_overlay">
+                        <div class="ms_box_overlay"></div>
+                        <div class="ovrly_text_div">
+                            <span class="ovrly_text1"><a href="{{route('welcome.blog.single.index')}}">blog 3</a></span>
+                            <div class="bottom">
+                                <span class="ovrly_text1">May 12,2018</span>
+                                <span class="ovrly_text2"><a href="{{route('welcome.blog.single.index')}}"><i class="fa fa-long-arrow-right"></i></a></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ms_box_overlay_on">
+                        <div class="ovrly_text_div">
+                            <span class="ovrly_text1"><a href="{{route('welcome.blog.single.index')}}">blog 3</a></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="ms_blog_section">
+                    <div class="ms_blog_img">
+                        <img src="{{asset('admin/images/blog/blog9.jpg')}}" alt="" class="img-fluid">
+                    </div>
+                    <div class="ms_main_overlay">
+                        <div class="ms_box_overlay"></div>
+                        <div class="ovrly_text_div">
+                            <span class="ovrly_text1"><a href="{{route('welcome.blog.single.index')}}">blog 3</a></span>
+                            <div class="bottom">
+                                <span class="ovrly_text1">May 12,2018</span>
+                                <span class="ovrly_text2"><a href="{{route('welcome.blog.single.index')}}"><i class="fa fa-long-arrow-right"></i></a></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ms_box_overlay_on">
+                        <div class="ovrly_text_div">
+                            <span class="ovrly_text1"><a href="{{route('welcome.blog.single.index')}}">blog 3</a></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="col-lg-6">
+        <div class="row">
+            <div class="col-lg-5">
+                <div class="ms_blog_section marger_bottom30">
+                    <div class="ms_blog_img">
+                        <img src="{{asset('admin/images/blog/blog7.jpg')}}" alt="" class="img-fluid">
+                    </div>
+                    <div class="ms_main_overlay">
+                        <div class="ms_box_overlay"></div>
+                        <div class="ovrly_text_div">
+                            <span class="ovrly_text1"><a href="{{route('welcome.blog.single.index')}}">blog 3</a></span>
+                            <div class="bottom">
+                                <span class="ovrly_text1">May 12,2018</span>
+                                <span class="ovrly_text2"><a href="{{route('welcome.blog.single.index')}}"><i class="fa fa-long-arrow-right"></i></a></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ms_box_overlay_on">
+                        <div class="ovrly_text_div">
+                            <span class="ovrly_text1"><a href="{{route('welcome.blog.single.index')}}">blog 3</a></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-7">
+                <div class="ms_blog_section marger_bottom30">
+                    <div class="ms_blog_img">
+                        <img src="{{asset('admin/images/blog/blog11.jpg')}}" alt="" class="img-fluid">
+                    </div>
+                    <div class="ms_main_overlay">
+                        <div class="ms_box_overlay"></div>
+                        <div class="ovrly_text_div">
+                            <span class="ovrly_text1"><a href="{{route('welcome.blog.single.index')}}">blog 3</a></span>
+                            <div class="bottom">
+                                <span class="ovrly_text1">May 12,2018</span>
+                                <span class="ovrly_text2"><a href="{{route('welcome.blog.single.index')}}"><i class="fa fa-long-arrow-right"></i></a></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ms_box_overlay_on">
+                        <div class="ovrly_text_div">
+                            <span class="ovrly_text1"><a href="{{route('welcome.blog.single.index')}}">blog 3</a></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-7">
+                <div class="ms_blog_section">
+                    <div class="ms_blog_img">
+                        <img src="{{asset('admin/images/blog/blog12.jpg')}}" alt="" class="img-fluid">
+                    </div>
+                    <div class="ms_main_overlay">
+                        <div class="ms_box_overlay"></div>
+                        <div class="ovrly_text_div">
+                            <span class="ovrly_text1"><a href="{{route('welcome.blog.single.index')}}">blog 3</a></span>
+                            <div class="bottom">
+                                <span class="ovrly_text1">May 12,2018</span>
+                                <span class="ovrly_text2"><a href="{{route('welcome.blog.single.index')}}"><i class="fa fa-long-arrow-right"></i></a></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ms_box_overlay_on">
+                        <div class="ovrly_text_div">
+                            <span class="ovrly_text1"><a href="{{route('welcome.blog.single.index')}}">blog 3</a></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="ms_blog_section">
+                    <div class="ms_blog_img">
+                        <img src="{{asset('admin/images/blog/blog13.jpg')}}" alt="" class="img-fluid">
+                    </div>
+                    <div class="ms_main_overlay">
+                        <div class="ms_box_overlay"></div>
+                        <div class="ovrly_text_div">
+                            <span class="ovrly_text1"><a href="{{route('welcome.blog.single.index')}}">blog 3</a></span>
+                            <div class="bottom">
+                                <span class="ovrly_text1">May 12,2018</span>
+                                <span class="ovrly_text2"><a href="{{route('welcome.blog.single.index')}}"><i class="fa fa-long-arrow-right"></i></a></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ms_box_overlay_on">
+                        <div class="ovrly_text_div">
+                            <span class="ovrly_text1"><a href="{{route('welcome.blog.single.index')}}">blog 3</a></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> --}}
             </div>
         </div>
     </div>

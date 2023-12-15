@@ -16,6 +16,20 @@ class BaseController extends Controller
         $archiveslist = ProgramArchive::select('id', 'program_name', 'program_genre', 'program_thumbanail')->get();
         return view('app.welcome.index', compact('archiveslist'));
     }
+    // blogs
+    public function blog()
+    {
+        // $archiveslist = ProgramArchive::select('id', 'program_name', 'program_genre', 'program_thumbanail')->get();
+        // return view('app.welcome.index', compact('archiveslist'));
+        return view('app.welcome.blog');
+    }
+    public function blogSingle()
+    {
+        // $archiveslist = ProgramArchive::select('id', 'program_name', 'program_genre', 'program_thumbanail')->get();
+        // return view('app.welcome.index', compact('archiveslist'));
+        return view('app.welcome.blog_single');
+    }
+    // programs
     public function programs()
     {
         $programs_list = Program::select('id', 'program_name', 'episode', 'program_file', 'episode_date', 'episode_time')

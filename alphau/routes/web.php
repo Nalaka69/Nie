@@ -34,6 +34,8 @@ Route::get('/programs', [BaseController::class, 'programs'])->name('welcome.prog
 Route::get('/programs/list', [BaseController::class, 'welcomeProgramsList'])->name('welcome.programs.list');
 Route::get('/programs/archives', [BaseController::class, 'programArchivesList'])->name('welcome.archives.list');
 Route::get('/programs/archive/programs', [BaseController::class, 'welcomeArchiveProgramsList'])->name('welcome.archive.programs.list');
+Route::get('/blog', [BaseController::class, 'blog'])->name('welcome.blog.index');
+Route::get('/blog/:id', [BaseController::class, 'blogSingle'])->name('welcome.blog.single.index');
 Route::get('/about-us', [BaseController::class, 'about'])->name('about-us');
 
 Auth::routes();
