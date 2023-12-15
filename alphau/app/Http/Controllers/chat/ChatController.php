@@ -26,7 +26,7 @@ class ChatController extends Controller
 
     public function listStudentChat()
     {
-        $student_messages = Message::all();
+        $student_messages = Message::where('id', auth()->user()->id)->get();
         return response()->json(['student_messages' => $student_messages]);
     }
     public function listAdminChat()
