@@ -12,14 +12,14 @@ class ApiController extends Controller
 {
     public function programsList()
     {
-        $programs_list = Program::select('id', 'program_name', 'episode', 'program_file', 'episode_date', 'episode_time')
+        $programs_list = Program::select('id', 'program_name', 'episode', 'duration', 'program_file', 'episode_date', 'episode_time')
             ->get();
         return response()->json(['programs_list' => $programs_list]);
     }
     public function programsDateFiltered(Request $request, $_date)
     {
         $programs_filtered = Program::whereDate('episode_date', $_date)
-            ->select('id', 'program_name', 'episode', 'program_file')
+            ->select('id', 'program_name', 'episode',  'duration', 'program_file', 'episode_date', 'episode_time')
             ->get();
         return response()->json(['programs_filtered' => $programs_filtered]);
     }
